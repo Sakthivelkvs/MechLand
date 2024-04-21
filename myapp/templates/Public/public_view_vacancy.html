@@ -1,0 +1,101 @@
+{% extends "Public/inner-page.html" %}
+{% block body %}
+{% load static %}
+<head>
+  <style>
+    .job-card {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  padding: 20px;
+  margin-bottom: 30px;
+}
+
+.job-role {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.job-info {
+  margin-bottom: 10px;
+}
+
+.btn-success {
+  background-color: #28a745;
+  border-color: #28a745;
+}
+
+.btn-success:hover {
+  background-color: #218838;
+  border-color: #1e7e34;
+}
+
+
+
+
+
+    </style>
+</head>
+
+<body>
+  <!-- ======= Breadcrumbs ======= -->
+  <div class="breadcrumbs">
+    <div class="container">
+
+      <div class="d-flex justify-content-between align-items-center">
+        <h2>Vacancy</h2>
+        <ol>
+          <li><a href="/public_home2">Home</a></li>
+          <li>Vacancy</li>
+        </ol>
+      </div>
+
+    </div>
+  </div><!-- End Breadcrumbs -->
+
+<!-- ======= Blog Section ======= -->
+<section class="inner-page">
+<div class="container" data-aos="fade-up" style="text-align: center;">
+
+  <div class="section-header">
+    <h2>Vacancy</h2>
+    <p>Vacancy you looking for the role</p>
+  </div>
+  <form id="form1" name="form1" method="" action="">
+    {% csrf_token %}
+    <form class="application-form">
+      {% for i in data %}
+      <table class="table table-bordered">
+        <tr>
+          <th>Job Role</th>
+          <td>{{ i.job_role }}</td>
+        </tr>
+        <tr>
+          <th>Requirements</th>
+          <td>{{ i.requirements }}</td>
+        </tr>
+        <tr>
+          <th>Vacancies</th>
+          <td>{{ i.vacancies }}</td>
+        </tr>
+        <tr>
+          <th>Qualification</th>
+          <td>{{ i.qualifications }}</td>
+        </tr>
+        <tr>
+          <th>Experience</th>
+          <td>{{ i.experiences }}</td>
+        </tr>
+        <tr>
+          <td colspan="2" class="apply-btn"><a href="/public_apply_job/{{ i.id}}" class="btn btn-success">Apply</a></td>
+        </tr>
+      </table>
+      
+      {% endfor %}
+    </form>
+</div>
+</section>
+</body>
+{% endblock %}
+</html>

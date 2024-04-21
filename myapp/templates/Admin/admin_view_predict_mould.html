@@ -1,0 +1,154 @@
+<!-- <!DOCTYPE html> -->
+{% extends "admin_master.html" %}
+{% block body %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>RoyalUI Admin</title>
+  <!-- plugins:css -->
+  <link rel="stylesheet" href="{% static 'Admin-Master/vendors/ti-icons/css/themify-icons.css' %}">
+  <link rel="stylesheet" href="{% static 'Admin-Master/vendors/base/vendor.bundle.base.css' %}">
+  <!-- endinject -->
+  <!-- plugin css for this page -->
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <link rel="stylesheet" href="{% static 'Admin-Master/css/style.css' %}">
+  <!-- endinject -->
+  <link rel="shortcut icon" href="{% static 'Admin-Master/images/favicon.png' %}" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+
+<body>
+  <div class="container">
+    <h3>Predict Moulds</h3> <!-- Adding the topic name -->
+
+    <!-- Button for "Add Mould" -->
+    <a href="/admin_add_predict_mould" class="add-mould-button">Add</a>
+  </div>
+<form id="form1" name="form1" method="post" action="">
+    {% csrf_token %}
+
+
+  <table class="table  table-hover">
+    <tr>
+      <th>SL.NO</th>
+      <th>Mould Name</th>
+      <th>Photo 1</th>
+      <th> Photo 2 </th>
+      <th> Photo 3 </th>
+      <th>Actions</th>
+
+    </tr>
+      {% for i in data %}
+    <tr>
+      <td>{{ forloop.counter }}</td>
+      <td>{{ i.mldname }}</td>
+      <td><img src="{{ i.photo1 }}" height="200px" width="200px" ></td>
+      <td><img src="{{ i.photo2 }}" height="200px" width="200px" ></td>
+      <td><img src="{{ i.photo3 }}" height="200px" width="200px" ></td>
+      <td><a href="/admin_edit_predict_mould/{{i.id}}" class="edit-link"></a>
+      <a href="/admin_delete_predict_mould/{{i.id}}" class="delete-link"></a></td>
+      <td><a href="/admin_view_public_ratting2/{{i.id}}" class="btn btn-success">Best Product</a></td>
+    </tr>
+      {% endfor %}
+  </table> 
+</form>
+</body>
+{% endblock %}
+
+
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+  {% load static %}
+<head>
+  <style>
+    /* Add this CSS to your 'add_mould_css.css' file */
+  
+  /* Responsive Table */
+  .table {
+    width: 100%;
+    margin-bottom: 1rem;
+    color: #212529;
+  }
+  
+  /* Hover effect for rows */
+  .table tr:hover {
+    background-color: #f5f5f5;
+  }
+  
+  /* Table Head Styles */
+  .table th {
+    background-color: #06c5d9;
+    color: #fff;
+    text-align: center;
+    vertical-align: middle;
+    padding-left: 3rem;
+  }
+  
+  /* Table Body Styles */
+  .table td {
+    text-align: center;
+    vertical-align: middle;
+  }
+  
+  /* Input Styles */
+  .form-control {
+    width: 100%;
+  }
+  
+  /* Button Styles */
+  .btn {
+    cursor: pointer;
+  }
+  
+  /* Responsive Image Styles */
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  /* Add more styles as needed */
+  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Title Here</title>
+  <!-- Linking an external CSS file -->
+  <link rel="stylesheet" href="{% static 'admin_hm1\assets\css\add_mould_css.css' %}">
+</head>
+<body>
+  {% include "index.html" %}
+  <br>  <br>  <br>  <br>  <br>  <br>  <br>  <br>
+<form id="form1" name="form1" method="post" action="">
+    {% csrf_token %}
+
+    {% block s %}
+  <table class="table table-bordered">
+    <tr>
+      <th>SL.NO</th>
+      <th>Mould Name</th>
+      <th>Photo 1</th>
+      <th> Photo 2 </th>
+      <th> Photo 3 </th>
+    </tr>
+      {% for i in data %}
+    <tr>
+      <td>{{ forloop.counter }}</td>
+      <td>{{ i.mldname }}</td>
+      <td><img src="{{ i.photo1 }}" height="100px" width="100px" ></td>
+      <td><img src="{{ i.photo2 }}" height="100px" width="100px" ></td>
+      <td><img src="{{ i.photo3 }}" height="100px" width="100px" ></td>
+      <td><a href="/admin_edit_predict_mould/{{i.id}}" class="btn btn-success">Edit</a></td>
+      <td><a href="/admin_delete_predict_mould/{{i.id}}" class="btn btn-danger">Delete</a></td>
+    </tr>
+      {% endfor %}
+  </table> 
+</form>
+</body>
+{% endblock s %}
+</html> {% endcomment %}
+

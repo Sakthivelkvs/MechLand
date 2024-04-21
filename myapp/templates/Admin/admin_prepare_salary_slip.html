@@ -1,0 +1,87 @@
+<!-- <!DOCTYPE html> -->
+{% extends "admin_master.html" %}
+{% block body %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>RoyalUI Admin</title>
+  <!-- plugins:css -->
+  <link rel="stylesheet" href="{% static 'Admin-Master/vendors/ti-icons/css/themify-icons.css' %}">
+  <link rel="stylesheet" href="{% static 'Admin-Master/vendors/base/vendor.bundle.base.css' %}">
+  <!-- endinject -->
+  <!-- plugin css for this page -->
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <link rel="stylesheet" href="{% static 'Admin-Master/css/style.css' %}">
+  <!-- endinject -->
+  <link rel="shortcut icon" href="{% static 'Admin-Master/images/favicon.png' %}" />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+
+<form action="/admin_salary_post/{{staff}}" method="post" enctype="multipart/form-data" name="form1" id="form1">
+    {% csrf_token %}
+  <table class="table table-bordered">
+    
+    
+   
+    <tr>
+        <th>Job Role</th>
+        <td><input type="text" name="role" id="textfield9" class="form-control" value="{{job.job_role}}" readonly/></td>
+        <!-- <tr>
+          <th>No.of Working days</th>
+          <td><input type="text" name="days" id="textfield9" class="form-control" value="{{days}}" readonly/></td>   
+        
+      </tr> -->
+        <tr>
+            <th>Basic Salary</th>
+            <td><input type="text" name="salary" id="textfield9" class="form-control" value="{{bsal}}" readonly/></td>
+          </tr>
+   
+        
+      <tr>
+        <th>Total Leave</th>
+        <td><input type="text" name="leave" id="textfield9" class="form-control" value="{{value1}}" readonly/></td>
+      </tr>
+      
+      <tr>
+        <th>Leave reduction Amount</th>
+        <td><input type="text" name="lamount" id="textfield9" class="form-control" value="{{value2}}" readonly/></td>
+      </tr>
+      
+        <tr>
+          <th>Loan</th>
+          <td><input type="text" name="loan" id="textfield9" class="form-control" value="{{value4}}" readonly/></td>
+        </tr>
+     
+        <input type="hidden" name="advance" id="textfield9" class="form-control" value="{{value3}}" readonly/>
+  
+         <!-- <tr>
+           <th>Advance</th>
+           
+         </tr> -->
+   
+         <tr>
+          <th>Month</th>
+          <td><input type="text" name="month" id="textfield9" class="form-control" value="{{month}}" readonly/></td>
+      </tr>  
+    <tr>
+        <th>Net salary</th>
+        <td><input type="text" name="net" id="textfield9" class="form-control" value="{{value5}}" readonly/></td>
+    </tr>
+   
+    <tr>
+        <td>&nbsp;</td>
+        <td><input type="submit" name="button" id="button" value="Submit" class="btn btn-success"/></td>
+      </tr>
+  </table>
+</form>
+</body>
+{%endblock%}
+</html>

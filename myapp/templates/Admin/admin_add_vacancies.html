@@ -1,0 +1,68 @@
+<!-- <!DOCTYPE html> -->
+{% extends "admin_master.html" %}
+{% block body %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>RoyalUI Admin</title>
+  <!-- plugins:css -->
+  <link rel="stylesheet" href="{% static 'Admin-Master/vendors/ti-icons/css/themify-icons.css' %}">
+  <link rel="stylesheet" href="{% static 'Admin-Master/vendors/base/vendor.bundle.base.css' %}">
+  <!-- endinject -->
+  <!-- plugin css for this page -->
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <link rel="stylesheet" href="{% static 'Admin-Master/css/style.css' %}">
+  <!-- endinject -->
+  <link rel="shortcut icon" href="{% static 'Admin-Master/images/favicon.png' %}" />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+<form id="form1" name="form1" method="post" action="/admin_add_vacancy_post/">
+    {% csrf_token %}
+
+  <table class="table table-bordered">
+    <input type="hidden" name="id" id="" value="{{data.id}}">
+  
+    <tr>
+      <tr>
+        <th>Job Role</th>
+        <td><label for="textfield5"></label>
+        <input type="text" name="textfield5" id="textfield5" value="{{data.job_role}}" class="form-control" readonly required/></td>
+      </tr>
+      </tr>
+    <tr>
+      <th>Requirements</th>
+      <td><label for="textfield"></label>
+      <input type="text" name="textfield" id="textfield" class="form-control" required/></td>
+    </tr>
+    <tr>
+      <th>Vaccancies</th>
+      <td><label for="textfield2"></label>
+      <input type="text" name="textfield2" id="textfield2" class="form-control" required/></td>
+    </tr>
+    <tr>
+      <th>Qualification</th>
+      <td><input type="text" name="textfield3" id="textfield3" class="form-control" required /></td>
+    </tr>
+    <tr>
+        <tr>
+            <th>Experience</th>
+            <td><input type="text" name="textfield4" id="textfield4" class="form-control" required /></td>
+          </tr>
+          <tr>
+      <td>&nbsp;</td>
+      <td><input type="submit" name="button" id="button" value="Submit" class="btn btn-success"/></td>
+    </tr>
+  </table>
+</form>
+</body>
+{%endblock%}
+
+

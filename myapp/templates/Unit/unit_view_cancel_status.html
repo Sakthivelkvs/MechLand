@@ -1,0 +1,61 @@
+
+{% extends "Unit/inner-page.html" %}
+{% block body %}
+{% load static %}
+<html lang="en">
+</head>
+
+<body>
+  <div class="breadcrumbs">
+    <div class="container">
+
+      <div class="d-flex justify-content-between align-items-center">
+        <h2>Status</h2>
+        <ol>
+          <li><a href="/unit_login">Home</a></li>
+          <li>Status</li>
+        </ol>
+      </div>
+
+    </div>
+  </div><!-- End Breadcrumbs -->
+
+<!-- ======= Blog Section ======= -->
+<section class="inner-page">
+<div class="container" data-aos="fade-up">
+
+  <div class="section-header">
+    <h2>Order Status</h2>
+    {% comment %} <p>Order Your Moulds</p> {% endcomment %}
+  </div>
+<form id="form1" name="form1" method="post" enctype="multipart/form-data" action="">
+    {% csrf_token %}
+    <table class="table table-bordered">
+        <tr>
+          <th>SL.NO</th>
+          <th>Name</th>
+          <th>Company Name</th>
+          <th> Mould </th>
+          <th> Photo </th>
+          <th> Quantity </th>
+          <th> Date </th>
+          <th> Status </th>
+        </tr>
+          {% for i in data %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ i.order_id.unit_id.Name }}</td>
+          <td>{{ i.order_id.unit_id.Company_Name }}</td>
+          <td>&nbsp;{{ i.order_id.mould_id.mname }}</td>
+          <td><img src="{{ i.order_id.mould_id.photo }}" height="100px" width="100px" ></td>
+          <td>&nbsp;{{ i.order_id.quantity }}</td>
+          <td>{{ i.date }}</td>
+          <td>{{ i.status }}</td>
+          {% endfor %}
+      </table> 
+</form>
+</div>
+</section>
+</body>
+{%endblock%}
+

@@ -1,0 +1,48 @@
+{% extends "Unit/inner-page.html" %}
+{% block body %}
+{% load static %}
+<html lang="en">
+<body>
+  <div class="breadcrumbs">
+    <div class="container">
+
+      <div class="d-flex justify-content-between align-items-center">
+        <h2>Review</h2>
+        <ol>
+          <li><a href="/unit_login">Home</a></li>
+          <li>Review</li>
+        </ol>
+      </div>
+
+    </div>
+  </div><!-- End Breadcrumbs -->
+
+<!-- ======= Blog Section ======= -->
+<section class="inner-page">
+<div class="container" data-aos="fade-up">
+
+  <div class="section-header">
+    <h2>Cenvey Your Opinion</h2>
+    {% comment %} <p>Order Your Moulds</p> {% endcomment %}
+  </div>
+<form action="/unit_mould_review_post/" method="post" enctype="multipart/form-data" name="form1" id="form1">
+    {% csrf_token %}
+    <table class="table table-bordered">
+        <input type="hidden" name="id" id="" value="{{data.id}}">
+      </tr>
+      <th>Review</th>
+          <td>
+              <textarea name="textarea" id="textarea" cols="45" rows="3" class="form-control" required></textarea></td>
+        </tr>
+      <tr>
+        
+        <tr>
+          <td colspan="2" align="center"><input type="submit" name="button" id="button" value="Submit" class="btn btn-success"/></td>
+        </tr>
+      </table>
+</form>
+</div>
+</section>
+</body>
+{% endblock %}
+</html>

@@ -1,0 +1,54 @@
+{% extends "Employee/emp_inner-page.html" %}
+{% block body %}
+{% load static %}
+<html lang="en">
+<body>
+  <!-- ======= Breadcrumbs ======= -->
+  <div class="breadcrumbs">
+    <div class="container">
+
+      <div class="d-flex justify-content-between align-items-center">
+        <h2>Shift</h2>
+        <ol>
+          <li><a href="/staff_login">Home</a></li>
+          <li>Shift</li>
+        </ol>
+      </div>
+
+    </div>
+  </div><!-- End Breadcrumbs -->
+
+<!-- ======= Blog Section ======= -->
+<section class="inner-page">
+<div class="container" data-aos="fade-up">
+
+  <div class="section-header">
+    <h2>Shift</h2>
+
+  </div>
+<form id="form1" name="form1" method="post" action="/manager_view_alloted_shift_post/">
+    {% csrf_token %}
+  <table class="table table-bordered">
+    <tr>
+      <th>SL.NO</th>
+      <th>Name</th>
+      <th>Shift</th>
+      <th> Time </th>
+      <th> Date </th>
+    </tr>
+      {% for i in data %}
+    <tr>
+      <td>{{ forloop.counter }}</td>
+      <td>{{ i.staff_id.Name }}</td>
+      <td>{{ i.shift_id.shift_nbr }}</td>
+      <td>{{ i.shift_id.shift_time }}</td>
+      <td>{{ i.date }}</td>
+    </tr>
+      {% endfor %}
+  </table> 
+</div>
+</section>
+</form>
+</body>
+{% endblock %}
+

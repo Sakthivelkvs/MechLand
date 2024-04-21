@@ -1,0 +1,271 @@
+{% extends "Employee/emp_inner-page.html" %}
+{% block body %}
+{% load static %}
+<html lang="en">
+    <style>
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center horizontally */
+          }
+          
+          .photo-circle {
+            width: 175px; /* Adjust size as needed */
+            height: 175px; /* Adjust size as needed */
+            border-radius: 50%;
+            overflow: hidden;
+            margin-bottom: 10px; /* Adjust margin as needed */
+          }
+          
+          .photo-circle img {
+            width: 100%;
+            height: auto;
+          }
+          
+          .email-centered, .change-password {
+            text-align: center;
+          }
+          
+          .change-password {
+            margin-top: 10px; /* Adjust margin as needed */
+          }
+          
+          .change-password-link {
+            color: #007bff; /* Adjust color as needed */
+            text-decoration: none;
+          }
+          
+          .change-password-link:hover {
+            text-decoration: underline;
+          }
+
+          .custom-form-style .form-group {
+            margin-bottom: 200px ; /* Adjust the value to your preference */
+        }
+        
+             
+    </style>
+    <body>
+        <div class="breadcrumbs">
+          <div class="container">
+      
+            <div class="d-flex justify-content-between align-items-center">
+              <h2>Edit Profile</h2>
+              <ol>
+                <li><a href="/staff_login">Home</a></li>
+                <li>Edit Profile</li>
+              </ol>
+          </div>
+          </div>
+        </div><!-- End Breadcrumbs -->
+      
+      <!-- ======= Blog Section ======= -->
+      <section class="inner-page">
+      <div class="container" data-aos="fade-up">
+      
+        {% comment %} <div class="section-header">
+          <h2>COMPLAINT</h2>
+          <p>Order Your Moulds</p> 
+        </div> {% endcomment %}
+        <section id="contact" class="contact">
+          <form action="/employee_edit_profile_post/" method="post"  enctype="multipart/form-data" style="width: 100%;background: var(--color-white);"> 
+            {% csrf_token %} 
+         
+          <div class="container">
+      
+            <div class="row gy-5 gx-lg-5">
+      
+              <div class="col-lg-4">
+                  
+                  <div class="info">
+                      {% comment %} <h3>Get in touch</h3>
+                      {% comment %} <p>Et id eius voluptates atque nihil voluptatem enim in tempore minima sit ad mollitia commodi minus.</p> {% endcomment %}
+                    
+                      <div class="info-item d-flex">
+                          <div class="photo-circle">
+                                  <img src="{{data.Photo}}" alt="Your Photo">
+                          </div>
+                          <div style="margin-left: 100px;">
+                              <input type="file"  class="form-control-file" id="Photo" name="Photo" a></div>
+                          <div>
+                            {% comment %} <div class="email-centered">
+                              {{ data.Email }}
+                            </div> {% endcomment %}
+                            <div class="change-password">
+                              <a href="/employee_view_profile" class="change-password-link">Back</a>
+                            </div>
+                          </div>
+                        </div><!-- End Info Item --> 
+                    </div>
+              </div>
+      
+              <div class="col-lg-8">
+                 
+                      <input type="hidden" name="id" id="" value="{{data.id}}">
+                      <div class="row">
+                          <div class="col-md-6 form-group">
+                              <label for="company_name"><b>Name:</b></label>
+                              <input type="text" name="textfield" id="textfield" class="form-control" value="{{data.Name}}"/>
+
+                          </div>
+                          <div class="col-md-6 form-group mt-3 mt-md-0">
+                              <label for="name"><b>Gender:</b></label>
+                                <select name="RadioGroup1" class="form-control">
+                                <option value="Male" {% if data.Gender == 'Male' %}selected{% endif %}>Male</option>
+                                <option value="Female" {% if data.Gender == 'Female' %}selected{% endif %}>Female</option>
+                                <option value="Others" {% if data.Gender == 'Others' %}selected{% endif %}>Others</option>
+                            </select>
+                          </div>
+                      </div>
+      
+                      <div class="row">
+                          <div class="col-md-6 form-group">
+                              <label for="email"><b>DOB:</b></label>
+                              <input type="date" name="textfield2"  min="1800-01-01" max="2010-12-31"  placeholder="" id="textfield2" class="form-control" value="{{data.Date_of_birth}}"/>
+
+                          </div>
+                          <div class="col-md-6 form-group mt-3 mt-md-0">
+                              <label for="email"><b>Email:</b></label>
+                              <input type="email" name="textfield4" id="textfield4" class="form-control" value="{{data.Email}}"/>
+
+                          </div>
+                      </div>
+      
+                      <div class="row">
+                          <div class="col-md-6 form-group">
+                              <label for="phone"><b>Phone:</b></label>
+                              <input type="text" name="textfield5" placeholder="" pattren="[6789][1-9] {9}" max="10" id="textfield5" class="form-control" value="{{data.Phone_Number}}"/>
+                          </div>
+                          <div class="col-md-6 form-group mt-3 mt-md-0">
+                              <label for="address"><b>Address:</b></label>
+                              <input type="text" name="textfield7" id="textfield6" class="form-control" value="{{data.Address}}"/>
+                          </div>
+                      </div><br>
+                      <div class="row justify-content-center">
+                        <div class="col-6 text-center">
+                            <input type="submit" name="button" id="button" value="Submit" class="btn btn-success"/>
+                        </div>
+                    </div>
+                    
+                   </div>
+                  </div>
+                
+                </div><!-- End Contact Form -->
+                
+                
+            </div>
+      
+         
+      
+          </div>
+        </section><!-- End Contact Section -->
+      </div>
+    </form>
+      </section>
+      </body>
+{% endblock %}
+</html>
+
+{% comment %} {% extends "Employee/emp_inner-page.html" %}
+{% block body %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>RoyalUI Admin</title>
+  <!-- plugins:css -->
+  <link rel="stylesheet" href="{% static 'Admin-Master/vendors/ti-icons/css/themify-icons.css' %}">
+  <link rel="stylesheet" href="{% static 'Admin-Master/vendors/base/vendor.bundle.base.css' %}">
+  <!-- endinject -->
+  <!-- plugin css for this page -->
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <link rel="stylesheet" href="{% static 'Admin-Master/css/style.css' %}">
+  <!-- endinject -->
+  <link rel="shortcut icon" href="{% static 'Admin-Master/images/favicon.png' %}" />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+
+<body>
+    <form action="/employee_edit_profile/" method="post" enctype="multipart/form-data" name="form1" id="form1">
+        {% csrf_token %}
+      <table class="table table-bordered">
+        <input type="hidden" name="id" id="" value="{{data.id}}">
+        <tr>
+          <th>Name</th>
+          <td>
+          <input type="text" name="textfield" id="textfield" class="form-control" value="{{data.Name}}"/></td>
+        </tr>
+          <tr>
+            <th>Gender</th>
+            <td><select name="RadioGroup1" class="form-control">
+    
+                <option value="Male" {% if data.Gender == 'Male' %}selected{% endif %}>Male</option>
+                <option value="Female" {% if data.Gender == 'Female' %}selected{% endif %}>Female</option>
+                <option value="Others" {% if data.Gender == 'Others' %}selected{% endif %}>Others</option>
+            </select></td>
+          </tr>
+        <tr>
+          <th>Date Of Birth</th>
+    <td>
+          <input type="date" name="textfield2"  min="1800-01-01" max="2010-12-31"  placeholder="" id="textfield2" class="form-control" value="{{data.Date_of_birth}}"/></td>
+        </tr>
+        <tr>
+          <th>Email</th>
+          <td>
+          <input type="email" name="textfield4" id="textfield4" class="form-control" value="{{data.Email}}"/></td>
+        </tr>
+        <tr>
+          <th>Phone Number</th>
+          <td>
+          <input type="text" name="textfield5" placeholder="" pattren="[6789][1-9] {9}" max="10" id="textfield5" class="form-control" value="{{data.Phone_Number}}"/></td>
+        </tr>
+        <tr>
+          <th>Address</th>
+          <td>
+          <input type="text" name="textfield7" id="textfield6" class="form-control" value="{{data.Address}}"/></td>
+        </tr>
+        <tr>
+          <th>Joining date</th>
+          <td>
+          <input type="date" name="textfield9" id="textfield9" class="form-control" value="{{data.join_date}}" required/></td>
+        </tr>
+        <tr>
+          <th>Section</th>
+          <td><label for="select"></label>
+            <select name="select" class="form-control" id="select">
+               <option>Production</option>
+               <option>Packing</option>
+               <option>Cleanig</option>
+          </select></td>
+        </tr>
+         
+        <tr>
+          <th>Remark</th>
+          <td>
+          <input type="text" name="textfield8" value="{{data.remark}}" placeholder="" id="textfield2" class="form-control" required/></td>
+        </tr>
+        <tr>
+          <th>Photo</th>
+          <td><img src="{{ data.Photo }}" height="60px"width="60px">
+          <input type="file" name="Photo" id="Photo" class="form-control" /></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td><input type="submit" name="button" id="button" value="Submit" class="btn btn-success"/></td>
+        </tr>
+      </table>
+    </form>
+    </body>
+
+    {%endblock%} {% endcomment %}
+    
+
+
+
+

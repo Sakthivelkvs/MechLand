@@ -1,0 +1,417 @@
+{% extends "Unit/inner-page.html" %}
+{% block body %}
+{% load static %}
+<html lang="en">
+<head>
+<script>
+  function valid() {
+    var s = parseInt(document.getElementById('textfield2').value);
+    var a = parseInt(document.getElementById('textfield5').value);
+    var amount = s * a;
+    document.getElementById('textfield1').value = amount;
+  }
+
+
+  var sizeTypeInput = document.getElementById("textfield3");
+  var selectSizeRow = document.getElementById("selectSizeRow");
+  var inputSizeRow = document.getElementById("inputSizeRow");
+
+
+  function toggleSizeRows() {
+    var sizeType = sizeTypeInput.value;
+    if (sizeType === "Fixed") {
+      selectSizeRow.style.display = "none";
+      inputSizeRow.style.display = "";
+    } else {
+      selectSizeRow.style.display = "";
+      inputSizeRow.style.display = "none";
+    }
+  }
+
+
+  sizeTypeInput.addEventListener("change", toggleSizeRows);
+
+
+  toggleSizeRows();
+</script>
+
+  
+
+  
+</head>
+<body>
+  <div class="breadcrumbs">
+    <div class="container">
+      <div class="d-flex justify-content-between align-items-center">
+        <h2>Order</h2>
+        <ol>
+          <li><a href="/unit_login">Home</a></li>
+          <li>Order Moulds</li>
+        </ol>
+      </div>
+    </div>
+  </div><!-- End Breadcrumbs -->
+
+  <!-- ======= Blog Section ======= -->
+  <section class="inner-page">
+    <div class="container" data-aos="fade-up">
+
+      <section id="contact" class="contact">
+        <div class="container">
+          <div class="row gy-5 gx-lg-5">
+            <div class="col-lg-4">
+              <div class="info">
+                <!-- <h3>Get in touch</h3> -->
+                <!-- <p>Et id eius voluptates atque nihil voluptatem enim in tempore minima sit ad mollitia commodi minus.</p> -->
+                <div class="info-item d-flex">
+                  <div class="photo-circle">
+                    <img src="{{data.photo}}" height="auto" width="300px" alt="Your Photo">
+                  </div>
+                </div><!-- End Info Item --> 
+              </div>  
+            </div>
+            <div class="col-lg-8">
+              <form action="/unit_order_moulds_post/" method="post" enctype="multipart/form-data" id="form1" name="f1">
+                {% csrf_token %}
+                <table class="table table-bordered">
+                  <input type="hidden" name="id" id="" value="{{data.id}}">
+                  {% comment %} <tr>
+                    <th><label for="name">Mould Name:</label></th>
+                    <td><input type="text" name="name" class="form-control" id="name" placeholder="Your Name" value="{{ data.mname }}" readonly></td>
+                  </tr> {% endcomment %}
+                  {% comment %} <tr>
+                    <th><label for="yourname">Description:</label></th>
+                    <td><input type="text" name="name" class="form-control" id="name" placeholder="Your Name" value="{{ data.Description }}" readonly></td>
+                  </tr> {% endcomment %}
+                 
+                  <tr>
+                    <th>Size Type</th>
+                    <td><input type="text" name="textfield3" id="textfield3" value="{{ data.size_type }}" class="form-control" /></td>
+                  </tr>
+                  
+                  <tr id="selectSizeRow" {% if data.size_type == "Fixed" %}style="display: none;"{% endif %}>
+                    <th>Size</th>
+                    <td>
+                      <select name="size1" class="form-control" id="select">
+                        <option value="{{ data.size1}}">{{ data.size1 }}</option>
+                        <option value="{{ data.size2 }}">{{ data.size2 }}</option>
+                        <option value="{{ data.size3 }}">{{ data.size3 }}</option>
+                      </select>
+                    </td>
+                  </tr>
+                  
+                  <tr id="inputSizeRow" {% if data.size_type == "Multiple" %}style="display: none;"{% endif %}>
+                    <th>Size</th>
+                    <td><input type="text" name="size" id="textfield4" value="{{ data.size }}" class="form-control" /></td>
+                  </tr>
+                  
+                  <tr>
+                    <th>Quantity</th>
+                    <td><input type="number" name="textfield2" id="textfield2" class="form-control" onChange="valid();" required/></td>
+                  </tr>  
+                  <input type="hidden" name="textfield5" id="textfield5" value="{{data.price}}"/>
+                  <tr>
+                    <th>Amount</th>
+                    <td><input type="text" name="textfield1" id="textfield1" class="form-control" required/></td>
+                  </tr> 
+                  <tr>
+                    <th>Payment Method</th>
+                    <td>
+                      <select name="payment_method" class="form-control" >
+                        <option value="COD">COD</option>
+                        <option value="Online">Online</option>
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
+
+              <td>&nbsp;</td>
+              <td><input type="submit" name="button" id="button" value="Make Payment" class="btn btn-success"/></td>
+
+                  </tr>
+                </table>
+              </form>
+            </div><!-- End Contact Form -->
+          </div>
+        </div>
+      </section><!-- End Contact Section -->
+    </div>
+  </section><!-- End Inner Page Section -->
+
+</body>
+{% endblock %}
+
+
+
+
+
+
+
+{% comment %} {% extends "Unit/inner-page.html" %}
+{% block body %}
+{% load static %}
+<style>
+    .info-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Center horizontally */
+      }
+      
+      .photo-circle {
+        width: 175px; /* Adjust size as needed */
+        height: 175px; /* Adjust size as needed */
+        border-radius: 50%;
+        overflow: hidden;
+        margin-bottom: 10px; /* Adjust margin as needed */
+      }
+      
+      .photo-circle img {
+        width: 100%;
+        height: auto;
+      }
+      
+      .email-centered, .change-password {
+        text-align: center;
+      }
+      
+      .change-password {
+        margin-top: 10px; /* Adjust margin as needed */
+      }
+      
+      .change-password-link {
+        color: #007bff; /* Adjust color as needed */
+        text-decoration: none;
+      }
+      
+      .change-password-link:hover {
+        text-decoration: underline;
+      }
+      
+      
+      
+</style>
+<section id="contact" class="contact">
+    
+    {% comment %} <div class="container">
+
+      <div class="section-header">
+        <h2>Profile Settings</h2>
+        {% comment %} <p>Ea vitae aspernatur deserunt voluptatem impedit deserunt magnam occaecati dssumenda quas ut ad dolores adipisci aliquam.</p> 
+      </div>
+
+    </div> {% endcomment %}
+
+      {% comment %} <div class="map">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d12097.433213460943!2d-74.0062269!3d40.7101282!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xb89d1fe6bc499443!2sDowntown+Conference+Center!5e0!3m2!1smk!2sbg!4v1539943755621" frameborder="0" allowfullscreen></iframe>
+      </div><!-- End Google Maps --> 
+
+    <div class="container">
+
+      <div class="row gy-5 gx-lg-5">
+
+        <div class="col-lg-4">
+
+            <div class="info">
+                 <h3>Get in touch</h3>
+                <p>Et id eius voluptates atque nihil voluptatem enim in tempore minima sit ad mollitia commodi minus.</p> 
+              
+                <div class="info-item d-flex">
+                    <div class="photo-circle">
+                      <img src="{{data.Photo}}" alt="Your Photo">
+                    </div>
+                    <div>
+                      <div class="email-centered">
+                        {{ data.Email }}
+                      </div>
+                      <div class="change-password">
+                        <a href="#" class="change-password-link">Change Password</a>
+                      </div>
+                    </div>
+                  </div><!-- End Info Item -->
+                  
+              </div>
+              
+
+        </div>
+
+        <div class="col-lg-8">
+            <form action="forms/contact.php" method="post" role="form" class="php-email-form">
+              <table class="table table-bordered">
+                <tr>
+                  <th><label for="name">Company Name:</label></th>
+                  <td><input type="text" name="name" class="form-control" id="name" placeholder="Your Name" value="{{ data.Company_Name }}" readonly></td>
+                </tr>
+                <tr>
+                    <th><label for="yourname">Name:</label></th>
+                    <td><input type="text" name="name" class="form-control" id="name" placeholder="Your Name" value="{{ data.Name }}" readonly></td>
+                  </tr>
+                <tr>
+                  <th><label for="email">Your Email:</label></th>
+                  <td><input type="email" class="form-control" name="email" id="email" placeholder="Your Email" value="{{ data.Email }}" readonly></td>
+                </tr>
+                <tr>
+                  <th><label for="subject">Phone Number:</label></th>
+                  <td><input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" value="{{ data.Phone_Number }}" readonly></td>
+                </tr>
+                <tr>
+                  <th><label for="message">Address:</label></th>
+                  <td><input type="text" class="form-control" name="message" id="message" placeholder="Message" value="{{ data.Place }},{{ data.City }},{{ data.State }},{{ data.Pincode }}" readonly></td>
+                </tr>
+              </table>
+              <div class="my-3">
+                <div class="loading">Loading</div>
+                <div class="error-message"></div>
+                <div class="sent-message">Your message has been sent. Thank you!</div>
+              </div>
+              <div class="text-center"><a href="/admin_approve_business_request/{{i.id}}" class="btn btn-info btn-close-white">Edit</a></div>
+            </form>
+          </div><!-- End Contact Form -->
+          
+      </div>
+
+    </div>
+  </section><!-- End Contact Section -->
+
+</main><!-- End #main -->
+{% endblock %} {% endcomment %}
+
+
+{% comment %} 
+{% extends "Unit/inner-page.html" %}
+{% block body %}
+{% load static %}
+<html lang="en">    
+<head>
+    <link rel="stylesheet" href="{% static 'admin_hm1\assets\css\profile.css' %}">
+</head>
+    <body>
+        <div class="breadcrumbs">
+            <div class="container">
+        
+              <div class="d-flex justify-content-between align-items-center">
+                <h2>Profile</h2>
+                <ol>
+                  <li><a href="/unit_login">Home</a></li>
+                  <li>Profile</li>
+                </ol>
+              </div>
+        
+            </div>
+          </div><!-- End Breadcrumbs -->
+        
+        <!-- ======= Blog Section ======= -->
+        <section class="inner-page">
+        <div class="container" data-aos="fade-up">
+        
+          <div class="section-header">
+            <h2>Profile Settings</h2>
+            {% comment %} <p>Order Your Moulds</p> 
+          </div>
+        {% csrf_token %}
+    <div class="a-box">
+        <div class="info-container">
+            <img src="{{data.Photo}}" alt="User Photo">
+            <div class="text-content">
+                <h3>{{ data.Company_Name }}</h3>
+                <table>
+                    <tr>
+                        <th>Name</th>
+                        <td>{{ data.Name }}</td>
+                    </tr>
+                    <tr>
+                        <th>Email</th>
+                        <td>{{ data.Email }}</td>
+                    </tr>
+                    <tr>
+                        <th>Phone</th>
+                        <td>{{ data.Phone_Number }}</td>
+                    </tr>
+                    <tr>
+                        <th>Address</th>
+                        <td>{{ data.Place }},{{ data.City }},{{ data.State }},{{ data.Pincode }}</td>
+                    </tr>
+                </table>
+                <a href="/admin_approve_business_request/{{i.id}}" class="btn">Edit</a>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+    </body>
+    {% endblock %}
+    </html>
+
+
+ {% endcomment %}
+
+
+
+{% comment %} {% extends "Unit/inner-page.html" %}
+{% block body %}
+{% load static %}
+<html lang="en">
+<head>
+<script>
+  function valid()
+  {
+    var s=parseInt(f1.textfield2.value);
+    var a=parseInt(f1.textfield5.value);
+    var amount=s*a;
+    f1.textfield1.value=amount;
+  }
+</script>
+</head>
+
+<body>
+  <div class="breadcrumbs">
+    <div class="container">
+
+      <div class="d-flex justify-content-between align-items-center">
+        <h2>Order</h2>
+        <ol>
+          <li><a href="/unit_login">Home</a></li>
+          <li>Order</li>
+        </ol>
+      </div>
+
+    </div>
+  </div><!-- End Breadcrumbs -->
+
+<!-- ======= Blog Section ======= -->
+<section class="inner-page">
+<div class="container" data-aos="fade-up">
+
+  <div class="section-header">
+    <h2>Odrer</h2>
+    <p>Make Your Order</p>
+  </div>
+<form action="/unit_order_moulds_post/" method="post" enctype="multipart/form-data" id="form1" name="f1">
+    {% csrf_token %}
+  <table class="table table-bordered">
+    <input type="hidden" name="id" id="" value="{{data.id}}">
+    <tr>
+        <th>Quantity</th>
+        <td>
+        <input type="text" name="textfield2" id="textfield2" class="form-control" onChange="valid();" required/></td>
+      </tr>  
+       <input type="hidden" name="textfield5" id="textfield5" value="{{data.price}}"/>
+      
+      <tr>
+        <th>Amount</th>
+        <td>
+        <input type="text" name="textfield1" id="textfield1" class="form-control" required/></td>
+      </tr> 
+    <tr>
+      <td>&nbsp;</td>
+      <td><input type="submit" name="button" id="button" value="Make Payment" class="btn btn-success"/></td>
+    </tr>
+  </table>
+</form>
+</div>
+</section>
+</body>
+{%endblock%}
+</html>   {% endcomment %}
+
+
+

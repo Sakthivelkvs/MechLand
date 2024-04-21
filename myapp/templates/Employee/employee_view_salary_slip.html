@@ -1,0 +1,103 @@
+{% extends "Employee/emp_inner-page.html" %}
+{% block body %}
+{% load static %}
+<html lang="en">
+<body>
+<style>
+@media print {
+    body * {
+        visibility: hidden;
+    }
+    .inner-page, .inner-page * {
+        visibility: visible;
+    }
+    .inner-page {
+        position: absolute;
+        left: 180px;
+        top: 0;
+    }
+    #dnld {
+        display: none; /* Hide download button when printing */
+    }
+}
+</style>
+<!-- ======= Blog Section ======= -->
+<section class="inner-page">
+<div class="container" data-aos="fade-up">
+
+  <div class="section-header">
+    <h2>Salary Slip</h2>
+  </div>
+  <table class="table table-bordered">
+    
+{% for i in data %}
+
+<tr>
+    <th> Staff Name</th>
+        <td>{{i.staff_id.Name}}</td>
+    
+  </tr>
+        <tr>
+            <th>Job Role</th>
+                <td>{{i.staff_id.job_id.job_role}}</td>
+            
+          </tr>
+          <!-- <tr>
+            <th>No.of Working Days</th>
+                <td>{{i.days}}</td>
+            
+          </tr> -->
+            <tr>
+                <th>Basic Salary</th>
+                <td>{{i.staff_id.job_id.basic_salary}}</td>
+              </tr>
+       
+            
+          <tr>
+            <th>Total Leave</th>
+            <td>{{i.leave}}</td>
+          </tr>
+          
+          <tr>
+            <th>Leave reduction Amount</th>
+            <td>{{i.leaveamount}}</td>
+          </tr>
+          
+            <tr>
+              <th>Loan</th>
+              <td>{{i.loan}}</td>
+            </tr>
+      
+             <tr>
+               <th>Advance</th>
+               <td>{{i.advance}}</td>
+             </tr>
+             <tr>
+              <th>Month</th>
+              <td>{{i.month}}</td>
+          </tr>
+            
+        <tr>
+            <th>Net salary</th>
+            <td>{{i.net_salary}}</td>
+        </tr>
+       
+{% endfor %}
+    <tr>
+        <td>&nbsp;</td>
+        <td><button id="dnld" class="btn btn-success" onclick="printAndHide()">Download</button></td>
+    </tr>
+  </table>
+</div>
+</section>
+
+<script>
+function printAndHide() {
+    window.print(); // Print the page
+    document.getElementById('dnld').style.display = 'none'; // Hide the download button
+}
+</script>
+
+</body>
+{% endblock %}
+</html>

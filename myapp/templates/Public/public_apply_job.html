@@ -1,0 +1,146 @@
+{% extends "Public/inner-page.html" %}
+{% block body %}
+{% load static %}
+
+<head>
+  <script>
+    function toggleResumeField() {
+      var position = document.getElementById("textfield1").value;
+      var resumeRow = document.getElementById("resume_row");
+  
+      if (position == "Labour") 
+      {
+        resumeRow.style.display = "none";
+      } else {
+        resumeRow.style.display = "";
+      }
+    }
+  
+    
+    window.onload = toggleResumeField;
+  </script>
+  
+  </head>
+
+<body>
+
+    <!-- ======= Breadcrumbs ======= -->
+    <div class="breadcrumbs">
+      <div class="container">
+  
+        <div class="d-flex justify-content-between align-items-center">
+          <h2>Application</h2>
+          <ol>
+            <li><a href="/public_home2">Home</a></li>
+            <li>Application</li>
+          </ol>
+        </div>
+  
+      </div>
+    </div><!-- End Breadcrumbs -->
+  
+  <!-- ======= Blog Section ======= -->
+  <section class="inner-page">
+  <div class="container" data-aos="fade-up">
+  
+    <div class="section-header">
+      <h2>MechLand Tools</h2>
+      <p>Submit Your Form</p>
+    </div>
+    <form action="/public_apply_job_post/" method="post" enctype="multipart/form-data" name="form1" id="form1">
+      {% csrf_token %}
+    <table class="table table-bordered">
+      <tr>
+        <th>Applied Position</th>
+        <td>
+          <input type="text" name="" id="textfield1" class="form-control" value="{{ data.job_role }}" readonly onload="toggleResumeField()" />
+        </td>
+        </tr>
+        <input type="hidden" name="textfield1" id="textfield1" class="form-control" value="{{data.id}}">
+      <tr>
+        <th>Name</th>
+        <td>
+        <input type="text" name="textfield" id="textfield" class="form-control" required/></td>
+      </tr>
+        <tr>
+          <th>Gender</th>
+          <th><select name="RadioGroup1" class="form-control">
+  
+              <option value="Male" {% if val.Gender == 'Male' %}selected{% endif %}>Male</option>
+              <option value="Female" {% if val.Gender == 'Female' %}selected{% endif %}>Female</option>
+              <option value="Others" {% if val.Gender == 'Others' %}selected{% endif %}>Others</option>
+          </select></th>
+        </tr>
+      <tr>
+        <th>Date Of Birth</th>
+        <td>
+        <input type="date" name="textfield2" min="1800-01-01" max="2010-12-31"  placeholder="" id="textfield2" class="form-control" required/></td>
+      </tr>
+      <tr>
+        <th>Email</th>
+        <td>
+        <input type="email" name="textfield4" id="textfield4" class="form-control" required/></td>
+      </tr>
+      <tr>
+        <th>Phone Number</th>
+        <td>
+        <input type="text" name="textfield5" placeholder="" pattren="[6789][1-9] {9}" max="10" id="textfield5" class="form-control" required/></td>
+      </tr>
+      <th>Address</th>
+          <td>
+              <textarea name="textarea2" id="textarea2" cols="45" rows="3" class="form-control"></textarea></td>
+        </tr>
+      <!-- <tr>
+        <th>Qualification</th>
+        <td>
+        <input type="text" name="" id="textfield6" class="form-control" required/></td>
+      </tr> -->
+      <tr>
+        <th>Qualification</th>
+        <td>
+            <select name="textfield7" id="textfield6" class="form-control" required>
+                <option value="">Select Qualification</option>
+                <option value="SSLC">SSLC</option>
+                <option value="+2">+2</option>
+                <option value="Degree">Degree</option>
+                <option value="Diploma">Diploma</option>
+            </select>
+        </td>
+    </tr>
+    
+      <tr>
+          <th>Experience</th>
+          <td>
+          <input type="text" name="textfield8" id="textfield6" class="form-control" required/></td>
+        </tr>
+        <tr>
+          <th>Remark</th>
+          <td>
+              <textarea name="textarea" id="textarea" cols="45" rows="3" class="form-control"></textarea></td>
+        </tr>
+        <tr>
+          <th>Photo</th>
+          <td>
+          <input type="file" name="Photo" id="Photo" class="form-control" required/></td>
+        </tr>
+        <tr  id="resume_row">
+          <th>Resume</th>
+          <td>
+              <input type="file" name="Resume" id="Resume" class="form-control"  />
+          </td>
+      </tr>
+      <tr>
+        <th></th>
+        <td><input type="submit" name="button" id="button" value="Submit" class="btn btn-success"/></td>
+      </tr>
+    </table>
+  </form>
+  </div>
+  </section>
+
+
+
+
+</body>
+{% endblock %}
+</html>

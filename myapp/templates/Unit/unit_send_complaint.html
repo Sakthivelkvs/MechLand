@@ -1,0 +1,53 @@
+
+{% extends "Unit/inner-page.html" %}
+{% block body %}
+{% load static %}
+<html lang="en">
+<body>
+  <div class="breadcrumbs">
+    <div class="container">
+
+      <div class="d-flex justify-content-between align-items-center">
+        <h2>Complaint</h2>
+        <ol>
+          <li><a href="/unit_login">Home</a></li>
+          <li>Complaint</li>
+        </ol>
+      </div>
+
+    </div>
+  </div><!-- End Breadcrumbs -->
+
+<!-- ======= Blog Section ======= -->
+<section class="inner-page">
+<div class="container" data-aos="fade-up">
+
+  <div class="section-header">
+    <h2>COMPLAINT</h2>
+    {% comment %} <p>Order Your Moulds</p> {% endcomment %}
+  </div>
+
+<form action="/unit_send_complaint_post/" method="post" enctype="multipart/form-data" name="form1" id="form1">
+    {% csrf_token %}
+    <table class="table table-bordered">
+        {% comment %} <input type="hidden" name="id" id="" value="{{data.unit_id_id}}"> {% endcomment %}
+        <tr>
+          <th>Complaint</th>
+          <td>
+          <textarea name="textarea5" id="textarea5" cols="45" rows="3" class="form-control" required></textarea></td>
+        </tr>
+        <tr>
+            <th>Date</th>
+            <td>
+            <input type="date" name="textfield2" id="textfield2" class="form-control" required/></td>
+          </tr>
+        <tr>
+          <td colspan="2" align="center"><input type="submit" name="button" id="button" value="Submit" class="btn btn-success"/></td>
+        </tr>
+      </table>
+</form>
+</div>
+</section>
+</body>
+{% endblock %}
+</html>

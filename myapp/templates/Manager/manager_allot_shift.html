@@ -1,0 +1,69 @@
+{% extends "Manager/manager_index3.html" %}
+{% block body %}
+{% load static %}
+<html lang="en">
+<body>
+  <div class="container-fluid" id="container-wrapper">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+      <h1 class="h3 mb-0 text-gray-800">Supervisor</h1>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/manager_login">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Supervisor</li>
+      </ol>
+    </div>
+<div class="col-xl-12 col-lg-9">
+  <form id="form1" name="form1" method="post" action="/manager_allot_shift_post/">
+      {% csrf_token %}
+    <table class="table table-bordered">
+      <tr>
+          <th>Name</th>
+          <td><label for="textfield2"></label>
+          <input type="text" name="textfield2" id="textfield2" class="form-control" value="{{staff_data.Name}}" readonly /></td>
+        </tr> 
+      <tr>
+          <th>Shift</th>
+          <td><label for="select"></label>
+            <select name="select" required id="select">
+              {% for i in shift_data %}
+              <option value={{i.id}}>{{i.shift_nbr}}</option>
+              {% endfor %}
+          </select></td>
+        </tr>
+        <tr>
+          <th>Time</th>
+          <td><label for="select2"></label>
+            <select name="select2" required id="select2">
+              {% for i in shift_data %}
+              <option value={{i.id}}>{{i.shift_time}}</option>
+              {% endfor %}
+          </select></td>
+        </tr>
+      {% comment %} <tr>
+        <th>Date</th>
+        <td><label for="textfield"></label>
+        <input type="date" name="textfield" id="textfield" class="form-control" required/></td>
+      </tr> {% endcomment %}
+      
+      {% comment %} 
+      <tr>
+        <th>Qualification</th>
+        <td><input type="text" name="textfield3" id="textfield3" class="form-control" required /></td>
+      </tr>
+      <tr>
+          <tr>
+              <th>Experience</th>
+              <td><input type="text" name="textfield4" id="textfield4" class="form-control" required /></td>
+            </tr>
+            <tr> {% endcomment %}
+        <td>&nbsp;</td>
+        <td><input type="submit" name="button" id="button" value="Submit" class="btn btn-success"/></td>
+      </tr>
+    </table>
+  
+  </form>
+  </body>
+  </div>
+  {% endblock %}
+
+
+

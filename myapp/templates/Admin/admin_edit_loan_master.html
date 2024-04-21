@@ -1,0 +1,49 @@
+<!-- <!DOCTYPE html> -->
+{% extends "admin_master.html" %}
+{% block body %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>RoyalUI Admin</title>
+  <!-- plugins:css -->
+  <link rel="stylesheet" href="{% static 'Admin-Master/vendors/ti-icons/css/themify-icons.css' %}">
+  <link rel="stylesheet" href="{% static 'Admin-Master/vendors/base/vendor.bundle.base.css' %}">
+  <!-- endinject -->
+  <!-- plugin css for this page -->
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <link rel="stylesheet" href="{% static 'Admin-Master/css/style.css' %}">
+  <!-- endinject -->
+  <link rel="shortcut icon" href="{% static 'Admin-Master/images/favicon.png' %}" />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+
+<form action="/admin_edit_loan_master_post/" method="post" enctype="multipart/form-data" name="form1" id="form1">
+    {% csrf_token %}
+  <table class="table table-bordered">
+    <input type="hidden" name="id" value="{{data.id}}">
+    <tr>
+      <th>Loan Type</th>
+      <td>
+      <input type="text" name="textfield" id="textfield" value="{{data.loan_type}}" class="form-control" required/></td>
+    </tr>
+    <tr>
+        <th>Limit</th>
+        <td>
+        <input type="text" name="textfield2" id="textfield2" value="{{data.loan_limit}}" class="form-control" required/></td>
+        </tr>
+      <td>&nbsp;</td>
+      <td><input type="submit" name="button" id="button" value="Submit" class="btn btn-success"/></td>
+    </tr>
+  </table>
+</form>
+</body>
+{%endblock%}
+</html>

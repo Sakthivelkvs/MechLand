@@ -1,0 +1,167 @@
+
+{% extends "Unit/inner-page.html" %}
+{% block body %}
+{% load static %}
+<html lang="en">
+    <style>
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center horizontally */
+          }
+          
+          .photo-circle {
+            width: 175px; /* Adjust size as needed */
+            height: 175px; /* Adjust size as needed */
+            border-radius: 50%;
+            overflow: hidden;
+            margin-bottom: 10px; /* Adjust margin as needed */
+          }
+          
+          .photo-circle img {
+            width: 100%;
+            height: auto;
+          }
+          
+          .email-centered, .change-password {
+            text-align: center;
+          }
+          
+          .change-password {
+            margin-top: 10px; /* Adjust margin as needed */
+          }
+          
+          .change-password-link {
+            color: #007bff; /* Adjust color as needed */
+            text-decoration: none;
+          }
+          
+          .change-password-link:hover {
+            text-decoration: underline;
+          }
+             
+    </style>
+<body>
+  <div class="breadcrumbs">
+    <div class="container">
+
+      <div class="d-flex justify-content-between align-items-center">
+        <h2>Edit Profile</h2>
+        <ol>
+          <li><a href="/unit_login">Home</a></li>
+          <li>Edit Profile</li>
+        </ol>
+    </div>
+    </div>
+  </div><!-- End Breadcrumbs -->
+
+<!-- ======= Blog Section ======= -->
+<section class="inner-page">
+<div class="container" data-aos="fade-up">
+
+  {% comment %} <div class="section-header">
+    <h2>COMPLAINT</h2>
+    <p>Order Your Moulds</p> 
+  </div> {% endcomment %}
+  <section id="contact" class="contact">
+    <form action="/unit_edit_profile_post/" method="post"  enctype="multipart/form-data" style="width: 100%;background: var(--color-white);"> 
+      {% csrf_token %} 
+   
+    <div class="container">
+
+      <div class="row gy-5 gx-lg-5">
+
+        <div class="col-lg-4">
+            
+            <div class="info">
+                {% comment %} <h3>Get in touch</h3>
+                {% comment %} <p>Et id eius voluptates atque nihil voluptatem enim in tempore minima sit ad mollitia commodi minus.</p> {% endcomment %}
+              
+                <div class="info-item d-flex">
+                    <div class="photo-circle">
+                            <img src="{{data.Photo}}" alt="Your Photo">
+                    </div>
+                    <div style="margin-left: 100px;">
+                        <input type="file"  class="form-control-file" id="Photo" name="Photo" a></div>
+                    <div>
+                      {% comment %} <div class="email-centered">
+                        {{ data.Email }}
+                      </div> {% endcomment %}
+                      <div class="change-password">
+                        <a href="/unit_view_profile" class="change-password-link">Back</a>
+                      </div>
+                    </div>
+                  </div><!-- End Info Item --> 
+              </div>
+        </div>
+
+        <div class="col-lg-8">
+           
+                <input type="hidden" name="id" id="" value="{{data.id}}">
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <label for="company_name"><b>Company Name:</b></label>
+                        <input type="text" name="company_name" class="form-control" id="company_name" placeholder="Company Name" value="{{ data.Company_Name }}" >
+                    </div>
+                    <div class="col-md-6 form-group mt-3 mt-md-0">
+                        <label for="name"><b>Name:</b></label>
+                        <input type="text" class="form-control" name="name" id="name" placeholder="Your Name" value="{{ data.Name }}" >
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <label for="email"><b>Your Email:</b></label>
+                        <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" value="{{ data.Email }}" >
+                    </div>
+                    <div class="col-md-6 form-group mt-3 mt-md-0">
+                        <label for="phone"><b>Phone Number:</b></label>
+                        <input type="text" class="form-control" name="phone" id="phone" placeholder="Phone Number" value="{{ data.Phone_Number }}" >
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <label for="place"><b>Place:</b></label>
+                        <input type="text" class="form-control" name="place" id="place" placeholder="Place" value="{{ data.Place }}" >
+                    </div>
+                    <div class="col-md-6 form-group mt-3 mt-md-0">
+                        <label for="city"><b>City:</b></label>
+                        <input type="text" class="form-control" name="city" id="city" placeholder="City" value="{{ data.City }}" >
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <label for="state"><b>State:</b></label>
+                        <input type="text" class="form-control" name="state" id="state" placeholder="State" value="{{ data.State }}" >
+                    </div>
+                    <div class="col-md-6 form-group mt-3 mt-md-0">
+                        <label for="pincode"><b>Pincode:</b></label>
+                        <input type="text" class="form-control" name="pincode" id="pincode" placeholder="Pincode" value="{{ data.Pincode }}" >
+                    </div>
+                </div><br>
+                <div class="row justify-content-center">
+                  <div class="col-6 text-center">
+                      <input type="submit" name="button" id="" value="Submit" class="btn btn-success"/>
+                  </div>
+              </div>
+              
+             </div>
+            </div>
+          
+          </div><!-- End Contact Form -->
+          
+          
+      </div>
+
+   
+
+    </div>
+  </form>
+  </section><!-- End Contact Section -->
+</div>
+</section>
+</body>
+{% endblock %}
+</html>

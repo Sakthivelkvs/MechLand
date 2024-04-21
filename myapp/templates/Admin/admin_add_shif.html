@@ -1,0 +1,90 @@
+<!-- <!DOCTYPE html> -->
+{% extends "admin_master.html" %}
+{% block body %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>RoyalUI Admin</title>
+  <!-- plugins:css -->
+  <link rel="stylesheet" href="{% static 'Admin-Master/vendors/ti-icons/css/themify-icons.css' %}">
+  <link rel="stylesheet" href="{% static 'Admin-Master/vendors/base/vendor.bundle.base.css' %}">
+  <!-- endinject -->
+  <!-- plugin css for this page -->
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <link rel="stylesheet" href="{% static 'Admin-Master/css/style.css' %}">
+  <!-- endinject -->
+  <link rel="shortcut icon" href="{% static 'Admin-Master/images/favicon.png' %}" />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<style>
+  /* Style for the container */
+  .container {
+    display: flex; /* Use flexbox */
+    align-items: center; /* Align items vertically */
+    justify-content: space-between; /* Distribute items evenly */
+    background-color: rgba(255, 255, 255, 0.5); /* Transparent white background */
+    padding: 20px; /* Add some padding for better visibility */
+    border-bottom: 2px solid black; /* Add underline */
+    width: 100%;
+  }
+
+  /* Style for the "Add Mould" button within the container */
+  .add-mould-button {
+    padding: 8px 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none; /* Remove underline */
+  }
+
+  /* Style for the topic name */
+  .container h3 {
+    margin: 0; /* Remove default margin */
+  }
+
+  .edit-link::before {
+    content: "\f044"; /* Unicode for pencil icon */
+    font-family: 'Font Awesome 5 Free';
+    margin-right: 5px;
+    color: green;
+    font-size: 20px;
+  }
+
+  .delete-link::before {
+    content: "\f2ed"; /* Unicode for trash-alt icon */
+    font-family: 'Font Awesome 5 Free';
+    margin-right: 5px;
+    color: red;
+    font-size: 20px;
+  }
+</style>
+
+<form action="/admin_add_shift_post/" method="post" enctype="multipart/form-data" name="form1" id="form1">
+    {% csrf_token %}
+  <table class="table table-bordered">
+    <tr>
+      <th>Shift Number</th>
+      <td>
+      <input type="text" name="textfield" id="textfield" class="form-control" required/></td>
+    </tr>
+    <tr>
+        <th>Time</th>
+        <td>
+        <input type="time" name="appt" id="appt" class="form-control" required/></td>
+      </tr>
+      <td>&nbsp;</td>
+      <td><input type="submit" name="button" id="button" value="Submit" class="btn btn-success"/></td>
+    </tr>
+  </table>
+</form>
+</body>
+{%endblock%}
+</html>

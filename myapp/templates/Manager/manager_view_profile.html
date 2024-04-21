@@ -1,0 +1,138 @@
+{% extends "Manager/manager_index3.html" %}
+{% block body %}
+{% load static %}
+
+
+
+<html lang="en">
+    <head>
+        <style>
+            .info {
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.photo-circle {
+    width: 200px; /* Increase width and height for a larger circle */
+    height: 200px;
+    border-radius: 0%; /* Make it round */
+    overflow: hidden;
+    margin-right: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.photo-circle img {
+    width: 100%; /* Make the image fill the circle */
+    height: 100%; /* Maintain aspect ratio */
+    display: block;
+    border-radius: 50%; /* Ensure the image inherits the round shape */
+}
+
+
+
+.photo-circle img {
+    width: 200%; /* Make the image fill the circle */
+    height: auto; /* Maintain aspect ratio */
+    display: block;
+}
+
+
+.email-centered {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.change-password {
+    margin-top: 10px;
+}
+
+.change-password-link {
+    color: blue;
+    text-decoration: none;
+}
+
+.change-password-link:hover {
+    text-decoration: underline;
+}
+
+        </style>
+        </head>
+
+<body>
+    <section class="inner-page">
+        <div class="container" data-aos="fade-up">
+            <section id="contact" class="contact">
+                <div class="container">
+                    <div class="row gy-5 gx-lg-5">
+                        <div class="col-lg-4">
+                            <div class="info">
+                                <div class="info-item d-flex">
+                                    <div class="photo-circle">
+                                        <img src="{{i.photo}}"  alt="Your Photo">
+                                    </div>
+                                    <div><br><br>
+                                        <div class="email-centered">
+                                            {{ i.Email }}
+                                        </div>
+                                        <div class="change-password">
+                                            <a href="/manager_change_password" class="change-password-link">Change Password</a>
+                                        </div>
+                                    </div>
+                                </div><!-- End Info Item -->
+                            </div>
+                        </div>
+    
+                                <div class="col-lg-8">
+                                    <form action="forms/contact.php" method="post" role="form" class="php-email-form">
+                                        {% csrf_token %}
+                                        <table class="table table-bordered">
+                                            <tr>
+                                                <th><label for="yourname">Name:</label></th>
+                                                <td><input type="text" name="name" class="form-control" id="name" placeholder="Your Name" value="{{ i.Name }}" readonly></td>
+                                            </tr>
+                                            <tr>
+                                                <th><label for="gender">Gender:</label></th>
+                                                <td><input type="gender" class="form-control" name="gender" id="gender" placeholder="Your gender" value="{{ i.Gender }}" readonly></td>
+                                            </tr>
+                                            <tr>
+                                                <th><label for="dob">DOB:</label></th>
+                                                <td><input type="dob" class="form-control" name="dob" id="dob" placeholder="Your dob" value="{{ i.Date_of_birth }}" readonly></td>
+                                            </tr>
+                                            <tr>
+                                                <th><label for="subject">Phone Number:</label></th>
+                                                <td><input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" value="{{ i.Phone_Number }}" readonly></td>
+                                            </tr>
+                                            <tr>
+                                                <th><label for="message">Address:</label></th>
+                                                <td><textarea class="form-control" name="message" id="message" rows="3" cols="10" placeholder="Message" readonly>{{ i.house_name }},{{ i.Place }},{{ i.City }},{{ i.State }},{{ i.Pincode }}</textarea>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                <br>
+                                <div class="text-center"><a href="/manager_edit_profile/{{i.id}}" class="btn btn-info">Edit</a></div>
+                            </form>
+                        </div><!-- End Contact Form -->
+                    </div>
+                </div>
+            </section><!-- End Contact Section -->
+        </div>
+    </section>
+    
+
+</body>
+{% endblock %}
+</html>
+
+
+
+
+
+
+
+
+
+

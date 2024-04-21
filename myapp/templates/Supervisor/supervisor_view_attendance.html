@@ -1,0 +1,56 @@
+{% extends "Employee/emp_inner-page.html" %}
+{% block body %}
+{% load static %}
+
+<!-- ======= Blog Section ======= -->
+<section class="inner-page">
+  <div class="container" data-aos="fade-up">
+
+    <div class="breadcrumbs">
+      <div class="container">
+        <div class="d-flex justify-content-between align-items-center">
+          <h2>Attendance</h2>
+          <ol>
+            <li><a href="/staff_login">Home</a></li>
+            <li>Attendance</li>
+          </ol>
+        </div>
+      </div>
+    </div><!-- End Breadcrumbs -->
+
+    <section id="contact" class="contact">
+      <div class="container">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>SL.NO</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>No.of Working Days</th>
+              <!-- <th>Action</th> -->
+            </tr>
+          </thead>
+          <tbody>
+            {% for i in data %}
+              <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ i.staff_id.Name }}<br><img src="{{ i.staff_id.Photo }}" height="100px" width="100px"></td>
+                <td>&nbsp;{{ i.staff_id.Email }}</td>
+                <td>&nbsp;{{ i.no_of_working_days }}</td>
+                <!-- <td>
+                  {% if i.staff_id_id in staff_with_leaves_today %}
+                    <button class="btn btn-success" disabled>Allot Shift</button>
+                  {% else %}
+                    <a href="/supervisor_allot_shift/{{ i.id }}" class="btn btn-success">Allot Shift</a>
+                  {% endif %}
+                </td> -->
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section><!-- End Contact Section -->
+  </div>
+</section>
+
+{% endblock %}

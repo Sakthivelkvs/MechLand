@@ -1,0 +1,333 @@
+
+{% extends "Unit/inner-page.html" %}
+{% block body %}
+{% load static %}
+<html lang="en">
+    <style>
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center horizontally */
+          }
+          
+          .photo-circle {
+            width: 175px; /* Adjust size as needed */
+            height: 175px; /* Adjust size as needed */
+            border-radius: 50%;
+            overflow: hidden;
+            margin-bottom: 10px; /* Adjust margin as needed */
+          }
+          
+          .photo-circle img {
+            width: 100%;
+            height: auto;
+          }
+          
+          .email-centered, .change-password {
+            text-align: center;
+          }
+          
+          .change-password {
+            margin-top: 10px; /* Adjust margin as needed */
+          }
+          
+          .change-password-link {
+            color: #007bff; /* Adjust color as needed */
+            text-decoration: none;
+          }
+          
+          .change-password-link:hover {
+            text-decoration: underline;
+          }
+             
+    </style>
+<body>
+  <div class="breadcrumbs">
+    <div class="container">
+
+      <div class="d-flex justify-content-between align-items-center">
+        <h2>Profile</h2>
+        <ol>
+          <li><a href="/unit_login">Home</a></li>
+          <li>View Profile</li>
+        </ol>
+    </div>
+    </div>
+  </div><!-- End Breadcrumbs -->
+
+<!-- ======= Blog Section ======= -->
+<section class="inner-page">
+<div class="container" data-aos="fade-up">
+
+  {% comment %} <div class="section-header">
+    <h2>COMPLAINT</h2>
+    <p>Order Your Moulds</p> 
+  </div> {% endcomment %}
+  <section id="contact" class="contact">
+    <div class="container">
+
+      <div class="row gy-5 gx-lg-5">
+
+        <div class="col-lg-4">
+
+            <div class="info">
+                {% comment %} <h3>Get in touch</h3>
+                {% comment %} <p>Et id eius voluptates atque nihil voluptatem enim in tempore minima sit ad mollitia commodi minus.</p> {% endcomment %}
+              
+                <div class="info-item d-flex">
+                    <div class="photo-circle">
+                      <img src="{{data.Photo}}" alt="Your Photo">
+                    </div>
+                    <div>
+                      <div class="email-centered">
+                        {{ data.Email }}
+                      </div>
+                      <div class="change-password">
+                        <a href="/unit_change_password" class="change-password-link">Change Password</a>
+                      </div>
+                    </div>
+                  </div><!-- End Info Item --> 
+              </div>
+        </div>
+
+        <div class="col-lg-8">
+            <form action="forms/contact.php" method="post" role="form" class="php-email-form">
+              {% csrf_token %}
+              <table class="table table-bordered">
+                <tr>
+                  <th><label for="name">Company Name:</label></th>
+                  <td><input type="text" name="name" class="form-control" id="name" placeholder="Your Name" value="{{ data.Company_Name }}" readonly></td>
+                </tr>
+                <tr>
+                    <th><label for="yourname">Name:</label></th>
+                    <td><input type="text" name="name" class="form-control" id="name" placeholder="Your Name" value="{{ data.Name }}" readonly></td>
+                  </tr>
+                <tr>
+                  <th><label for="email">Your Email:</label></th>
+                  <td><input type="email" class="form-control" name="email" id="email" placeholder="Your Email" value="{{ data.Email }}" readonly></td>
+                </tr>
+                <tr>
+                  <th><label for="subject">Phone Number:</label></th>
+                  <td><input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" value="{{ data.Phone_Number }}" readonly></td>
+                </tr>
+                <tr>
+                  <th><label for="message">Address:</label></th>
+                  <td><input type="text" class="form-control" name="message" id="message" placeholder="Message" value="{{ data.Place }},{{ data.City }},{{ data.State }},{{ data.Pincode }}" readonly></td>
+                </tr>
+              </table>
+              
+              <div class="text-center"><a href="/unit_edit_profile/{{data.id}}" class="btn btn-info">Edit</a></div>
+            </form>
+          </div><!-- End Contact Form -->
+          
+      </div>
+
+    </div>
+  </section><!-- End Contact Section -->
+</div>
+</section>
+</body>
+{% endblock %}
+
+
+
+
+
+
+
+{% comment %} {% extends "Unit/inner-page.html" %}
+{% block body %}
+{% load static %}
+<style>
+    .info-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Center horizontally */
+      }
+      
+      .photo-circle {
+        width: 175px; /* Adjust size as needed */
+        height: 175px; /* Adjust size as needed */
+        border-radius: 50%;
+        overflow: hidden;
+        margin-bottom: 10px; /* Adjust margin as needed */
+      }
+      
+      .photo-circle img {
+        width: 100%;
+        height: auto;
+      }
+      
+      .email-centered, .change-password {
+        text-align: center;
+      }
+      
+      .change-password {
+        margin-top: 10px; /* Adjust margin as needed */
+      }
+      
+      .change-password-link {
+        color: #007bff; /* Adjust color as needed */
+        text-decoration: none;
+      }
+      
+      .change-password-link:hover {
+        text-decoration: underline;
+      }
+      
+      
+      
+</style>
+<section id="contact" class="contact">
+    
+    {% comment %} <div class="container">
+
+      <div class="section-header">
+        <h2>Profile Settings</h2>
+        {% comment %} <p>Ea vitae aspernatur deserunt voluptatem impedit deserunt magnam occaecati dssumenda quas ut ad dolores adipisci aliquam.</p> 
+      </div>
+
+    </div> {% endcomment %}
+
+      {% comment %} <div class="map">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d12097.433213460943!2d-74.0062269!3d40.7101282!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xb89d1fe6bc499443!2sDowntown+Conference+Center!5e0!3m2!1smk!2sbg!4v1539943755621" frameborder="0" allowfullscreen></iframe>
+      </div><!-- End Google Maps --> 
+
+    <div class="container">
+
+      <div class="row gy-5 gx-lg-5">
+
+        <div class="col-lg-4">
+
+            <div class="info">
+                 <h3>Get in touch</h3>
+                <p>Et id eius voluptates atque nihil voluptatem enim in tempore minima sit ad mollitia commodi minus.</p> 
+              
+                <div class="info-item d-flex">
+                    <div class="photo-circle">
+                      <img src="{{data.Photo}}" alt="Your Photo">
+                    </div>
+                    <div>
+                      <div class="email-centered">
+                        {{ data.Email }}
+                      </div>
+                      <div class="change-password">
+                        <a href="#" class="change-password-link">Change Password</a>
+                      </div>
+                    </div>
+                  </div><!-- End Info Item -->
+                  
+              </div>
+              
+
+        </div>
+
+        <div class="col-lg-8">
+            <form action="forms/contact.php" method="post" role="form" class="php-email-form">
+              <table class="table table-bordered">
+                <tr>
+                  <th><label for="name">Company Name:</label></th>
+                  <td><input type="text" name="name" class="form-control" id="name" placeholder="Your Name" value="{{ data.Company_Name }}" readonly></td>
+                </tr>
+                <tr>
+                    <th><label for="yourname">Name:</label></th>
+                    <td><input type="text" name="name" class="form-control" id="name" placeholder="Your Name" value="{{ data.Name }}" readonly></td>
+                  </tr>
+                <tr>
+                  <th><label for="email">Your Email:</label></th>
+                  <td><input type="email" class="form-control" name="email" id="email" placeholder="Your Email" value="{{ data.Email }}" readonly></td>
+                </tr>
+                <tr>
+                  <th><label for="subject">Phone Number:</label></th>
+                  <td><input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" value="{{ data.Phone_Number }}" readonly></td>
+                </tr>
+                <tr>
+                  <th><label for="message">Address:</label></th>
+                  <td><input type="text" class="form-control" name="message" id="message" placeholder="Message" value="{{ data.Place }},{{ data.City }},{{ data.State }},{{ data.Pincode }}" readonly></td>
+                </tr>
+              </table>
+              <div class="my-3">
+                <div class="loading">Loading</div>
+                <div class="error-message"></div>
+                <div class="sent-message">Your message has been sent. Thank you!</div>
+              </div>
+              <div class="text-center"><a href="/admin_approve_business_request/{{i.id}}" class="btn btn-info btn-close-white">Edit</a></div>
+            </form>
+          </div><!-- End Contact Form -->
+          
+      </div>
+
+    </div>
+  </section><!-- End Contact Section -->
+
+</main><!-- End #main -->
+{% endblock %} {% endcomment %}
+
+
+{% comment %} 
+{% extends "Unit/inner-page.html" %}
+{% block body %}
+{% load static %}
+<html lang="en">    
+<head>
+    <link rel="stylesheet" href="{% static 'admin_hm1\assets\css\profile.css' %}">
+</head>
+    <body>
+        <div class="breadcrumbs">
+            <div class="container">
+        
+              <div class="d-flex justify-content-between align-items-center">
+                <h2>Profile</h2>
+                <ol>
+                  <li><a href="/unit_login">Home</a></li>
+                  <li>Profile</li>
+                </ol>
+              </div>
+        
+            </div>
+          </div><!-- End Breadcrumbs -->
+        
+        <!-- ======= Blog Section ======= -->
+        <section class="inner-page">
+        <div class="container" data-aos="fade-up">
+        
+          <div class="section-header">
+            <h2>Profile Settings</h2>
+            {% comment %} <p>Order Your Moulds</p> 
+          </div>
+        {% csrf_token %}
+    <div class="a-box">
+        <div class="info-container">
+            <img src="{{data.Photo}}" alt="User Photo">
+            <div class="text-content">
+                <h3>{{ data.Company_Name }}</h3>
+                <table>
+                    <tr>
+                        <th>Name</th>
+                        <td>{{ data.Name }}</td>
+                    </tr>
+                    <tr>
+                        <th>Email</th>
+                        <td>{{ data.Email }}</td>
+                    </tr>
+                    <tr>
+                        <th>Phone</th>
+                        <td>{{ data.Phone_Number }}</td>
+                    </tr>
+                    <tr>
+                        <th>Address</th>
+                        <td>{{ data.Place }},{{ data.City }},{{ data.State }},{{ data.Pincode }}</td>
+                    </tr>
+                </table>
+                <a href="/admin_approve_business_request/{{i.id}}" class="btn">Edit</a>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+    </body>
+    {% endblock %}
+    </html>
+
+
+ {% endcomment %}

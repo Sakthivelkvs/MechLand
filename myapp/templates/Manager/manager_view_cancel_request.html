@@ -1,0 +1,45 @@
+{% extends "Manager/manager_index3.html" %}
+{% block body %}
+{% load static %}
+<html lang="en">
+<body>
+  <div class="container-fluid" id="container-wrapper">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+      <h1 class="h3 mb-0 text-gray-800">Cancel Requests</h1>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/manager_login">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Cancel request</li>
+      </ol>
+    </div>
+<div class="col-xl-12 col-lg-9">
+ <form action="//" method="post" enctype="multipart/form-data" name="form1" id="form1">
+    {% csrf_token %}
+    <table class="table table-bordered">
+        <tr>
+          <th>SL.NO</th>
+          <th>Name</th>
+          <th>Company Name</th>
+          <th> Mould </th>
+          <th> Photo </th>
+          <th> Quantity </th>
+          <th> Date </th>
+          <th> Status </th>
+        </tr>
+          {% for i in data %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ i.order_id.unit_id.Name }}</td>
+          <td>{{ i.order_id.unit_id.Company_Name }}</td>
+          <td>&nbsp;{{ i.order_id.mould_id.mname }}</td>
+          <td><img src="{{ i.order_id.mould_id.photo }}" height="100px" width="100px" ></td>
+          <td>&nbsp;{{ i.order_id.quantity }}</td>
+          <td>{{ i.date }}</td>
+          <td>{{ i.status }}</td>
+          <td><a href="/manager_approve_cancel_request/{{i.id}}" class="btn btn-success">Approve</a></td>
+          {% endfor %}
+      </table> 
+ </form> 
+ </div>
+</body>
+{% endblock %}
+</html>

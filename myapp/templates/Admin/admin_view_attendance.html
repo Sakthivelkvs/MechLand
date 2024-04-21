@@ -1,0 +1,37 @@
+{% extends "admin_master.html" %}
+{% block body %}
+{% load static %}
+<head>
+<link rel="stylesheet" href="{% static 'admin_site\table.css' %}">
+</head>
+<body>
+<form id="form1" name="form1" method="post" action="">
+    {% csrf_token %}
+  <table class="table table-bordered table-hover">
+    <tr>
+        <th>SL.NO</th>
+        <th>Staff Name</th>
+        <th>Month</th>
+        <th> Year </th>
+        <th> No.of Working Days </th>
+        <th>Actions</th>
+    </tr>
+      {% for i in data %}
+    <tr>
+      <td>{{ forloop.counter }}</td>
+      <td>{{ i.staff_id.Name }}</td>
+      <td>{{ i.month }}</td>
+      <td>{{ i.year }}</td>
+      <td>{{ i.no_of_working_days }}</td>
+      {% comment %} <a href="/admin_edit_job/{{i.id}}" class="edit-link">Edit</a>{% endcomment %}
+      <td><a href="/admin_delete_attendance/{{i.id}}" class="delete-link">Delete</a></td> 
+    </tr>
+      {% endfor %}
+  </table> 
+</form>
+</body>
+</html>
+{%endblock%}
+
+
+

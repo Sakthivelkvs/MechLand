@@ -1,0 +1,167 @@
+<!-- <!DOCTYPE html> -->
+{% extends "admin_master.html" %}
+{% block body %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>RoyalUI Admin</title>
+  <!-- plugins:css -->
+  <link rel="stylesheet" href="{% static 'Admin-Master/vendors/ti-icons/css/themify-icons.css' %}">
+  <link rel="stylesheet" href="{% static 'Admin-Master/vendors/base/vendor.bundle.base.css' %}">
+  <!-- endinject -->
+  <!-- plugin css for this page -->
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <link rel="stylesheet" href="{% static 'Admin-Master/css/style.css' %}">
+  <!-- endinject -->
+  <link rel="shortcut icon" href="{% static 'Admin-Master/images/favicon.png' %}" />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+<body>
+  <div class="container">
+    <h3>Job Master</h3> <!-- Adding the topic name -->
+
+    <!-- Button for "Add Mould" -->
+    <a href="/admin_add_job" class="add-mould-button">Add</a>
+  </div>
+<form id="form1" name="form1" method="post" action="">
+    {% csrf_token %}
+  <table class="table table-responsive table-hover">
+    <tr>
+        <th>SL.NO</th>
+        <th>Job Role</th>
+        <th>Basic Salary</th>
+        <th> Salary/ day </th> 
+        <th> Loan Allowance </th>
+        <th>Requirements</th>
+        <th> Vacancies </th>
+        <th> Qualification </th>
+        <th> Last Date </th>
+        <th> Experience </th>
+        <th>Actions</th>
+
+    </tr>
+      {% for i in data %}
+    <tr>
+      <td>{{ forloop.counter }}</td>
+      <td>{{ i.job_role }}</td>
+      <td>{{ i.basic_salary }}</td>
+       <td>{{ i.cut_salary }}</td> 
+      <td>{{ i.loan_allowance }}</td>
+      <td>{{ i.requirements }}</td>
+      <td>{{ i.vacancies }}</td>
+      <td>{{ i.qualifications }}</td>
+      <td>{{ i.date }}</td>
+      <td>{{ i.experiences }}</td>
+      <!-- <td>
+        {% if i.vacancies.exists %}
+        <a href="/admin_view_vacancy/{{i.id}}" class="btn btn-info btn-sm">
+          <i class="fas fa-eye"></i> Vacancy
+        
+        {% else %}
+            <a href="/admin_add_vacancy/{{ i.id }}" class="btn btn-success btn-sm"><b>+</b> Vacancy</a>
+        {% endif %}
+    </td> -->
+      <td><a href="/admin_edit_job/{{i.id}}" class="edit-link"></a>
+      <a href="/admin_delete_job/{{i.id}}" class="delete-link"></a></td>
+    </tr>
+      {% endfor %}
+  </table> 
+</form>
+</body>
+</html>
+{%endblock%}
+
+
+{% comment %} 
+{% load static %}
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Title Here</title>
+<link rel="stylesheet" href="{% static 'admin_hm1\assets\css\add_mould_css.css' %}">
+<style>
+  /* Add this CSS to your 'add_mould_css.css' file */
+
+/* Responsive Table */
+.table {
+  width: 100%;
+  margin-bottom: 1rem;
+  color: #212529;
+}
+
+/* Hover effect for rows */
+.table tr:hover {
+  background-color: #f5f5f5;
+}
+
+/* Table Head Styles */
+.table th {
+  background-color: #06c5d9;
+  color: #fff;
+  text-align: center;
+  vertical-align: middle;
+  padding-left: 3rem;
+}
+
+/* Table Body Styles */
+.table td {
+  text-align: center;
+  vertical-align: middle;
+}
+
+/* Input Styles */
+.form-control {
+  width: 100%;
+}
+
+/* Button Styles */
+.btn {
+  cursor: pointer;
+}
+
+/* Responsive Image Styles */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Add more styles as needed */
+</style>
+</head>
+<body>
+<form id="form1" name="form1" method="post" action="">
+    {% csrf_token %}
+    {% include 'index.html' %}
+    <br> <br> <br> <br> <br> <br>
+  <table class="table table-bordered">
+    <tr>
+        <th>SL.NO</th>
+        <th>Job Role</th>
+        <th>Basic Salary</th>
+        <th> Allowance </th>
+        <th> Loan Allowance </th>
+    </tr>
+      {% for i in data %}
+    <tr>
+      <td>{{ forloop.counter }}</td>
+      <td>{{ i.job_role }}</td>
+      <td>{{ i.basic_salary }}</td>
+      <td>{{ i.allowance }}</td>
+      <td>{{ i.loan_allowance }}</td>
+      <td><a href="/admin_edit_job/{{i.id}}" class="btn btn-success">Edit</a></td>
+      <td><a href="/admin_delete_job/{{i.id}}" class="btn btn-danger">Delete</a></td>
+    </tr>
+      {% endfor %}
+  </table> 
+</form>
+</body>
+</html>
+ {% endcomment %}

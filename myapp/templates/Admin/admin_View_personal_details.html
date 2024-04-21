@@ -1,0 +1,103 @@
+<!-- <!DOCTYPE html> -->
+{% extends "admin_master.html" %}
+{% block body %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>RoyalUI Admin</title>
+  <!-- plugins:css -->
+  <link rel="stylesheet" href="{% static 'Admin-Master/vendors/ti-icons/css/themify-icons.css' %}">
+  <link rel="stylesheet" href="{% static 'Admin-Master/vendors/base/vendor.bundle.base.css' %}">
+  <!-- endinject -->
+  <!-- plugin css for this page -->
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <link rel="stylesheet" href="{% static 'Admin-Master/css/style.css' %}">
+  <!-- endinject -->
+  <link rel="shortcut icon" href="{% static 'Admin-Master/images/favicon.png' %}" />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+
+<form action="" method="post" enctype="multipart/form-data" name="form1" id="form1">
+    {% csrf_token %}
+  <table class="table table-bordered">
+    
+    
+   
+    <tr>
+        <th>Name</th>
+        <td><input type="text" name="role" id="textfield9" class="form-control" value="{{data.Name}}" readonly/></td>
+        
+        
+      </tr>
+        <tr>
+            <th>Gender</th>
+            <td><input type="text" name="salary" id="textfield9" class="form-control" value="{{data.Gender}}" readonly/></td>
+          </tr>
+   
+        
+      <tr>
+        <th>DOB</th>
+        <td><input type="text" name="leave" id="textfield9" class="form-control" value="{{data.Date_of_birth}}" readonly/></td>
+      </tr>
+      
+      <tr>
+        <th>Email</th>
+        <td><input type="text" name="lamount" id="textfield9" class="form-control" value="{{data.Email}}" readonly/></td>
+      </tr>
+      
+        <tr>
+          <th>Qualification</th>
+          <td><input type="text" name="loan" id="textfield9" class="form-control" value="{{data.qualifications}}" readonly/></td>
+        </tr>
+
+        <tr>
+          <th>Experience</th>
+          <td><input type="text" name="loan" id="textfield9" class="form-control" value="{{data.experiences}}" readonly/></td>
+        </tr>
+
+        <tr>
+          <th>Remark</th>
+          <td><input type="text" name="loan" id="textfield9" class="form-control" value="{{data.remark}}" readonly/></td>
+        </tr>
+
+     
+  
+         <tr>
+           <th>Address</th>
+           <td><input type="text" name="advance" id="textfield9" class="form-control" value="{{data.Address}}" readonly/></td>
+         </tr>
+   
+        
+    {% comment %} <tr>
+        <th>Net salary</th>
+        <td><input type="text" name="net" id="textfield9" class="form-control" value="{{value5}}" readonly/></td>
+    </tr>
+    <tr>
+      <th>Month</th>
+      <td><input type="text" name="month" id="textfield9" class="form-control" value="{{month}}" readonly/></td>
+  </tr> {% endcomment %}
+    <tr>
+      <th>Resume</th>
+        <td><a href="{{ data.resume }}" target="_blank" class="btn btn-info btn-sm">
+          <i class="fas fa-file-pdf"></i> View/Download Resume
+      </a></td>
+        
+      </tr>
+      <tr>
+        <td></td >
+        <td><a href="/admin_view_carrier_application" class="btn btn-info btn-sm">Back</a></td>
+      
+        </tr>
+  </table>
+</form>
+</body>
+{%endblock%}
+</html>

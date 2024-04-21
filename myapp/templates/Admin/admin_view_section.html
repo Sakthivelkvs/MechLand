@@ -1,0 +1,99 @@
+<!-- <!DOCTYPE html> -->
+{% extends "admin_master.html" %}
+{% block body %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>RoyalUI Admin</title>
+  <!-- plugins:css -->
+  <link rel="stylesheet" href="{% static 'Admin-Master/vendors/ti-icons/css/themify-icons.css' %}">
+  <link rel="stylesheet" href="{% static 'Admin-Master/vendors/base/vendor.bundle.base.css' %}">
+  <!-- endinject -->
+  <!-- plugin css for this page -->
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <link rel="stylesheet" href="{% static 'Admin-Master/css/style.css' %}">
+  <!-- endinject -->
+  <link rel="shortcut icon" href="{% static 'Admin-Master/images/favicon.png' %}" />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+
+<body>
+<form action="/admin_view_section/" method="post" enctype="multipart/form-data" name="form1" id="form1">
+    {% csrf_token %}
+    <table class="table table-bordered">
+      <tr>
+        <td>
+          <label for="select"></label>
+          <select name="select" class="form-control" id="select">
+            <option disabled selected>Select Section</option>
+            <option>Production</option>
+            <option>Packing</option>
+            <option>Sales</option>
+          </select>
+        </td>
+        <td width="50px">
+          <button type="submit" name="button" id="button" value="search" class="btn btn-success btn-sm fas fa-search">
+          </button>
+        </td>
+      </tr>
+    </table>
+  {% comment %} <table class="table table-bordered table-hover">
+   
+    <tr>
+      <th>Section</th>
+      <td><label for="select"></label>
+        <select name="select"  class="form-control" id="select">
+           <option>Production</option>
+           <option>Packing</option>
+           <option>Sales</option>
+      </select></td>
+      <td><input type="submit" name="button" id="button" value="Submit" class="btn btn-success"/></td>
+    </tr>
+  </table> {% endcomment %}
+  {% comment %} <table class="table table-bordered table-hover">
+    <tr>
+      <td>
+      <input type="text" name="textfield" id="textfield" placeholder="Search by Name" class="form-control " required/></td>
+      <td width="80px"><input type="submit" name="button" id="button" value="Search" class="btn btn-success"/></td>
+    </tr>
+  </table> {% endcomment %}
+  <table class="table table-bordered table-hover">
+    <tr>
+      <th>SL.NO</th>
+      <th>Name</th>
+      <th>Gender</th>
+      {% comment %} <th> Date Of Birth </th>
+      <th> Email </th>
+      <th>Phone number</th>
+      <th> Address </th> {% endcomment %}
+      <th> Joining Date </th>
+      {% comment %} <th> Remark </th> {% endcomment %}
+      <th> Section </th>
+    </tr>
+      {% for i in data %}
+    <tr>
+      <td>{{ forloop.counter }}</td>
+      <td>{{ i.Name }}<br><img src="{{ i.Photo }}" height="100px" width="100px" ></td>
+      <td>{{ i.Gender }}</td>
+      {% comment %} <td>{{ i.Date_of_birth }}&nbsp;</td>
+      <td>&nbsp;{{ i.Email }}</td>
+      <td>&nbsp;{{ i.Phone_Number }}</td>
+      <td>&nbsp;{{ i.Address }}</td> {% endcomment %}
+      <td>&nbsp;{{ i.join_date }}</td>
+      {% comment %} <td>&nbsp;{{ i.remark }}</td> {% endcomment %}
+      <td>&nbsp;{{ i.section }}</td>
+      <td><a href="/admin_add_attendance/{{i.id}}" class="btn btn-success">Attendance Entry</a></td>
+    </tr>
+      {% endfor %}
+  </table>
+</form>
+</body>
+{%endblock%}
+</html>

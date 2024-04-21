@@ -1,0 +1,32 @@
+{% extends "Manager/manager_index3.html" %}
+{% block body %}
+{% load static %}
+<html lang="en">
+  <div class="container-fluid" id="container-wrapper">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+      <h1 class="h3 mb-0 text-gray-800">Stock</h1>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/manager_login">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Stock</li>
+      </ol>
+    </div>
+<body>
+<div class="col-xl-12 col-lg-9">
+    <form action="/manager_add_stock1/{{data.id}}" method="post" enctype="multipart/form-data" id="form1" name="f1">
+        {% csrf_token %}
+        <table class="table table-bordered">
+          <tr>
+            <th>Quantity</th>
+            <td><input type="number" name="textfield2" id="textfield2" class="form-control"  required/></td>
+          </tr>  
+<tr>
+      <td></td>      
+      <td><input type="submit" name="button" id="button" value="Add" class="btn btn-info"/></td>
+
+          </tr>
+        </table>
+      </form>
+</body>
+</div>
+{%endblock%}
+

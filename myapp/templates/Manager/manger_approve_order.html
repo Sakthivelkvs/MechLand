@@ -1,0 +1,47 @@
+{% extends "Manager/manager_index3.html" %}
+{% block body %}
+{% load static %}
+<html lang="en">
+<body>
+  <div class="container-fluid" id="container-wrapper">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+      <h1 class="h3 mb-0 text-gray-800">Approved Order</h1>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/manager_login">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Approved Orders</li>
+      </ol>
+    </div>
+<div class="col-xl-12 col-lg-9">
+
+<form action="/manager_approve_order_post/" method="post" enctype="multipart/form-data" name="form1" id="form1">
+    {% csrf_token %}
+  <table class="table table-bordered">
+    <input type="hidden" name="id" id="" value="{{i.id}}">
+    <tr>
+      <th>Delivary Date</th>
+      <td>
+      <input type="date" name="textfield" id="textfield" class="form-control" required/></td>
+    </tr>
+    <tr>
+        <th>Estimated Delivary Time</th>
+        <td>
+        <input type="time" name="appt" id="appt" class="form-control" required/></td>
+      </tr>
+      
+    <tr>
+        <th>Remarks</th>
+        <td>
+        <input type="text" name="textfield2" id="textfield2" class="form-control" required/></td>
+      </tr>
+      <td>&nbsp;</td>
+      <td><input type="submit" name="button" id="button" value="Submit" class="btn btn-success"/></td>
+    </tr>
+  </table>
+</form>
+
+</div>
+</body>
+
+{%endblock%}
+
+</html>

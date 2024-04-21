@@ -1,0 +1,57 @@
+{% extends "Manager/manager_index3.html" %}
+{% block body %}
+{% load static %}
+<html lang="en">
+<body>
+  <div class="container-fluid" id="container-wrapper">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+      <h1 class="h3 mb-0 text-gray-800">Check Payment</h1>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/manager_login">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Payment</li>
+      </ol>
+    </div>
+<div class="col-xl-12 col-lg-9">
+<form id="form1" name="form1" method="post" enctype="multipart/form-data" action="">
+    {% csrf_token %}
+
+  <!-- <table class="table table-bordered">
+    <tr>
+      <td>
+      <input type="text" name="textfield" id="textfield" placeholder="Search by Name" class="form-control " required/></td>
+      <td width="80px"><input type="submit" name="button" id="button" value="Search" class="btn btn-success"/></td>
+    </tr>
+  </table> -->
+  <table class="table table-bordered">
+    <tr>
+      <th>Company Name</th>
+      <th> Account Number </th>
+      <th> Bank </th>
+      <th> IFSC </th>
+      <th> Amount </th>
+      <th> Date </th>
+      <th> Status </th>
+      <th> Payment Method </th>
+    </tr>
+    <tr>
+      
+      {% for i in data %}
+        <td>{{ i.unit_order_id.unit_id.Company_Name }}</td>
+        <td>&nbsp;{{ i.Account_num }}</td>
+        <td>{{ i.bank }}</td>
+        <td>&nbsp;{{ i.ifsc }}</td>
+        <td>{{ i.amount }}</td>
+        <td>{{ i.date }}</td>
+        <td>{{ i.status }}</td>
+        <td>{{ i.unit_order_id.payment_method }}</td>
+        <td><a href="/manger_approve_order/{{i.unit_order_id_id}}" class="btn btn-success">Approve </a></td>
+        <td><a href="/manager_reject_order/{{i.unit_order_id_id}}" class="btn btn-danger">Rejecet </a></td>
+      {% endfor %}
+        
+    </tr>
+  </table> 
+</form>
+</div>
+</body>
+{%endblock%}
+

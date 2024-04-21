@@ -1,0 +1,51 @@
+ {% extends "admin_index.html" %}
+{% block body %}
+<!DOCTYPE html>
+<html lang="en">
+  {% load static %}
+<head>
+  <link rel="stylesheet" href="{% static 'admin_site\table.css' %}">
+</head>
+<body>
+<form id="form1" name="form1" method="post" action="">
+    {% csrf_token %}
+
+
+  <table class="table table-bordered table-hover">
+    <input type="hidden" name="id" id="" value="{{data2.id}}">
+    <tr>
+      <th>SL.NO</th>
+      <th>Mould Name</th>
+      <th>Photo 1</th>
+      <th> Photo 2 </th>
+      <th> Photo 3 </th>
+      <th> Suggestion </th>
+    </tr>
+   
+    <tr>
+      <td>{{ forloop.counter }}</td>
+      <td>{{ i.mldname }}</td>
+      <td><img src="{{ i.photo1 }}" height="100px" width="100px" ><br>{{ i.p1_ratting }}
+     best  {{c1}}
+    average  {{c2}}
+      good  {{c3}}
+    </td>
+      <td><img src="{{ i.photo2 }}" height="100px" width="100px" ><br>{{ i.p2_ratting }}
+      
+        best  {{c4}}
+        average  {{c5}}
+          good  {{c6}}
+      </td>
+      <td><img src="{{ i.photo3 }}" height="100px" width="100px" ><br>{{ i.p3_ratting }}
+        best  {{c7}}
+        average  {{c8}}
+          good  {{c9}}
+      </td>
+      <td>{{ i.suggestion }}</td>
+ </tr>
+    
+  </table> 
+</form>
+</body>
+{% endblock %}
+

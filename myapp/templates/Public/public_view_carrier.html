@@ -1,0 +1,99 @@
+{% extends "Public/inner-page.html" %}
+{% block body %}
+{% load static %}
+
+    <!-- CSS styling -->
+    <style>
+
+      
+        .card {
+            width: 900px;
+            margin: 20px auto; /* Center the card horizontally */
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: relative; /* Added */
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .card-text {
+            margin-bottom: 10px;
+        }
+
+        .btn {
+            position: absolute;
+            bottom: 20px; /* Position the button 20px from the bottom */
+            right: 20px; /* Position the button 20px from the right */
+            padding: 8px 16px;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background-color: #218838;
+        }
+    </style>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+
+<body>
+
+     <!-- ======= Breadcrumbs ======= -->
+     <div class="breadcrumbs">
+        <div class="container">
+  
+          <div class="d-flex justify-content-between align-items-center">
+            <h2>Carrier</h2>
+            <ol>
+              <li><a href="/public_home2">Home</a></li>
+              <li>Carrier</li>
+            </ol>
+          </div>
+  
+        </div>
+      </div><!-- End Breadcrumbs -->
+  
+  <!-- ======= Blog Section ======= -->
+  <section class="inner-page">
+    <div class="container" data-aos="fade-up">
+  
+      <div class="section-header">
+        <h2>Join MechLand Tools</h2>
+        <p>MechLand Tools is a tool design and manufacturing solution provider for a diverse range of industries located in Kerala.<br> We are looking for a select group of experienced, highly motivated, forward-thinking individuals <br> to join our expert team at our facility. Below are our current openings and opportunities.</p>
+      </div>
+      <form id="form1" name="form1" method="post" action="">
+        {% csrf_token %}
+        {% for i in data %}
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title">{{ i.job_role }}</h2>
+                <p class="card-text" style="color: #28a745;"><strong>Basic Salary:</strong> <i class="fas fa-rupee-sign"></i> {{ i.basic_salary }}</p>
+
+                <p class="card-text" style="color: brown;"><strong>Last Date:</strong> {{ i.date }}</p>
+                <a href="/public_view_vacancy/{{i.id}}" class="btn btn-info">
+                  <i class="fas fa-search"></i>  Vacancies
+              </a>
+              
+            </div>
+        </div>
+        {% endfor %}
+    </form>
+    </div>
+  </section><!-- End Inner Page -->       
+    </div>
+</body>
+{% endblock %}
+</html>

@@ -1,0 +1,190 @@
+{% extends "Manager/manager_index3.html" %}
+{% block body %}
+{% load static %}
+
+
+
+<html lang="en">
+    <head>
+        <style>
+            .info {
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.photo-circle {
+    width: 200px; /* Increase width and height for a larger circle */
+    height: 200px;
+    border-radius: 0%; /* Make it round */
+    overflow: hidden;
+    margin-right: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.photo-circle img {
+    width: 100%; /* Make the image fill the circle */
+    height: 100%; /* Maintain aspect ratio */
+    display: block;
+    border-radius: 50%; /* Ensure the image inherits the round shape */
+}
+
+
+
+.photo-circle img {
+    width: 200%; /* Make the image fill the circle */
+    height: auto; /* Maintain aspect ratio */
+    display: block;
+}
+
+
+.email-centered {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.change-password {
+    margin-top: 10px;
+}
+
+.change-password-link {
+    color: blue;
+    text-decoration: none;
+}
+
+.change-password-link:hover {
+    text-decoration: underline;
+}
+
+        </style>
+        </head>
+
+<body>
+    <section class="inner-page">
+        <div class="container" data-aos="fade-up">
+            <section id="contact" class="contact">
+                <form action="/manager_edit_profile_post/" method="post"  enctype="multipart/form-data" style="width: 100%;background: var(--color-white);"> 
+                    {% csrf_token %} 
+                <div class="container">
+                    <div class="row gy-5 gx-lg-5">
+                        <div class="col-lg-4">
+                            <div class="info">
+                                <div class="info-item d-flex align-items-center">
+                                    <div class="photo-circle">
+                                        <img src="{{data.photo}}" alt="Your Photo">
+                                    </div>
+                                </div><!-- End Info Item -->
+                                <div class="mt-3">
+                                    <div style="margin-left: 10px;">
+                                        <input type="file" id="Photo" name="Photo">
+                                    </div>
+                                </div>
+                                <div class="mt-3 ml-3">
+                                    <div class="change-password">
+                                        <a href="/manager_view_profile" class="change-password-link">Back</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
+    
+                        <div class="col-lg-8">
+                 
+                            <input type="hidden" name="id" id="" value="{{data.id}}">
+                            <div class="row">
+                                <div class="col-md-6 form-group">
+                                    <label for="company_name"><b>Name:</b></label>
+                                    <input type="text" name="textfield" id="textfield" class="form-control" value="{{data.Name}}"/>
+      
+                                </div>
+                                <div class="col-md-6 form-group mt-3 mt-md-0">
+                                    <label for="name"><b>Gender:</b></label>
+                                      <select name="RadioGroup1" class="form-control">
+                                      <option value="Male" {% if data.Gender == 'Male' %}selected{% endif %}>Male</option>
+                                      <option value="Female" {% if data.Gender == 'Female' %}selected{% endif %}>Female</option>
+                                      <option value="Others" {% if data.Gender == 'Others' %}selected{% endif %}>Others</option>
+                                  </select>
+                                </div>
+                            </div>
+            
+                            <div class="row">
+                                <div class="col-md-6 form-group">
+                                    <label for="email"><b>DOB:</b></label>
+                                    <input type="date" name="textfield2"  min="1800-01-01" max="2010-12-31"  placeholder="" id="textfield2" class="form-control" value="{{data.Date_of_birth}}"/>
+      
+                                </div>
+                                <div class="col-md-6 form-group mt-3 mt-md-0">
+                                    <label for="email"><b>Email:</b></label>
+                                    <input type="email" name="textfield4" id="textfield4" class="form-control" value="{{data.Email}}"/>
+      
+                                </div>
+                            </div>
+            
+                            <div class="row">
+                                <div class="col-md-6 form-group">
+                                    <label for="phone"><b>Phone:</b></label>
+                                    <input type="text" name="textfield5" placeholder="" pattren="[6789][1-9] {9}" max="10" id="textfield5" class="form-control" value="{{data.Phone_Number}}"/>
+                                </div>
+                                <div class="col-md-6 form-group mt-3 mt-md-0">
+                                    <label for="address"><b>House Name:</b></label>
+                                    <input type="text" name="textfield7" id="textfield6" class="form-control" value="{{data.house_name}}"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 form-group">
+                                    <label for="place"><b>Place:</b></label>
+                                    <input type="text" name="textfield8" id="textfield6" class="form-control" value="{{data.Place}}"/>
+      
+                                </div>
+                                <div class="col-md-6 form-group mt-3 mt-md-0">
+                                    <label for="city"><b>City:</b></label>
+                                    <input type="text" name="textfield9" id="textfield4" class="form-control" value="{{data.City}}"/>
+      
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 form-group">
+                                    <label for="state"><b>State:</b></label>
+                                    <input type="text" name="textfield10" id="textfield4" class="form-control" value="{{data.State}}"/>
+                                </div>
+                                <div class="col-md-6 form-group mt-3 mt-md-0">
+                                    <label for="pin"><b>Pincode:</b></label>
+                                    <input type="text" name="textfield11" id="textfield6" class="form-control" value="{{data.Pincode}}"/>
+                                </div>
+                            </div>
+
+                            <div class="row justify-content-center">
+                              <div class="col-6 text-center">
+                                  <input type="submit" name="button" id="button" value="Submit" class="btn btn-success"/>
+                              </div>
+                          </div>
+                          
+                         </div>
+                        </div>
+                      
+                      </div><!-- End Contact Form -->
+                    </div>
+                </div>
+            </form>
+            </section><!-- End Contact Section -->
+        </div>
+    </section>
+    
+
+</body>
+{% endblock %}
+</html>
+
+
+
+
+
+
+
+
+
+

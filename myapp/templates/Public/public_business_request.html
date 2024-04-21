@@ -1,0 +1,86 @@
+{% extends "Public/inner-page.html" %}
+{% block body %}
+{% load static %}
+<body>
+
+     <!-- ======= Breadcrumbs ======= -->
+     <div class="breadcrumbs">
+      <div class="container">
+
+        <div class="d-flex justify-content-between align-items-center">
+          <h2>Business Enquiry</h2>
+          <ol>
+            <li><a href="/public_home2">Home</a></li>
+            <li>Business Enquiry</li>
+          </ol>
+        </div>
+
+      </div>
+    </div><!-- End Breadcrumbs -->
+
+<!-- ======= Blog Section ======= -->
+<section class="inner-page">
+  <div class="container" data-aos="fade-up">
+
+    <div class="section-header">
+      <h2>Join MechLand Tools</h2>
+      <p>Are you looking for a partner to help achieve your business goals and establish your market presence? <br> Send us your business-related queries by filling out the form below:</p>
+    </div>
+    <form action="/public_business_request_post/" method="post" enctype="multipart/form-data" name="form1" id="form1">
+      {% csrf_token %}
+  
+    <table class="table table-bordered">
+      <!-- <tr>
+          <th>Comapany Name</th>
+          <td>
+          <input type="text" name="textfield1" id="textfield1" class="form-control"  required/></td>
+        </tr> -->
+        <tr> 
+          <th>Select Product</th>
+          <td>
+              <select name="textfield1" id="textfield1" class="form-control" required>
+                  <option value="">Select Company Type</option>
+                  <option value="Footwear">Footwear</option>
+                  <option value="Plastic">Plastic</option>
+                  <option value="Blow">Blow</option>
+                  <option value="RoomTools">RoomTools</option>
+              </select>
+          </td>
+      </tr>
+        
+      <tr>
+        <th>Name</th>
+        <td>
+        <input type="text" name="textfield" id="textfield" class="form-control" required/></td>
+      </tr>
+      <tr>
+        <th>Email</th>
+        <td>
+        <input type="email" name="textfield4" id="textfield4" class="form-control" required/></td>
+      </tr>
+      <tr>
+        <th>Phone Number</th>
+        <td>
+        <input type="text" name="textfield5" placeholder="" pattren="[6789][1-9] {9}" max="10" id="textfield5" class="form-control" required/></td>
+      </tr>
+      <th>Address</th>
+          <td>
+              <textarea name="textarea2" id="textarea2" cols="45" rows="2" class="form-control"></textarea></td>
+        </tr>
+      <tr>
+        <tr>
+          <th>Comments</th>
+          <td>
+              <textarea name="textarea" id="textarea" cols="45" rows="2" class="form-control"></textarea></td>
+        </tr>
+      <tr>
+        <td>&nbsp;</td>
+        <td><input type="submit" name="button" id="button" value="Submit" class="btn btn-success"/></td>
+      </tr>
+    </table>
+  </form>
+  </div>
+</section><!-- End Inner Page -->
+</body>
+{% endblock %}
+</html>

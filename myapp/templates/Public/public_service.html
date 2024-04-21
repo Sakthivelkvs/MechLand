@@ -1,0 +1,337 @@
+{% extends "Public/inner-page.html" %}
+{% block body %}
+{% load static %}
+<html lang="en">
+    <br><br>
+    <body>
+<!-- ======= Services Section ======= -->
+<section id="services" class="services">
+    <div class="container" data-aos="fade-up">
+
+      <div class="section-header">
+        <h2>Our Services</h2>
+        <p>Ea vitae aspernatur deserunt voluptatem impedit deserunt magnam occaecati dssumenda quas ut ad dolores adipisci aliquam.</p>
+      </div>
+
+
+      <!-- ======= Features Section ======= -->
+  <section id="features" class="features">
+    <div class="container" data-aos="fade-up">
+
+      <ul class="nav nav-tabs row gy-4 d-flex">
+
+        <li class="nav-item col-6 col-md-4 col-lg-2">
+          <a class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-4">
+            <i class="bi bi-command color-red"></i>
+            <h4>Designing</h4>
+          </a>
+        </li><!-- End Tab 4 Nav -->
+
+        <li class="nav-item col-6 col-md-4 col-lg-2">
+          <a class="nav-link active show" data-bs-toggle="tab" data-bs-target="#tab-1">
+            <i class="bi bi-binoculars color-cyan"></i>
+            <h4>Mould Manufacturing</h4>
+          </a>
+        </li><!-- End Tab 1 Nav -->
+
+        <li class="nav-item col-6 col-md-4 col-lg-2">
+          <a class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-2">
+            <i class="bi bi-box-seam color-indigo"></i>
+            <h4>Moulding</h4>
+          </a>
+        </li><!-- End Tab 2 Nav -->
+
+        <li class="nav-item col-6 col-md-4 col-lg-2">
+          <a class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-3">
+            <i class="bi bi-brightness-high color-teal"></i>
+            <h4>Post Moulding</h4>
+          </a>
+        </li><!-- End Tab 3 Nav -->
+
+        <li class="nav-item col-6 col-md-4 col-lg-2">
+          <a class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-5">
+            <i class="bi bi-easel color-blue"></i>
+            <h4>Begin Production</h4>
+          </a>
+        </li><!-- End Tab 5 Nav -->
+
+        {% comment %} <li class="nav-item col-6 col-md-4 col-lg-2">
+          <a class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-6">
+            <i class="bi bi-map color-orange"></i>
+            <h4>Reprehit</h4>
+          </a>
+        </li><!-- End Tab 6 Nav --> {% endcomment %}
+
+      </ul>
+
+      <div class="tab-content">
+
+        <div class="tab-pane" id="tab-4">
+          <div class="row gy-4">
+            <div class="col-lg-8 order-2 order-lg-1">
+              <h3>Designing</h3>
+              <p>
+                Designing is the basic building block of each product. Design visualises the product aesthetically as well as technically in a virtual world so that we will be able to
+verify, improvise and rectify the product in the virtual world itself to avoid losses
+and bottle necks at the time of production. In Mechland,We are having New Products Development (NPD) team with good knowledge in footwear mould of PU, PVC
+and footwear accessories mould like Footbed mould. All processes are being executed by Computer based CAD/ CAM method with top notch perfection.
+              </p>
+              {% comment %} <p class="fst-italic">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+                magna aliqua.
+              </p> {% endcomment %}
+              <ul>
+                <li><i class="bi bi-check-circle-fill"></i> Drawing/3D Data/Sample.</li>
+                <li><i class="bi bi-check-circle-fill"></i>Product Design .</li>
+                <li><i class="bi bi-check-circle-fill"></i>Mould Design .</li>
+                <li><i class="bi bi-check-circle-fill"></i>2D Drafting .</li>
+              </ul>
+            </div>
+            <div class="col-lg-4 order-1 order-lg-2 text-center">
+              <img src="{% static 'public_home/assets/img/Mould-Design.png' %}" alt="" class="img-fluid">
+            </div>
+          </div>
+        </div><!-- End Tab Content 4 -->
+
+        <div class="tab-pane active show" id="tab-1">
+          <div class="row gy-4">
+            <div class="col-lg-8 order-2 order-lg-1" data-aos="fade-up" data-aos-delay="100">
+              <h3>Mould Manufacturing</h3>
+              <p >
+                We believe that a quality part comes from a quality mould and good moulds design. Our engineering team validate CAD data & with the help of mould flow facility we provide feedback on possible quality issues or areas in need of improvement to produce exceptional quality parts.
+              </p>
+              <ul>
+                <li><i class="bi bi-check-circle-fill"></i> Mould part Manufacturing.</li>
+                {% comment %} <li><i class="bi bi-check-circle-fill"></i> Mould assembling and polishing.</li> {% endcomment %}
+              </ul>
+              <p>
+                Our team will design and manufacture the best mould based on your input and our suggestions. We have a system capable of monitoring and management of customers molds at any hour of the day, throughout our organization.
+              </p>
+            </div>
+            <div class="col-lg-4 order-1 order-lg-2 text-center" data-aos="fade-up" data-aos-delay="200">
+              <img src="{% static 'public_home/assets/img/mold.jpg' %}" alt="" class="img-fluid">
+            </div>
+          </div>
+        </div><!-- End Tab Content 1 -->
+
+        <div class="tab-pane" id="tab-2">
+          <div class="row gy-4">
+            <div class="col-lg-8 order-2 order-lg-1">
+              <h3>Moulding</h3>
+              <p>
+                Our advanced level of injection molding process relies on our deep knowledge of material behavior, trained work force and advanced injection molding equipment and controls. Our plastic injection molding process is ideal for making high-performance, complex products from materials that require the highest precision.
+              </p>
+              {% comment %} <p class="fst-italic">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+                magna aliqua.
+              </p> {% endcomment %}
+              <ul>
+                <li><i class="bi bi-check-circle-fill"></i>Mould assembling and polishing.</li>
+                <li><i class="bi bi-check-circle-fill"></i>Mould trial.</li>
+                <li><i class="bi bi-check-circle-fill"></i> Part lnspection.</li>
+                
+              </ul>
+            </div>
+            <div class="col-lg-4 order-1 order-lg-2 text-center">
+              <img src="{% static 'public_home/assets/img/mlding.jpg' %}" alt="" class="img-fluid">
+            </div>
+          </div>
+        </div><!-- End Tab Content 2 -->
+
+        <div class="tab-pane" id="tab-3">
+          <div class="row gy-4">
+            <div class="col-lg-8 order-2 order-lg-1">
+              <h3>Post Moulding</h3>
+              <p>
+                The more services a vendor can provide, the greater the value to the customer. That means better communication, higher product quality, lower cost, faster time to market and rapid response time for re-design needs or market shifts.
+              </p>
+              <ul>
+                <li><i class="bi bi-check-circle-fill"></i> Sending Sample to Customer.</li>
+                <li><i class="bi bi-check-circle-fill"></i> Feedback from Customer.</li>
+                <li><i class="bi bi-check-circle-fill"></i> Approval from customer.</li>
+                <li><i class="bi bi-check-circle-fill"></i> Mould Modification.</li>
+
+              </ul>
+              {% comment %} <p class="fst-italic">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+                magna aliqua.
+              </p> {% endcomment %}
+            </div>
+            <div class="col-lg-4 order-1 order-lg-2 text-center">
+              <img src="{% static 'public_home/assets/img/CR.jpg' %}" alt="" class="img-fluid">
+            </div>
+          </div>
+        </div><!-- End Tab Content 3 -->
+
+        <div class="tab-pane" id="tab-5">
+          <div class="row gy-4">
+            <div class="col-lg-8 order-2 order-lg-1">
+              <h3>Begin Production</h3>
+              <p>
+                The first production order will trigger the installation of the part into our Material Requirements Planning (MRP) system. We establish delivery dates based on material lead times and machine workloads. Frequently, customers send the first production order along with the mold purchase order to eliminate any lead-time issues.
+              </p>
+              {% comment %} <p class="fst-italic">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+                magna aliqua.
+              </p> {% endcomment %}
+              {% comment %} <ul>
+                <li><i class="bi bi-check-circle-fill"></i> Ullamco laboris nisi ut aliquip ex ea commodo consequat.</li>
+                <li><i class="bi bi-check-circle-fill"></i> Duis aute irure dolor in reprehenderit in voluptate velit.</li>
+                <li><i class="bi bi-check-circle-fill"></i> Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate trideta storacalaperda mastiro dolore eu fugiat nulla pariatur.</li>
+              </ul> {% endcomment %}
+            </div>
+            <div class="col-lg-4 order-1 order-lg-2 text-center">
+              <img src="{% static 'public_home/assets/img/pro.jpg' %}" alt="" class="img-fluid">
+            </div>
+          </div>
+        </div><!-- End Tab Content 5 -->
+
+        {% comment %} <div class="tab-pane" id="tab-6">
+          <div class="row gy-4">
+            <div class="col-lg-8 order-2 order-lg-1">
+              <h3>Reprehit</h3>
+              <p>
+                Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+                velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+                culpa qui officia deserunt mollit anim id est laborum
+              </p>
+              <p class="fst-italic">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+                magna aliqua.
+              </p>
+              <ul>
+                <li><i class="bi bi-check-circle-fill"></i> Ullamco laboris nisi ut aliquip ex ea commodo consequat.</li>
+                <li><i class="bi bi-check-circle-fill"></i> Duis aute irure dolor in reprehenderit in voluptate velit.</li>
+                <li><i class="bi bi-check-circle-fill"></i> Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate trideta storacalaperda mastiro dolore eu fugiat nulla pariatur.</li>
+              </ul>
+            </div>
+            <div class="col-lg-4 order-1 order-lg-2 text-center">
+              <img src="{% static 'public_home/assets/img/features-6.svg' %}" alt="" class="img-fluid">
+            </div>
+          </div>
+        </div><!-- End Tab Content 6 --> {% endcomment %}
+
+      </div>
+
+    </div>
+  </section><!-- End Features Section -->
+
+
+      
+
+     {% comment %} <div class="row gy-5">
+
+        <div class="col-xl-4 col-md-6" data-aos="zoom-in" data-aos-delay="200">
+          <div class="service-item">
+            <div class="img">
+              <img src="{% static 'public_home/assets/img/services-1.jpg' %}" class="img-fluid" alt="">
+            </div>
+            <div class="details position-relative">
+              <div class="icon">
+                <i class="bi bi-activity"></i>
+              </div>
+              <a href="#" class="stretched-link">
+                <h3>Nesciunt Mete</h3>
+              </a>
+              <p>Provident nihil minus qui consequatur non omnis maiores. Eos accusantium minus dolores iure perferendis.</p>
+            </div>
+          </div>
+        </div><!-- End Service Item -->
+
+        <div class="col-xl-4 col-md-6" data-aos="zoom-in" data-aos-delay="300">
+          <div class="service-item">
+            <div class="img">
+              <img src="{% static 'public_home/assets/img/services-2.jpg' %}" class="img-fluid" alt="">
+            </div>
+            <div class="details position-relative">
+              <div class="icon">
+                <i class="bi bi-broadcast"></i>
+              </div>
+              <a href="#" class="stretched-link">
+                <h3>Eosle Commodi</h3>
+              </a>
+              <p>Ut autem aut autem non a. Sint sint sit facilis nam iusto sint. Libero corrupti neque eum hic non ut nesciunt dolorem.</p>
+            </div>
+          </div>
+        </div><!-- End Service Item -->
+
+        <div class="col-xl-4 col-md-6" data-aos="zoom-in" data-aos-delay="400">
+          <div class="service-item">
+            <div class="img">
+              <img src="{% static 'public_home/assets/img/services-3.jpg' %}" class="img-fluid" alt="">
+            </div>
+            <div class="details position-relative">
+              <div class="icon">
+                <i class="bi bi-easel"></i>
+              </div>
+              <a href="#" class="stretched-link">
+                <h3>Ledo Markt</h3>
+              </a>
+              <p>Ut excepturi voluptatem nisi sed. Quidem fuga consequatur. Minus ea aut. Vel qui id voluptas adipisci eos earum corrupti.</p>
+            </div>
+          </div>
+        </div><!-- End Service Item -->
+
+        <div class="col-xl-4 col-md-6" data-aos="zoom-in" data-aos-delay="500">
+          <div class="service-item">
+            <div class="img">
+              <img src="{% static 'public_home/assets/img/services-4.jpg' %}" class="img-fluid" alt="">
+            </div>
+            <div class="details position-relative">
+              <div class="icon">
+                <i class="bi bi-bounding-box-circles"></i>
+              </div>
+              <a href="#" class="stretched-link">
+                <h3>Asperiores Commodit</h3>
+              </a>
+              <p>Non et temporibus minus omnis sed dolor esse consequatur. Cupiditate sed error ea fuga sit provident adipisci neque.</p>
+              <a href="#" class="stretched-link"></a>
+            </div>
+          </div>
+        </div><!-- End Service Item -->
+
+        <div class="col-xl-4 col-md-6" data-aos="zoom-in" data-aos-delay="600">
+          <div class="service-item">
+            <div class="img">
+              <img src="{% static 'public_home/assets/img/services-5.jpg' %}" class="img-fluid" alt="">
+            </div>
+            <div class="details position-relative">
+              <div class="icon">
+                <i class="bi bi-calendar4-week"></i>
+              </div>
+              <a href="#" class="stretched-link">
+                <h3>Velit Doloremque</h3>
+              </a>
+              <p>Cumque et suscipit saepe. Est maiores autem enim facilis ut aut ipsam corporis aut. Sed animi at autem alias eius labore.</p>
+              <a href="#" class="stretched-link"></a>
+            </div>
+          </div>
+        </div><!-- End Service Item -->
+
+        <div class="col-xl-4 col-md-6" data-aos="zoom-in" data-aos-delay="700">
+          <div class="service-item">
+            <div class="img">
+              <img src="{% static 'public_home/assets/img/services-6.jpg' %}" class="img-fluid" alt="">
+            </div>
+            <div class="details position-relative">
+              <div class="icon">
+                <i class="bi bi-chat-square-text"></i>
+              </div>
+              <a href="#" class="stretched-link">
+                <h3>Dolori Architecto</h3>
+              </a>
+              <p>Hic molestias ea quibusdam eos. Fugiat enim doloremque aut neque non et debitis iure. Corrupti recusandae ducimus enim.</p>
+              <a href="#" class="stretched-link"></a>
+            </div>
+          </div> {% endcomment %}
+        </div><!-- End Service Item -->
+
+      </div>
+
+    </div>
+  </section><!-- End Services Section -->
+
+</body>
+{% endblock %}
+</html>
+

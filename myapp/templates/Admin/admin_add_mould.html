@@ -1,0 +1,184 @@
+<!-- <!DOCTYPE html> -->
+{% extends "admin_master.html" %}
+{% block body %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>RoyalUI Admin</title>
+  <!-- plugins:css -->
+  <link rel="stylesheet" href="{% static 'Admin-Master/vendors/ti-icons/css/themify-icons.css' %}">
+  <link rel="stylesheet" href="{% static 'Admin-Master/vendors/base/vendor.bundle.base.css' %}">
+  <!-- endinject -->
+  <!-- plugin css for this page -->
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <link rel="stylesheet" href="{% static 'Admin-Master/css/style.css' %}">
+  <!-- endinject -->
+  <link rel="shortcut icon" href="{% static 'Admin-Master/images/favicon.png' %}" />
+</head>
+
+<body class="body1"> 
+<form  action="/admin_add_mould_post/" method="post" enctype="multipart/form-data" name="form1" class="form1">
+    {% csrf_token %}
+  <table class="table table-bordered">
+    <tr>
+      <th>Mould Name</th>
+      <td>
+      <input type="text" name="textfield" id="textfield" class="form-control" required/></td>
+    </tr>
+    <tr>
+      <th>Mould Type</th>
+      <td>
+        <select class="form-control" name="select" required id="select">
+          <option>Footwear</option>
+          <option>Plastic</option>
+          <option>Blow</option>
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <th>Size Type</th>
+      <td>
+        <select class="form-control" name="select2"  id="select2">
+          <option value="Fixed">Fixed</option>
+          <option value="Multiple">Multiple</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="size1Row">
+      <th>Size 1</th>
+      <td><input type="text" name="textfield4" id="textfield4" class="form-control" /></td>
+    </tr> 
+    <tr id="size2Row">
+      <th>Size 2</th>
+      <td><input type="text" name="textfield5" id="textfield5" class="form-control" /></td>
+    </tr>
+    <tr id="size3Row">
+      <th>Size 3</th>
+      <td><input type="text" name="textfield6" id="textfield6" class="form-control" /></td>
+    </tr>
+    <tr id="sizeRow" style="display:none;">
+      <th>Size</th>
+      <td><input type="text" name="textfield7" id="textfield7" class="form-control" /></td>
+    </tr>
+    <tr>
+        <th>Description</th>
+        <td>
+        <textarea name="textarea" id="textarea" class="form-control" cols="45" rows="3"></textarea></td>
+      </tr>
+      <tr>
+        <th>Price</th>
+        <td>
+        <input type="text" name="textfield2" id="textfield2" class="form-control" required/></td>
+      </tr>
+      <tr>
+        <th>Photo</th>
+        <td>
+        <input class="btn-icon-append" type="file" name="photo" id="photo" class="form-control" required/></td>
+      </tr>      
+    <tr>
+      <td>&nbsp;</td>
+      <td><input type="submit" name="button" id="button" value="Submit" class="btn btn-success"/></td>
+    </tr>
+  </table>
+</form>
+
+<script>
+  // Get the select element
+  var sizeTypeSelect = document.getElementById("select2");
+  
+  // Get the rows for individual sizes and the single size row
+  var size1Row = document.getElementById("size1Row");
+  var size2Row = document.getElementById("size2Row");
+  var size3Row = document.getElementById("size3Row");
+  var sizeRow = document.getElementById("sizeRow");
+  
+  // Function to toggle the visibility of size rows based on the selected size type
+  function toggleSizeRows() {
+    var sizeType = sizeTypeSelect.value;
+    if (sizeType === "Fixed") {
+      size1Row.style.display = "none";
+      size2Row.style.display = "none";
+      size3Row.style.display = "none";
+      sizeRow.style.display = "";
+    } else {
+      size1Row.style.display = "";
+      size2Row.style.display = "";
+      size3Row.style.display = "";
+      sizeRow.style.display = "none";
+    }
+  }
+  
+  // Add event listener to the size type select element
+  sizeTypeSelect.addEventListener("change", toggleSizeRows);
+  
+  // Initial call to toggle size rows based on the initial value
+  toggleSizeRows();
+</script>
+
+
+</body>
+{% endblock %}
+
+
+
+<!-- </html> -->
+
+{% comment %} <!-- <!DOCTYPE html> -->
+{% load static %}
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Title Here</title>
+<link rel="stylesheet" href="{% static 'admin_hm1\assets\css\add_mould_css.css' %}">
+
+</head>
+<body class="body1">
+  {% include "index.html" %}
+  <br>  <br>  <br><br>  
+<form action="/admin_add_mould_post/" method="post" enctype="multipart/form-data" name="form1" class="form1">
+    {% csrf_token %}
+     {% block s %}
+  <table class="table">
+    <tr>
+      <th>Mould Name</th>
+      <td>
+      <input type="text" name="textfield" id="textfield" class="form-control" required/></td>
+    </tr>
+    <tr>
+        <th>Mould Type</th>
+        <td><label for="select"></label>
+          <select name="select" required id="select">
+              <option>Footwear</option>
+              <option>Plastic</option>
+              <option>Blow</option>
+              <option>RoomTools</option>
+
+        </select></td>
+      </tr>
+    <tr>
+        <th>Description</th>
+        <td>
+        <textarea name="textarea" id="textarea" cols="45" rows="5"></textarea></td>
+      </tr>
+    <tr>
+      <th>Photo</th>
+      <td>
+      <input type="file" name="photo" id="photo" class="form-control" required/></td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td><input type="submit" name="button" id="button" value="Submit" class="btn btn-success"/></td>
+    </tr>
+  </table>
+</form>
+</body>
+{% endblock %}
+<!-- </html> -->
+ {% endcomment %}

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'Login/style.css' %}">
+    <title>Modern Login Page | AsmrProg</title>
+    <style>
+        .form-container {
+            width: 100%;
+            max-width: 380px; /* Adjust width as needed */
+            margin: 0 auto;
+        }
+        
+        .password-container {
+            display: flex;
+           
+        }
+        
+        .left-input {
+            margin-right: 10px; /* Adjust the margin as needed */
+        }
+        
+        .right-input {
+            margin-left: 10px; /* Adjust the margin as needed */
+        }
+        
+        
+        
+    </style>
+</head>
+
+<body>
+
+    <div class="container" id="container">
+        <div class="form-container sign-up">
+            <form action="/unit_reg_post/" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="social-icons">
+                    <!-- Add social icons here if needed -->
+                </div>
+                {% comment %} <h5>Create Account</h5>  {% endcomment %}
+                <input type="text" placeholder="Name" name="textfield" id="textfield">
+                <input type="text" placeholder="Company Name" name="textfield2"  id="textfield2">
+                
+                <div class="password-container">
+                    <input type="email" placeholder="Email" class="left-input" name="textfield4" id="textfield4">
+                    <input type="text" placeholder="Phone Number" class="right-input" name="textfield5" id="textfield5" style="margin-left: 10px;">
+                </div>
+                <div class="password-container">
+                    <input type="text" placeholder="Place" name="textfield8" id="textfield8" class="left-input">
+                    <input type="text" placeholder="City" class="city-input" name="textfield9" id="textfield9" style="margin-left: 10px;">
+                </div>
+                <div class="password-container">
+                    <input type="text" placeholder="State" name="textfield10" id="textfield10" class="left-input">
+                    <input type="text" placeholder="Pin" class="right-input" name="textfield11" id="textfield11"  style="margin-left: 10px;">
+                </div>
+                <input type="file" name="Photo" id="Photo" required/>
+                <div class="password-container">
+                    <input type="password" placeholder="Create Password" name="textfield13" id="textfield13" class="left-input">
+                    <input type="password" placeholder="ConfirmPassword" name="textfield14" id="textfield14" class="right-input" style="margin-left: 10px;">
+                </div>
+                <button>Sign Up</button>
+            </form>
+        </div>
+        
+        <div class="form-container sign-in">
+            <form action="/login1_post/" method="POST">
+                {% csrf_token %}
+                <h1>Sign In</h1>
+                <div class="social-icons">
+                    <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
+                    <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
+                    <!-- <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
+                    <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a> -->
+                </div>
+                <span>or use your email password</span>
+                <input type="email" placeholder="Email" name="email">
+                <input type="password" placeholder="Password" name="password">
+                <a href="#">Forget Your Password?</a>
+                <button>Sign In</button>
+            </form>
+        </div>
+        <div class="toggle-container">
+            <div class="toggle">
+                <div class="toggle-panel toggle-left">
+                    <h1>Create Account!</h1>
+                    <p>Enter your personal details to use all of site features</p>
+                    <button class="hidden" id="login">Sign In</button>
+                </div>
+                <div class="toggle-panel toggle-right">
+                    <h1>Welcome, Friend!</h1>
+                    <p>Enter your personal details to use all of site features</p>
+                    <button class="hidden" id="register" href="/unit_reg">Sign Up</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'Login/script.js' %}"></script>
+    <script></script>
+</body>
+
+</html>

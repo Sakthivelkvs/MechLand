@@ -1,0 +1,133 @@
+<!-- <!DOCTYPE html> -->
+{% extends "admin_master.html" %}
+{% block body %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>RoyalUI Admin</title>
+  <!-- plugins:css -->
+  <link rel="stylesheet" href="{% static 'Admin-Master/vendors/ti-icons/css/themify-icons.css' %}">
+  <link rel="stylesheet" href="{% static 'Admin-Master/vendors/base/vendor.bundle.base.css' %}">
+  <!-- endinject -->
+  <!-- plugin css for this page -->
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <link rel="stylesheet" href="{% static 'Admin-Master/css/style.css' %}">
+  <!-- endinject -->
+  <link rel="shortcut icon" href="{% static 'Admin-Master/images/favicon.png' %}" />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+
+</head>
+<body>
+<form action="/admin_edit_mould_post/" method="post" enctype="multipart/form-data" name="form1" id="form1">
+    {% csrf_token %}
+  <table class="table table-bordered">
+    <input type="hidden" name="id" id="" value="{{data.id}}">
+    <tr>
+      <th>Mould Name</th>
+      <td>
+      <input type="text" name="textfield" id="textfield" class="form-control" value="{{data.mname}}" /></td>
+    </tr>
+    <tr>
+        <th>Mould Type</th>
+        <td><label for="select"></label>
+          <select name="select" class="form-control" id="select">
+              <option {% if data.mtype == 'Footwear' %} selected {% endif %}>Footwear</option>
+              <option {% if data.mtype == "Plastic" %} selected {% endif %}>Plastic</option>
+              <option {% if data.mtype == "Blow" %} selected {% endif %}>Blow</option>
+              <option {% if data.mtype == "RoomTools" %} selected {% endif %}>RoomTools</option>
+
+        </select></td>
+      </tr>
+      <tr>
+        <th>Size Type</th>
+        <td>
+          <select class="form-control" name="select2"  id="select2">
+            <option {% if data.size_type == "Fixed" %} selected {% endif %}>Fixed</option>
+            <option {% if data.size_type == "Multiple" %} selected {% endif %} >Multiple</option>
+          </select>
+        </td>
+      </tr>
+      <tr id="size1Row">
+        <th>Size 1</th>
+        <td><input type="text" name="textfield4" id="textfield4" value="{{data.size1}}" class="form-control" /></td>
+      </tr> 
+      <tr id="size2Row">
+        <th>Size 2</th>
+        <td><input type="text" name="textfield5" id="textfield5" value="{{data.size2}}" class="form-control" /></td>
+      </tr>
+      <tr id="size3Row">
+        <th>Size 3</th>
+        <td><input type="text" name="textfield6" id="textfield6" value="{{data.size3}}" class="form-control" /></td>
+      </tr>
+      <tr id="sizeRow" style="display:none;">
+        <th>Size</th>
+        <td><input type="text" name="textfield7" id="textfield7" value="{{data.size}}" class="form-control" /></td>
+      </tr>
+      <tr>
+        
+    <tr>
+        <th>Description</th>
+        <td>
+        <textarea name="textarea" id="textarea" class="form-control" cols="45" rows="3">{{data.Description}}</textarea></td>
+      </tr>
+      <tr>
+        <th>Price</th>
+        <td>
+        <input type="text" name="textfield2" id="textfield2" class="form-control" value="{{data.price}}" required/></td>
+      </tr>
+    <tr>
+      <th>Photo</th>
+      <td><img src="{{ data.photo }}" height="60px"width="60px">
+      <input type="file" name="photo" class="form-control" id="photo" class="form-control" /></td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td><input type="submit" name="button" id="button" value="Save" class="btn btn-success"/></td>
+    </tr>
+  </table>
+</form>
+
+<script>
+
+  var sizeTypeSelect = document.getElementById("select2");
+  
+
+  var size1Row = document.getElementById("size1Row");
+  var size2Row = document.getElementById("size2Row");
+  var size3Row = document.getElementById("size3Row");
+  var sizeRow = document.getElementById("sizeRow");
+  
+
+  function toggleSizeRows() {
+    var sizeType = sizeTypeSelect.value;
+    if (sizeType === "Fixed") {
+      size1Row.style.display = "none";
+      size2Row.style.display = "none";
+      size3Row.style.display = "none";
+      sizeRow.style.display = "";
+    } else {
+      size1Row.style.display = "";
+      size2Row.style.display = "";
+      size3Row.style.display = "";
+      sizeRow.style.display = "none";
+    }
+  }
+  
+
+  sizeTypeSelect.addEventListener("change", toggleSizeRows);
+  
+
+  toggleSizeRows();
+</script>
+
+</body>
+{% endblock %}
+</html>

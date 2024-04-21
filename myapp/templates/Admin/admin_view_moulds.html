@@ -1,0 +1,73 @@
+<!-- <!DOCTYPE html> -->
+{% extends "admin_master.html" %}
+{% block body %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>RoyalUI Admin</title>
+  <!-- plugins:css -->
+  <link rel="stylesheet" href="{% static 'Admin-Master/vendors/ti-icons/css/themify-icons.css' %}">
+  <link rel="stylesheet" href="{% static 'Admin-Master/vendors/base/vendor.bundle.base.css' %}">
+  <!-- endinject -->
+  <!-- plugin css for this page -->
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <link rel="stylesheet" href="{% static 'Admin-Master/css/style.css' %}">
+  <!-- endinject -->
+  <link rel="shortcut icon" href="{% static 'Admin-Master/images/favicon.png' %}" />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+
+
+<body>
+  <div class="container">
+    <h3>Moulds</h3>
+    <a href="/admin_add_mould" class="add-mould-button">Add</a>
+  </div>
+  
+  <form id="form1" name="form1" method="post" action="">
+    {% csrf_token %}
+    <table class="table table-hover ">
+      <tr>
+        <th>SL.NO</th>
+        <th>Mould Name</th>
+        <th>Mould Type</th>
+        <th>Size Type</th>
+        <th>Size</th>
+        <th>Description</th>
+        <th>Price</th>
+        {% comment %} <th>Stock</th> {% endcomment %}
+        <th>Photo</th>
+        <th>Actions</th>
+
+      </tr>
+      {% for i in data %}
+      <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ i.mname }}</td>
+        <td>{{ i.mtype }}</td>
+        <td>{{ i.size_type }}</td>
+        {% if i.size_type == "Multiple" %}
+        <td>{{ i.size1 }},{{ i.size2 }},{{ i.size3 }}</td>
+      {% else %}
+        <td>{{ i.size }}</td>
+      {% endif %}
+        <td>{{ i.Description }}</td>  
+        <td>{{ i.price }}</td>
+        {% comment %} <td>{{ i.stock }}</td> {% endcomment %}
+        <td><img src="{{ i.photo }}" height="100px" width="100px" ></td>
+        <td><a href="/admin_edit_mould/{{i.id}}" class="edit-link"></a>
+        <a href="/admin_delete_mould/{{i.id}}" class="delete-link"></a></td>
+
+      </tr>
+      {% endfor %}
+    </table> 
+  </form>
+</body>
+{% endblock %}

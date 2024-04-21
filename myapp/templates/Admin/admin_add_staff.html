@@ -1,0 +1,57 @@
+{% extends "admin_master.html" %}
+{% block body %}
+{% load static %}
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>RoyalUI Admin</title>
+  <!-- plugins:css -->
+  <link rel="stylesheet" href="{% static 'Admin-Master/vendors/ti-icons/css/themify-icons.css' %}">
+  <link rel="stylesheet" href="{% static 'Admin-Master/vendors/base/vendor.bundle.base.css' %}">
+  <!-- endinject -->
+  <!-- plugin css for this page -->
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <link rel="stylesheet" href="{% static 'Admin-Master/css/style.css' %}">
+  <!-- endinject -->
+  <link rel="shortcut icon" href="{% static 'Admin-Master/images/favicon.png' %}" />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+
+<body>
+<form action="/admin_add_staff_post/{{s16}}" method="post" enctype="multipart/form-data" name="form1" id="form1">
+    {% csrf_token %}
+  <table class="table table-bordered">
+    <tr>
+      <th>Joining date</th>
+      <td>
+      <input type="date" name="textfield" id="textfield" class="form-control" required/></td>
+    </tr>
+    <tr>
+      <th>Section</th>
+      <td><label for="select"></label>
+        <select name="select" class="form-control" id="select">
+           <option>Production</option>
+           <option>Packing</option>
+           <option>Sales</option>
+      </select></td>
+    </tr>
+     
+    <tr>
+      <th>Remark</th>
+      <td>
+      <input type="text" name="textfield2" min="1800-01-01" max="2010-12-31"  placeholder="" id="textfield2" class="form-control" required/></td>
+    </tr>
+    
+    <tr>
+      <td>&nbsp;</td>
+      <td><input type="submit" name="button" id="button" value="Submit" class="btn btn-success"/></td>
+    </tr>
+  </table>
+</form>
+</body>
+{%endblock%}

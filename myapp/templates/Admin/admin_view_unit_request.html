@@ -1,0 +1,176 @@
+<!-- <!DOCTYPE html> -->
+{% extends "admin_master.html" %}
+{% block body %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>RoyalUI Admin</title>
+  <!-- plugins:css -->
+  <link rel="stylesheet" href="{% static 'Admin-Master/vendors/ti-icons/css/themify-icons.css' %}">
+  <link rel="stylesheet" href="{% static 'Admin-Master/vendors/base/vendor.bundle.base.css' %}">
+  <!-- endinject -->
+  <!-- plugin css for this page -->
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <link rel="stylesheet" href="{% static 'Admin-Master/css/style.css' %}">
+  <!-- endinject -->
+  <link rel="shortcut icon" href="{% static 'Admin-Master/images/favicon.png' %}" />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+
+</head>
+
+<body>
+<form id="form1" name="form1" method="post" action="/admin_view_unit_request_post/">
+    {% csrf_token %}
+  <table class="table table-bordered table-hover">
+    <tr>
+      <td>
+      <input type="text" name="textfield" id="textfield" placeholder="Search by Name" class="form-control " required/></td>
+      <td width="50px">
+        <button type="submit" name="button" id="button" value="search" class="btn btn-success btn-sm fas fa-search">
+        </button>
+      </td> 
+    </tr>
+  </table>
+  <table class="table table-hover">
+    <tr>
+      <th>SL.NO</th>
+      <th>Name</th>
+      <th>Company Name</th>
+      <th> Email </th>
+      <th>Phone number</th>
+      <th> Address </th>
+      <th> Photo </th>
+      <th> Status </th>
+    </tr>
+      {% for i in data %}
+    <tr>
+      <td>{{ forloop.counter }}</td>
+      <td>{{ i.Name }}</td>
+      <td>{{ i.Company_Name }}</td>
+      <td>&nbsp;{{ i.Email }}</td>
+      <td>&nbsp;{{ i.Phone_Number }}</td>
+      <td>{{ i.Place }}<br>{{ i.City }}<br>{{i.State}}<br>{{ i.Pincode }}<br></td>
+      <td><img src="{{ i.Photo }}" height="100px" width="100px" ></td>
+      <td><label class="badge badge-danger">{{ i.status }}</label></td>
+      <td><a href="/admin_approve_unit_request/{{i.id}}" class="fas fa-check"></a></td>
+      <td><a href="/admin_reject_unit_request/{{ i.id }}" class="fas fa-times"></a></td>
+    </tr>
+      {% endfor %}
+  </table> 
+  <br>
+  <div class="d-sm-flex justify-content-center justify-content-sm-between">
+    <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Verified by Admin.... <a href="/admin_view_approve_unit_request">ViewApproved</a> Requests.</span>
+    
+  </div>
+</form>
+</body>
+{%endblock%}
+
+
+{% comment %} 
+{% load static %}
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Title Here</title>
+<link rel="stylesheet" href="{% static 'admin_hm1\assets\css\add_mould_css.css' %}">
+<style>
+  /* Add this CSS to your 'add_mould_css.css' file */
+
+/* Responsive Table */
+.table {
+  width: 100%;
+  margin-bottom: 1rem;
+  color: #212529;
+}
+
+/* Hover effect for rows */
+.table tr:hover {
+  background-color: #f5f5f5;
+}
+
+/* Table Head Styles */
+.table th {
+  background-color: #06c5d9;
+  color: #fff;
+  text-align: center;
+  vertical-align: middle;
+  padding-left: 3rem;
+}
+
+/* Table Body Styles */
+.table td {
+  text-align: center;
+  vertical-align: middle;
+}
+
+/* Input Styles */
+.form-control {
+  width: 100%;
+}
+
+/* Button Styles */
+.btn {
+  cursor: pointer;
+}
+
+/* Responsive Image Styles */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Add more styles as needed */
+</style>
+</head>
+
+<body>
+<form id="form1" name="form1" method="post" action="">
+    {% csrf_token %}
+    {% include 'index.html' %}
+    <br> <br> <br> <br>
+  <table class="table table-bordered">
+    <tr>
+      <td>
+      <input type="text" name="textfield" id="textfield" placeholder="Search by Name" class="form-control " required/></td>
+      <td width="80px"><input type="submit" name="button" id="button" value="Search" class="btn btn-success"/></td>
+    </tr>
+  </table>
+  <table class="table table-bordered">
+    <tr>
+      <th>SL.NO</th>
+      <th>Name</th>
+      <th>Company Name</th>
+      <th> Email </th>
+      <th>Phone number</th>
+      <th> Address </th>
+      <th> Photo </th>
+      <th> Status </th>
+    </tr>
+      {% for i in data %}
+    <tr>
+      <td>{{ forloop.counter }}</td>
+      <td>{{ i.Name }}</td>
+      <td>{{ i.Company_Name }}</td>
+      <td>&nbsp;{{ i.Email }}</td>
+      <td>&nbsp;{{ i.Phone_Number }}</td>
+      <td>{{ i.Place }}<br>{{ i.City }}<br>{{i.State}}<br>{{ i.Pincode }}<br></td>
+      <td><img src="{{ i.Photo }}" height="100px" width="100px" ></td>
+      <td>&nbsp;{{ i.status }}</td>
+      <td><a href="/admin_approve_unit_request/{{i.id}}" class="btn btn-success">Approve</a></td>
+      <td><a href="/admin_reject_unit_request/{{ i.id }}" class="btn btn-danger">Reject</a></td>
+    </tr>
+      {% endfor %}
+  </table> 
+</form>
+</body>
+ {% endcomment %}

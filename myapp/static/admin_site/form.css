@@ -1,0 +1,168 @@
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f5f5f5;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  width: 50%;
+  margin: auto;
+  background-color: #fff;
+  padding: 20px;
+  margin-top: 50px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.table {/* Reset some default styles */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  /* Body styles */
+  body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to right, #fff, #f2f2f2); /* Gray to white gradient background */
+  }
+  
+  /* Form container styles */
+  .form1 {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: transparent; /* Make the form transparent */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center; /* Center the form content */
+  }
+  
+  /* Table styles */
+  .table {
+    width: 100%;
+    margin-bottom: 20px;
+    border-collapse: collapse;
+    background-color: transparent; /* Make the entire table transparent */
+  }
+  
+  th, td {
+    padding: 15px;
+    text-align: center;
+    border: none; /* Remove the border */
+    background: transparent; /* Make th and td transparent */
+  }
+  
+  th {
+    color: #000; /* Change the text color of the table header */
+    font-weight: bold;
+  }
+  
+  /* Input and select styles */
+  .input-container {
+    margin-bottom: 15px;
+  }
+  
+  input[type="text"],
+  select,
+  textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-top: 6px;
+    margin-bottom: 16px;
+    resize: vertical;
+    background: rgba(255, 255, 255, 0.8); 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    /* White-ish background for input fields */
+  }
+  
+  /* Button styles */
+  input[type="submit"] {
+    background-color: #3498db; /* Change the button color */
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Add a smooth transition for the background color */
+  }
+  
+  /* Button hover effect */
+  input[type="submit"]:hover {
+    background-color: #2980b9; /* Change the hover color */
+  }
+  
+  .btn {
+    display: inline-block;
+    padding: 10px 15px;
+    text-decoration: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Add a smooth transition for the background color */
+    background-color: #3498db; /* Default button color */
+    color: #fff; /* Text color */
+  }
+  
+  .btn-success {
+    background-color: #4caf50; /* Change the success button color */
+  } 
+  
+  .btn-danger {
+    background-color: #e74c3c; /* Change the danger button color */
+  }
+  
+  
+  .btn:hover {
+    background-color: #2980b9; /* Change the hover color for all buttons */
+  } 
+  width: 100%;
+}
+
+th, td {
+  padding: 10px;
+  text-align: left;
+}
+
+.form-control {
+  width: 100%;
+  padding: 8px;
+  margin: 5px 0;
+  box-sizing: border-box;
+}
+
+.btn-success {
+  background-color: #28a745;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+
+/* Style for the file input label */
+.file-label {
+  display: inline-block;
+  padding: 10px 15px;
+  background-color: #3498db;
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Change label color on hover */
+.file-label:hover {
+  background-color: #2980b9;
+}
+
+/* Additional styling for the file input if needed */
+.form-control {
+  margin: 5px 0;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+

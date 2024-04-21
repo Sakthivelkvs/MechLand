@@ -1,0 +1,57 @@
+
+{% extends "Unit/inner-page.html" %}
+{% block body %}
+{% load static %}
+<html lang="en">
+<body>
+  <div class="breadcrumbs">
+    <div class="container">
+
+      <div class="d-flex justify-content-between align-items-center">
+        <h2>Delivary</h2>
+        <ol>
+          <li><a href="/unit_login">Home</a></li>
+          <li>Delivary</li>
+        </ol>
+      </div>
+
+    </div>
+  </div><!-- End Breadcrumbs -->
+
+<!-- ======= Blog Section ======= -->
+<section class="inner-page">
+<div class="container" data-aos="fade-up">
+
+  <div class="section-header">
+    <h2>Delivary Status</h2>
+    {% comment %} <p>Order Your Moulds</p> {% endcomment %}
+  </div>
+<form id="form1" name="form1" method="post" enctype="multipart/form-data" action="">
+    {% csrf_token %}
+  <!-- <table class="table table-bordered">
+    <tr>
+      <td>
+      <input type="text" name="textfield" id="textfield" placeholder="Search by Name" class="form-control " required/></td>
+      <td width="80px"><input type="submit" name="button" id="button" value="Search" class="btn btn-success"/></td>
+    </tr>
+  </table> -->
+  <table class="table table-bordered">
+    <tr>
+      <th>Delivary Date</th>
+      <th>Estimated Delivary Time</th>
+      <th> Remarks </th>
+    </tr>
+      
+    <tr>
+      <td>{{ data.delivary_date }}</td>
+      <td>{{ data.delivary_time}}</td>
+      <td>{{ data.remarks }}</td>
+    </tr>
+      
+  </table> 
+</form>
+</div>
+</section>
+</body>
+{%endblock%}
+

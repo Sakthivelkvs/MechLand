@@ -1,0 +1,61 @@
+<!-- <!DOCTYPE html> -->
+{% extends "admin_master.html" %}
+{% block body %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>RoyalUI Admin</title>
+  <!-- plugins:css -->
+  <link rel="stylesheet" href="{% static 'Admin-Master/vendors/ti-icons/css/themify-icons.css' %}">
+  <link rel="stylesheet" href="{% static 'Admin-Master/vendors/base/vendor.bundle.base.css' %}">
+  <!-- endinject -->
+  <!-- plugin css for this page -->
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <link rel="stylesheet" href="{% static 'Admin-Master/css/style.css' %}">
+  <!-- endinject -->
+  <link rel="shortcut icon" href="{% static 'Admin-Master/images/favicon.png' %}" />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+<body>
+  {% comment %} <div class="container">
+    <h3>Shift</h3> <!-- Adding the topic name -->
+
+    <!-- Button for "Add Mould" -->
+    <a href="/admin_add_shift" class="add-mould-button">Add</a>
+  </div> {% endcomment %}
+<form id="form1" name="form1" method="post" action="">
+    {% csrf_token %}
+  <table class="table table-hover">
+    <tr>
+        <th>Staff Name</th>
+        <th>Advance Amount</th>
+        <th>Month</th>
+        <th>Date</th>
+        <th>Purpose</th>
+    </tr>
+    {%for data in data2 %}
+      <td>{{ data.staff_id.Name }}</td>
+      <td style="color: red; font-weight: bold;">{{ data.amount }}</td>
+      <td>{{ data.month }}</td>
+      <td >{{ data.date }}</td>
+      <td>{{ data.purpose }}</td>
+    {% endfor %}
+  
+  
+
+
+      {% comment %} <td><a href="/admin_edit_shift/{{i.id}}" class="edit-link"></a></td>
+      <td><a href="//{{i.id}}" class="delete-link"></a></td> {% endcomment %}
+    </tr>
+  </table> 
+</form>
+</body>
+</html>
+{%endblock%}

@@ -1,0 +1,115 @@
+{% extends "Unit/inner-page.html" %}
+{% block body %}
+{% load static %}
+<html lang="en">
+<head>
+
+</head>
+<body>
+  <div class="breadcrumbs">
+    <div class="container">
+      <div class="d-flex justify-content-between align-items-center">
+        <h2>Mould</h2>
+        <ol>
+          <li><a href="/unit_login">Home</a></li>
+          <li>View Moulds</li>
+        </ol>
+      </div>
+    </div>
+  </div><!-- End Breadcrumbs -->
+
+  <!-- ======= Blog Section ======= -->
+  <section class="inner-page">
+    <div class="container" data-aos="fade-up">
+
+      <section id="contact" class="contact">
+        <div class="container">
+          <div class="row gy-5 gx-lg-5">
+            <div class="col-lg-4">
+              <div class="info">
+                <!-- <h3>Get in touch</h3> -->
+                <!-- <p>Et id eius voluptates atque nihil voluptatem enim in tempore minima sit ad mollitia commodi minus.</p> -->
+                <div class="info-item d-flex">
+                  <div class="photo-circle">
+                    <img src="{{data2.photo}}" height="auto" width="300px" alt="Your Photo">
+                  </div>
+                </div><!-- End Info Item --> 
+              </div>  
+            </div>
+            <div class="col-lg-8">
+              <form action="//" method="post" enctype="multipart/form-data" id="form1" name="f1">
+                {% csrf_token %}
+                <table class="table table-bordered">
+                  {% comment %} <input type="hidden" name="id" id="" value="{{data.id}}"> {% endcomment %}
+                  <tr>
+                    <th><label for="name">Mould Name:</label></th>
+                    <td>{{ data2.mname }}</td>
+                    {% comment %} <td><input type="text" name="name" class="form-control" id="name" placeholder="Your Name" value="{{ data2.mname }}" readonly></td> {% endcomment %}
+                  </tr>
+                  <tr>
+                    <th><label for="name">Mould Type:</label></th>
+                     <td>{{ data2.mtype }}</td>
+                    {% comment %} <td><input type="text" name="name" class="form-control" id="name" placeholder="Your Name" value="{{ data2.mtype }}" readonly></td> {% endcomment %}
+                  </tr>
+                  <tr>
+                    <th><label for="yourname">Size:</label></th>
+                     <td>{{ data2.size_type }}</td>
+                  </tr>
+                  <tr>
+                    <th><label for="yourname">Description:</label></th>
+                     <td>{{ data2.Description }}</td>
+                  </tr>
+                  
+                  {% comment %} <tr>
+                    <th>Quantity</th>
+                    <td><input type="number" name="textfield2" id="textfield2" class="form-control" onChange="valid();" required/></td>
+                  </tr>  
+                  <input type="hidden" name="textfield5" id="textfield5" value="{{data.price}}"/>
+                  <tr>
+                    <th>Amount</th>
+                    <td><input type="text" name="textfield1" id="textfield1" class="form-control" required/></td>
+                  </tr> 
+                  <tr>
+                    <th>Payment Method</th>
+                    <td>
+                      <select name="payment_method" class="form-control" >
+                        <option value="COD">Cash on Delivery (COD)</option>
+                        <option value="Online">Online Payment</option>
+                      </select>
+                    </td>
+                  </tr> {% endcomment %}
+                 
+                  {% comment %} <tr>
+                    
+
+        
+              <td>&nbsp;</td>
+              <td><input type="submit" name="button" id="button" value="Place Order" class="btn btn-info"/></td>
+       
+              <td>&nbsp;</td>
+              <td><input type="submit" name="button" id="button" value="Make Payment" class="btn btn-success"/></td>
+      
+
+
+  
+                  </tr> {% endcomment %}
+                </table>
+                <center><a  href="/unit_order_moulds/{{data2.id}}" class="btn btn-info">
+                    <i class="bi bi-cart-fill"></i> Order
+                </a>
+                <!-- <a href="/unit_mould_review/{{data2.id}}" class="btn btn-success">
+                    Review <i class="bi bi-star-fill"></i>
+                </a></center> -->
+              </form>
+            </div><!-- End Contact Form -->
+          </div>
+        </div>
+      </section><!-- End Contact Section -->
+    </div>
+  </section><!-- End Inner Page Section -->
+</body>
+{% endblock %}
+
+
+
+

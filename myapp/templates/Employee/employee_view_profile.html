@@ -1,0 +1,197 @@
+{% extends "Employee/emp_inner-page.html" %}
+{% block body %}
+{% load static %}
+<html lang="en">
+    <style>
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center horizontally */
+          }
+          
+          .photo-circle {
+            width: 175px; /* Adjust size as needed */
+            height: 175px; /* Adjust size as needed */
+            border-radius: 50%;
+            overflow: hidden;
+            margin-bottom: 10px; /* Adjust margin as needed */
+          }
+          
+          .photo-circle img {
+            width: 100%;
+            height: auto;
+          }
+          
+          .email-centered, .change-password {
+            text-align: center;
+          }
+          
+          .change-password {
+            margin-top: 10px; /* Adjust margin as needed */
+          }
+          
+          .change-password-link {
+            color: #007bff; /* Adjust color as needed */
+            text-decoration: none;
+          }
+          
+          .change-password-link:hover {
+            text-decoration: underline;
+          }
+             
+    </style>
+<body>
+  <div class="breadcrumbs">
+    <div class="container">
+
+      <div class="d-flex justify-content-between align-items-center">
+        <h2>Profile</h2>
+        <ol>
+          <li><a href="/staff_login">Home</a></li>
+          <li>View Profile</li>
+        </ol>
+    </div>
+    </div>
+  </div><!-- End Breadcrumbs -->
+
+<!-- ======= Blog Section ======= -->
+<section class="inner-page">
+<div class="container" data-aos="fade-up">
+
+  {% comment %} <div class="section-header">
+    <h2>COMPLAINT</h2>
+    <p>Order Your Moulds</p> 
+  </div> {% endcomment %}
+  <section id="contact" class="contact">
+    <div class="container">
+
+      <div class="row gy-5 gx-lg-5">
+
+        <div class="col-lg-4">
+
+            <div class="info">
+                {% comment %} <h3>Get in touch</h3>
+                {% comment %} <p>Et id eius voluptates atque nihil voluptatem enim in tempore minima sit ad mollitia commodi minus.</p> {% endcomment %}
+              
+                <div class="info-item d-flex">
+                    <div class="photo-circle">
+                      <img src="{{i.Photo}}" alt="Your Photo">
+                    </div>
+                    <div>
+                      <div class="email-centered">
+                        {{ i.Email }}
+                      </div>
+                      <div class="change-password">
+                        <a href="/employee_change_password" class="change-password-link">Change Password</a>
+                      </div>
+                    </div>
+                  </div><!-- End Info Item --> 
+              </div>
+        </div>
+
+        <div class="col-lg-8">
+            <form action="forms/contact.php" method="post" role="form" class="php-email-form">
+              {% csrf_token %}
+              <table class="table table-bordered">
+                <tr>
+                    <th><label for="yourname">Name:</label></th>
+                    <td><input type="text" name="name" class="form-control" id="name" placeholder="Your Name" value="{{ i.Name }}" readonly></td>
+                  </tr>
+                <tr>
+                  <th><label for="gender">Gender:</label></th>
+                  <td><input type="gender" class="form-control" name="gender" id="gender" placeholder="Your gender" value="{{ i.Gender }}" readonly></td>
+                </tr>
+                <tr>
+                    <th><label for="dob">DOB:</label></th>
+                    <td><input type="dob" class="form-control" name="dob" id="dob" placeholder="Your dob" value="{{ i.Date_of_birth }}" readonly></td>
+                  </tr>
+                <tr>
+                  <th><label for="subject">Phone Number:</label></th>
+                  <td><input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" value="{{ i.Phone_Number }}" readonly></td>
+                </tr>
+                <tr>
+                  <th><label for="message">Address:</label></th>
+                  <td><input type="text" class="form-control" name="message" id="message" placeholder="Message" value="{{ i.Address }}" readonly></td>
+                </tr>
+              </table>
+              
+              <div class="text-center"><a href="/employee_edit_profile/{{i.id}}" class="btn btn-info">Edit</a></div>
+            </form>
+          </div><!-- End Contact Form -->
+          
+      </div>
+
+    </div>
+  </section><!-- End Contact Section -->
+</div>
+</section>
+</body>
+{% endblock %}
+
+
+{% comment %} {% extends "Employee/emp_inner-page.html" %}
+{% block body %}
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Title Here</title>
+    <link rel="stylesheet" href="{% static 'admin_hm1\assets\css\profile.css' %}">
+</head>
+<body>
+    {% csrf_token %}
+<div class="a-box">
+    <div class="info-container">
+        <img src="{{i.Photo}}" alt="User Photo">
+        <div class="text-content">
+            <h3>{{ i.Name }}</h3>
+            <table>
+                <tr>
+                    <th>Gender</th>
+                    <td>{{ i.Gender }}</td>
+                </tr>
+                <tr>
+                    <th>DOB</th>
+                    <td>{{ i.Date_of_birth }}</td>
+                </tr>
+                <tr>
+                    <th>Email</th>
+                    <td>{{ i.Email }}</td>
+                </tr>
+                <tr>
+                    <th>Phone</th>
+                    <td>{{ i.Phone_Number }}</td>
+                </tr>
+                <tr>
+                    <th>Address</th>
+                    <td>{{ i.Address }}</td>
+                </tr>
+            </table>
+            <a href="/admin_approve_business_request/{{i.id}}" class="btn">Edit</a>
+        </div>
+    </div>
+</div>
+</body>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ {% endcomment %}
