@@ -575,6 +575,33 @@
           <div class="row">
             <div class="col-md-12 grid-margin stretch-card">
               <div class="card position-relative">
+
+ {% for message in messages %}
+    <div id="liveAlertPlaceholder"></div>
+    <button type="button" class="btn {% if message.tags == 'error' %}btn-danger{% else %}btn-success{% endif %} transparent-bg" id="liveAlertBtn">{{ message }}</button>
+{% endfor %}
+
+<style>
+    .transparent-bg {
+        background-color: transparent;
+    }
+</style>
+
+
+
+<script>
+    // Select all message elements
+    const messages = document.querySelectorAll('#liveAlertBtn');
+
+    // Set a timeout to remove each message after 3 seconds
+    messages.forEach((message, index) => {
+        setTimeout(() => {
+            message.remove();
+        }, (index + 1) * 2000); // Delay each message removal by 3 seconds
+    });
+</script>
+
+
                 <div class="card-body">
                   {%block body%}
 			{%endblock%}
@@ -692,6 +719,13 @@
   <!-- Custom js for this page-->
   <script src="{% static 'Admin-Master/js/dashboard.js' %}"></script>
   <!-- End custom js for this page-->
+
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+  <script>
+   
+  </script>
+
 </body>
 
 </html>

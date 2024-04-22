@@ -17,6 +17,16 @@
   <link rel="stylesheet" href="{% static 'Admin-Master/css/style.css' %}">
   <!-- endinject -->
   <link rel="shortcut icon" href="{% static 'Admin-Master/images/favicon.png' %}" />
+
+ <!-- Alertify Js -->
+  <!-- CSS -->
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
+  <!-- Default theme -->
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"/>
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css"/>
+<!-- Bootstrap theme -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css"/>
+
 </head>
 <body>
   <div class="container-scroller">
@@ -682,6 +692,25 @@
   <!-- endinject -->
   <!-- Custom js for this page-->
   <script src="{% static 'Admin-Master/js/dashboard.js' %}"></script>
+
+  <!-- Alertyfy Js-->
+  <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+  
+  <script>
+     alertify.set('notifier','position', 'top-center');
+
+    {% for msg in messages %}
+    {% if 'error' in msg.tags %}
+        alertify.error('{{ msg }}');
+    {% else %}
+        alertify.success('{{ msg }}');
+    {% endif %}
+{% endfor %}
+
+
+</script>
+
+
   <!-- End custom js for this page-->
 </body>
 

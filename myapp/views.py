@@ -13,6 +13,8 @@ from django.db.models import Sum
 
 from django.core.mail import send_mail
 
+from django.contrib import messages
+
 # Create your views here.
 
 def unitcard(request):
@@ -68,34 +70,47 @@ def login1_post(request):
                 flag=1
                 if type=="Admin":
                     request.session['adm']=uname
-                    return HttpResponse('''<script>alert('Login Succesfull');window.location="/admin3/"</script>''')
+                    messages.success(request, 'Your Are Logged In!')
+                    return redirect('/admin3/')
+                    # return HttpResponse('''<script>alert('Login Succesfull');window.location="/admin3/"</script>''')
 
                 # elif type=="User":
                 #     request.session['use']=uname
                 #     return redirect("/user_home")
                 elif type=="Unit":
                     request.session['unit']=uname
-                    return HttpResponse('''<script>alert('Login Succesfull');window.location="/unit_login/"</script>''')
+                    messages.success(request, 'Your Are Logged In!')
+                    return redirect('/unit_login/')
+                    # return HttpResponse('''<script>alert('Login Succesfull');window.location="/unit_login/"</script>''')
                 
                 elif type=="staff":
                     request.session['staff']=uname
-                    return HttpResponse('''<script>alert('Login Succesfull');window.location="/staff_login/"</script>''')
+                    messages.success(request, 'Your Are Logged In!')
+                    return redirect('/staff_login/')
+                    # return HttpResponse('''<script>alert('Login Succesfull');window.location="/staff_login/"</script>''')
                 
                 elif type=="manager":
                     request.session['mngr']=uname
-                    return HttpResponse('''<script>alert('Login Succesfull');window.location="/manager_login/"</script>''')
+                    messages.success(request, 'Your Are Logged In!')
+                    return redirect('/manager_login/')
+                    # return HttpResponse('''<script>alert('Login Succesfull');window.location="/manager_login/"</script>''')
 
                 elif type=="Supervisor":
                     request.session['sprvr']=uname
-                    return HttpResponse('''<script>alert('Login Succesfull');window.location="/supervisor_login/"</script>''')
+                    messages.success(request, 'Your Are Logged In!')
+                    return redirect('/supervisor_login/')
+                    # return HttpResponse('''<script>alert('Login Succesfull');window.location="/supervisor_login/"</script>''')
 
                 else:
                     return HttpResponse("Invalid Category")
         if flag==0:
-            return HttpResponse('''<script>alert('InvalidUser');window.location="/login/"</script>''')
+            messages.error(request, 'Invalid User!')
+            return redirect('/login/')
+            # return HttpResponse('''<script>alert('InvalidUser');window.location="/login/"</script>''')
         
 def logout(request):
     request.session.clear()
+    messages.error(request, 'You Are Logged Out!')
     return redirect('/public_home2/')
 
 def admin_logout(request):
@@ -163,7 +178,9 @@ def admin_add_mould_post(request):
     aj.size=size
     aj.photo = uploaded_file_url
     aj.save()
-    return HttpResponse('''<script>alert('Success');window.location="/admin_view_mould/"</script>''')
+    messages.success(request, 'Added successfully!')
+    return redirect('/admin_view_mould/')
+    # return HttpResponse('''<script>alert('Success');window.location="/admin_view_mould/"</script>''')
 
 def admin_view_mould(request):
     values=add_mould.objects.all()
@@ -205,6 +222,7 @@ def admin_edit_mould_post(request):
         aj.stock="0"
         aj.photo = uploaded_file_url
         aj.save()
+        messages.success(request, 'Edited successfully!')
         return redirect('/admin_view_mould/')
 
     else:
@@ -220,11 +238,13 @@ def admin_edit_mould_post(request):
         aj.price=v4
         aj.stock="0"
         aj.save()
+        messages.success(request, 'Edited successfully!')
         return redirect('/admin_view_mould/')
 
 def admin_delete_mould(request,s2):
     values=add_mould.objects.get(id=s2)
     values.delete()
+    messages.error(request, 'Deleted successfully!')
     return redirect('/admin_view_mould/')
 
 
@@ -256,7 +276,9 @@ def admin_add_predict_mould_post(request):
     aobj.photo2=uploaded_file_url2
     aobj.photo3=uploaded_file_url3
     aobj.save()
-    return HttpResponse('''<script>alert('Success');window.location="/admin_view_predict_mould/"</script>''')
+    messages.success(request, 'Added successfully!')
+    return render('/admin_view_predict_mould/')
+    # return HttpResponse('''<script>alert('Success');window.location="/admin_view_predict_mould/"</script>''')
     # return HttpResponse("Success")
     
 def admin_view_predict_mould(request):
@@ -280,6 +302,7 @@ def admin_edit_predict_mould_post(request):
         aj.mldname = v1
         aj.photo1 = uploaded_file_url
         aj.save()
+        messages.success(request, 'Edited successfully!')
         return redirect('/admin_view_predict_mould/')
 
     elif 'photo2' in request.FILES:
@@ -292,6 +315,7 @@ def admin_edit_predict_mould_post(request):
         aj.mldname = v1
         aj.photo2 = uploaded_file_url2
         aj.save()
+        messages.success(request, 'Edited successfully!')
         return redirect('/admin_view_predict_mould/')
 
     elif 'photo3' in request.FILES:
@@ -304,17 +328,20 @@ def admin_edit_predict_mould_post(request):
         aj.mldname = v1
         aj.photo3 = uploaded_file_url3
         aj.save()
+        messages.success(request, 'Edited successfully!')
         return redirect('/admin_view_predict_mould/')
 
     else:
         aj = predict_mould.objects.get(id=id)
         aj.mldname = v1
         aj.save()
+        messages.success(request, 'Edited successfully!')
         return redirect('/admin_view_predict_mould/')
     
 def delete_predict_mouold(request,s4):
     values=predict_mould.objects.get(id=s4)
     values.delete()
+    messages.error(request, 'Deleted successfully!')
     return redirect('/admin_view_predict_mould/')
 
 def admin_view_public_ratting(request):
@@ -376,7 +403,9 @@ def admin_add_job_post(request):
     aj.date=d
     aj.status="ok"
     aj.save()
-    return HttpResponse('''<script>alert('Success');window.location="/admin_view_job/"</script>''')
+    messages.success(request, 'Added successfully!')
+    return redirect('/admin_view_job/')
+    # return HttpResponse('''<script>alert('Success');window.location="/admin_view_job/"</script>''')
 
 
 def admin_view_job(request):
@@ -410,32 +439,36 @@ def admin_edit_job_post(request):
     aj.experiences=e
     aj.date=d
     aj.save()
+    messages.success(request, 'Edited successfully!')
     return redirect('/admin_view_job/')
 
 def admin_delete_job(request,s6):
     values=job_master.objects.get(id=s6)
     values.delete()
+    messages.error(request, 'Deleted successfully!')
     return redirect('/admin_view_job/')
 
 
 
 ####### Staff Management    ########
 
-def admin_allot_interview(request,s30):
-    data=job_apply.objects.get(id=s30)
-    return render(request,"Admin/admin_allot_interview.html",{'data':data})
+# def admin_allot_interview(request,s30):
+#     data=job_apply.objects.get(id=s30)
+#     return render(request,"Admin/admin_allot_interview.html",{'data':data})
 
-def admin_allot_interview_post(request):
-    id=request.POST.get('id')
-    d=request.POST.get('textfield')
-    t=request.POST.get('textfield4')
-    v=request.POST.get('textarea')
-    bobj=job_apply.objects.get(id=id)
-    bobj.int_date=d
-    bobj.int_time=t
-    bobj.int_status='Scheduled'
-    bobj.save()
-    send_mail('Thanks for Responding...','Mr'+bobj.Name+'Please Visit Our Company on''Date:'+d+'and''Time:'+t+' ''Venue:'+v, 'from@example.co',[bobj.Email,])
+# def admin_allot_interview_post(request):
+#     id=request.POST.get('id')
+#     d=request.POST.get('textfield')
+#     t=request.POST.get('textfield4')
+#     v=request.POST.get('textarea')
+#     bobj=job_apply.objects.get(id=id)
+#     bobj.int_date=d
+#     bobj.int_time=t
+#     bobj.int_status='Scheduled'
+#     bobj.save()
+#     send_mail('Thanks for Responding...','Mr'+bobj.Name+'Please Visit Our Company on''Date:'+d+'and''Time:'+t+' ''Venue:'+v, 'from@example.co',[bobj.Email,])
+#     messages.success(request, 'Interview Alloted!')
+#     return redirect('/admin_view_carrier_application/')
 
 
     
@@ -482,8 +515,10 @@ def  admin_add_staff_post(request,id):
             data2.username=data.Email
             data2.password=data.Phone_Number
             data2.category='staff'
-            data2.save()        
-    return HttpResponse('''<script>alert('Success');window.location="/admin_view_carrier_application/"</script>''')
+            data2.save()  
+    messages.success(request, 'Staff is Alloted!')
+    return redirect('/admin_view_carrier_application/')      
+    # return HttpResponse('''<script>alert('Success');window.location="/admin_view_carrier_application/"</script>''')
 
 
 
@@ -534,7 +569,9 @@ def admin_allot_manager_post(request):
     data2.password=data.Phone_Number
     data2.category='manager'
     data2.save()
-    return HttpResponse('''<script>alert('Success');window.location="/admin_allot_manager/"</script>''')
+    messages.success(request, 'Manager Added!')
+    return redirect('/admin_allot_manager/')
+    # return HttpResponse('''<script>alert('Success');window.location="/admin_allot_manager/"</script>''')
     
     
     # data=staff.objects.get(id=s20)
@@ -569,6 +606,7 @@ def admin_view_manager_post(request):
 def admin_delete_manager(request,s21):
     values=manager.objects.get(id=s21)
     values.delete()
+    messages.error(request, 'Manager Deleted!')
     return redirect('/admin_view_manager/')
 
 def admin_view_staff(request):
@@ -635,11 +673,13 @@ def admin_edit_staff_post(request):
         aj.remark=rem
         aj.section=sec
         aj.save()
+        messages.success(request, 'Successfully Edited!')
         return redirect('/admin_view_staff/')
 
 def admin_delete_staff(request, s8):
     values=staff.objects.get(id=s8)
     values.delete()
+    messages.error(request, 'Successfully Deleted!')
     return redirect('/admin_view_staff/')
 
 
@@ -714,7 +754,9 @@ def admin_add_shift_post(request):
     aj.shift_nbr=shift_nbr
     aj.shift_time=shift_time
     aj.save()
-    return HttpResponse('''<script>alert('Success');window.location="/admin_view_shift/"</script>''')
+    messages.success(request, 'Shift is Successfully Added!')
+    return redirect('/admin_view_shift/')
+    # return HttpResponse('''<script>alert('Success');window.location="/admin_view_shift/"</script>''')
 
 def admin_view_shift(request):
     aj=shift.objects.all()
@@ -732,6 +774,7 @@ def admin_edit_shift_post(request):
     aj.shift_nbr=shift_nbr
     aj.shift_time=shift_time
     aj.save()
+    messages.success(request, 'Shift is Successfully Edited!')
     return redirect('/admin_view_shift/')
 
 
@@ -760,7 +803,9 @@ def admin_approve_unit_request(request,s12):
     log.password=aj.password
     log.category='Unit'
     log.save()
-    return HttpResponse('''<script>alert('Approved');window.location="/admin_view_unit_request/"</script>''')
+    messages.success(request, 'Approved!')
+    return redirect('/admin_view_unit_request/')
+    # return HttpResponse('''<script>alert('Approved');window.location="/admin_view_unit_request/"</script>''')
 
 def admin_view_approve_unit_request(request):
     aj=uint_registration.objects.filter(status='Approved')
@@ -771,7 +816,9 @@ def admin_reject_unit_request(request,s13):
     aj=uint_registration.objects.get(id=s13)
     aj.status='Rejected'
     aj.save()
-    return HttpResponse('''<script>alert('Rejected');window.location="/admin_view_unit_request/"</script>''')
+    messages.error(request, 'Rejected!')
+    return redirect('/admin_view_unit_request/')
+    # return HttpResponse('''<script>alert('Rejected');window.location="/admin_view_unit_request/"</script>''')
 
 
 ###### Carrier Management  ########
@@ -801,7 +848,10 @@ def admin_allot_interview_post(request):
     bobj.int_status='Scheduled'
     bobj.save()
     send_mail('Thanks for Your Response...','Mr'+bobj.Name+'   ''Your Are SortListed By Mechland Tools''    ''Your Interview Will be on''   ''Date:'+d+'   ''and''   ''Time:'+t+'  ''Venue:'+v, 'from@example.co',[bobj.Email,])
-    return HttpResponse('''<script>alert('Interview Alloted');window.location="/admin_view_carrier_application/"</script>''')
+    messages.success(request, 'Interview Alloted!')
+    return redirect('/admin_view_carrier_application/')
+    # return HttpResponse('''<script>alert('Interview Alloted');window.location="/admin_view_carrier_application/"</script>''')
+
 
 
 def admin_view_carrier_application_post(request):
@@ -826,7 +876,9 @@ def admin_view_carrier_application_supervisor(request):
 def admin_delete_carrier_application(request,s15):
     aj=job_apply.objects.get(id=s15)
     aj.delete()
+    messages.error(request, 'Deleted!')
     return redirect('/admin_view_carrier_application/')
+
 
 
 ###### Business Request Management  ########
@@ -849,7 +901,9 @@ def admin_approve_business_request_post(request):
     bobj.status='Approved'
     bobj.save()
     send_mail('Thanks for Responding...','Mr'+bobj.Name+'Please Visit Our Company on''Date:'+d+'and''Time:'+t, 'from@example.co',[bobj.Email,])
-    return HttpResponse('''<script>alert('Accepted');window.location="/admin_view_business_request/"</script>''')
+    messages.success(request, 'Apporved!')
+    return redirect('/admin_view_business_request/')
+    # return HttpResponse('''<script>alert('Accepted');window.location="/admin_view_business_request/"</script>''')
 
 
 
@@ -858,7 +912,9 @@ def admin_reject_business_request(request,s17):
     aj=business.objects.get(id=s17)
     aj.status='Rejected'
     aj.save()
-    return HttpResponse('''<script>alert('Rejected');window.location="/admin_view_business_request/"</script>''')
+    messages.error(request, 'Apporved!')
+    return redirect('/admin_view_business_request/')
+    # return HttpResponse('''<script>alert('Rejected');window.location="/admin_view_business_request/"</script>''')
 
 
 def admin_view_approved_business_request(request):
@@ -923,13 +979,17 @@ def admin_approve_loan_request(request,s18):
     var.loan_id_id=aj.id
     var.status='pending'
     var.save()
-    return HttpResponse('''<script>alert('Approved');window.location="/admin_view_loan_request/"</script>''')
+    messages.success(request, 'Loan Apporved!')
+    return redirect('/admin_view_loan_request/')
+    # return HttpResponse('''<script>alert('Approved');window.location="/admin_view_loan_request/"</script>''')
 
 def admin_reject_loan_request(request,s19):
     aj=loan.objects.get(id=s19)
     aj.status='Rejected'
     aj.save()
-    return HttpResponse('''<script>alert('Rejected');window.location="/admin_view_loan_request/"</script>''')
+    messages.success(request, 'Loan Rejected!')
+    return redirect('/admin_view_loan_request/')
+    # return HttpResponse('''<script>alert('Rejected');window.location="/admin_view_loan_request/"</script>''')
 
 def admin_view_approved_loan_request(request):
     aj=loan.objects.filter(status='Approved')
@@ -950,7 +1010,9 @@ def admin_set_leave_master_post(request):
     aj.leave_limit=nod
     # aj.salary=sal
     aj.save()
-    return HttpResponse('''<script>alert('Success');window.location="/admin_view_leave_master/"</script>''')
+    messages.success(request, 'Added Succesfully!')
+    return redirect('/admin_view_leave_master/')
+    # return HttpResponse('''<script>alert('Success');window.location="/admin_view_leave_master/"</script>''')
 
 def admin_view_leave_master(request):
     aj=leave_master.objects.all()
@@ -976,7 +1038,9 @@ def admin_edit_leave_master(request,s14):
 def admin_delete_leave_master(request,s18):
     aj=leave_master.objects.get(id=s18)
     aj.delete()
+    messages.error(request, 'Deleted Succesfully!')
     return redirect('/admin_view_leave_master/')
+
 
 
 def admin_edit_leave_master_post(request):
@@ -989,20 +1053,26 @@ def admin_edit_leave_master_post(request):
     aj.leave_limit=nod
     # aj.salary=sal
     aj.save()
-    return HttpResponse('''<script>alert('Success');window.location="/admin_view_leave_master/"</script>''')
+    messages.success(request, 'Edited Succesfully!')
+    return redirect('/admin_view_leave_master/')
+    # return HttpResponse('''<script>alert('Success');window.location="/admin_view_leave_master/"</script>''')
 
 
 def admin_approve_leave_request(request,s22):
     aj=Leave3.objects.get(id=s22)
     aj.status='Approved'
     aj.save()
-    return HttpResponse('''<script>alert('Approved');window.location="/admin_view_leave_request/"</script>''')
+    messages.success(request, 'Leave Approved!')
+    return redirect('/admin_view_leave_request/')
+    # return HttpResponse('''<script>alert('Approved');window.location="/admin_view_leave_request/"</script>''')
 
 def admin_reject_leave_request(request,s23):
     aj=Leave3.objects.get(id=s23)
     aj.status='Rejected'
     aj.save()
-    return HttpResponse('''<script>alert('Rejected');window.location="/admin_view_leave_request/"</script>''')
+    messages.error(request, 'Leave Rejected!')
+    return redirect('/admin_view_leave_request/')
+    # return HttpResponse('''<script>alert('Rejected');window.location="/admin_view_leave_request/"</script>''')
 
 def admin_view_approved_leave_request(request):
     aj=Leave3.objects.filter(status='Approved')
@@ -1023,7 +1093,9 @@ def admin_respond_unit_complaint(request,s25):
     aj=unit_complaint.objects.get(id=s25)
     aj.status='We will sort it out soon, Thanks!'
     aj.save()
-    return HttpResponse('''<script>alert('Success');window.location="/admin_view_unit_complaints/"</script>''')
+    messages.success(request, 'Success!')
+    return redirect('/admin_view_unit_complaints/')
+    # return HttpResponse('''<script>alert('Success');window.location="/admin_view_unit_complaints/"</script>''')
 
 
 ################ Attendance ######################
@@ -1058,7 +1130,9 @@ def admin_add_attendance_post(request):
     aj.year=datetime.now().strftime('%Y')
     aj.no_of_working_days=wd
     aj.save()
-    return HttpResponse('''<script>alert('Success');window.location="/admin_view_attendance/"</script>''')
+    messages.success(request, 'Attendance Added Succesfully!')
+    return redirect('/admin_view_attendance/')
+    # return HttpResponse('''<script>alert('Success');window.location="/admin_view_attendance/"</script>''')
 
 def admin_view_attendance(request):
     aj=attendance.objects.all()
@@ -1067,7 +1141,9 @@ def admin_view_attendance(request):
 def admin_delete_attendance(request,s11):
     aj=attendance.objects.get(id=s11)
     aj.delete()
+    messages.error(request, 'Deleted Succesfully!')
     return redirect('/admin_view_attendance/')
+   
 
 
 def admin_change_password(request):
@@ -1084,11 +1160,17 @@ def admin_change_password_post(request):
     if res.exists():
         if newpass == confpass:
             ress = res.update(password=newpass)
-            return HttpResponse('''<script>alert('Password Updated');window.location="/admin2/"</script>''')
+            messages.success(request, 'Password Updated Succesfully!')
+            return redirect('/admin2/')
+            # return HttpResponse('''<script>alert('Password Updated');window.location="/admin2/"</script>''')
         else:
-            return HttpResponse('''<Script>alert("Password Does Not Match");window.location="/admin_change_password/";</Script>''')
+            messages.error(request, 'Password Does Not Match!')
+            return redirect('/admin_change_password/')
+            # return HttpResponse('''<Script>alert("Password Does Not Match");window.location="/admin_change_password/";</Script>''')
     else:
-        return HttpResponse('''<Script>alert("Old Password DoesNot Match New Password");window.location="/admin_change_password/";</Script>''')
+        messages.error(request, 'Old Password DoesNot Match New Password!')
+        return redirect('/admin_change_password/')
+        # return HttpResponse('''<Script>alert("Old Password DoesNot Match New Password");window.location="/admin_change_password/";</Script>''')
     
 
 def admin_view_section_for_salary(request):
@@ -1250,9 +1332,13 @@ def admin_salary_post(request,id):
         data.month=request.POST.get('month')
         data.year=yr
         data.save()
-        return HttpResponse('''<script>alert('Salary Slip Created');window.location="/admin_view_section_for_salary/"</script>''')
+        messages.success(request, 'Salary Slip Created!')
+        return redirect('/admin_view_section_for_salary/')
+        # return HttpResponse('''<script>alert('Salary Slip Created');window.location="/admin_view_section_for_salary/"</script>''')
     else:
-        return HttpResponse('''<script>alert('Already Created');window.location="/admin_view_section_for_salary/"</script>''')
+        messages.error(request, 'Salary Slip Already Created!')
+        return redirect('/admin_view_section_for_salary/')
+        # return HttpResponse('''<script>alert('Already Created');window.location="/admin_view_section_for_salary/"</script>''')
 
     # return render(request,'admin_master.html')
 
@@ -1365,7 +1451,9 @@ def unit_reg_post(request):
     aj.Photo=uploaded_file_url
     aj.status='Pending'
     aj.save()
-    return HttpResponse('''<script>alert('Success');window.location="/public_home2/"</script>''')
+    messages.success(request, 'Successfully Registered!')
+    return redirect('/public_home2/')
+    # return HttpResponse('''<script>alert('Success');window.location="/public_home2/"</script>''')
 
 def unit_view_profile(request):
     aj=request.session.get('unit')
@@ -1417,7 +1505,9 @@ def unit_edit_profile_post(request):
         aj.State=state
         aj.Pincode=pin
         aj.save()
-        return HttpResponse('''<script>alert('Updated');window.location="/unit_view_profile/"</script>''')
+        messages.success(request, 'Successfully Updated!')
+        return redirect('/unit_view_profile/')
+        # return HttpResponse('''<script>alert('Updated');window.location="/unit_view_profile/"</script>''')
 
 def unit_view_moulds(request):
     aj=add_mould.objects.all()
@@ -1445,7 +1535,9 @@ def unit_mould_review_post(request):
     aj.unit_id_id=data.id
     aj.mould_id1_id=mid
     aj.save()
-    return HttpResponse('''<script>alert('Success');window.location="/unit_view_moulds/"</script>''')
+    messages.success(request, 'Successfully Posted!')
+    return redirect('/unit_view_moulds/')
+    # return HttpResponse('''<script>alert('Success');window.location="/unit_view_moulds/"</script>''')
 
 
 def unit_send_complaint(request):
@@ -1460,7 +1552,9 @@ def unit_send_complaint_post(request):
     aj.status='Pending'
     aj.unit_id=uint_registration.objects.get(Email=request.session['unit'])
     aj.save()
-    return HttpResponse('''<script>alert('Success');window.location="/unit_send_complaint/"</script>''')
+    messages.success(request, 'Successfully Posted!')
+    return redirect('/unit_send_complaint/')
+    # return HttpResponse('''<script>alert('Success');window.location="/unit_send_complaint/"</script>''')
 
 def unit_view_complaint(request):
     aj = request.session.get('unit')
@@ -1522,7 +1616,9 @@ def unit_order_moulds_post(request):
         aj1.date=datetime.now().strftime('%Y-%m-%d')
         aj1.status="Paid"
         aj1.save()
-        return HttpResponse('''<script>alert('Ordered Sucessfull');window.location="/unit_view_moulds/"</script>''')
+        messages.success(request, 'SucessfullY Order!')
+        return redirect('/unit_view_moulds/')
+        # return HttpResponse('''<script>alert('Ordered Sucessfull');window.location="/unit_view_moulds/"</script>''')
 
 def unit_make_payment(request,s4):
     return render(request, 'Unit/unit_make_payment.html',{'s4':s4})
@@ -1558,7 +1654,9 @@ def unit_make_payment_post(request):
     aj.date=datetime.now().strftime('%Y-%m-%d')
     aj.status="Paid"
     aj.save()
-    return HttpResponse('''<script>alert('Transaction Sucessfull');window.location="/unit_view_moulds/"</script>''')
+    messages.success(request, 'Transaction Sucessfull!')
+    return redirect('/unit_view_moulds/')
+    # return HttpResponse('''<script>alert('Transaction Sucessfull');window.location="/unit_view_moulds/"</script>''')
 
 def unit_view_order_status(request):
     aj = request.session.get('unit')
@@ -1580,7 +1678,9 @@ def unit_cancel_order(request,s3):
     var.order_id_id=aj.id
     var.status="Requested"
     var.save()
-    return HttpResponse('''<script>alert('Cancel Request Sent!');window.location="/unit_view_order_status/"</script>''')
+    messages.success(request, 'Cancel Request Sent!')
+    return redirect('/unit_view_order_status/')
+    # return HttpResponse('''<script>alert('Cancel Request Sent!');window.location="/unit_view_order_status/"</script>''')
 
 def unit_view_cancel_status(request):
     aj = request.session.get('unit')
@@ -1602,11 +1702,17 @@ def unit_change_password_post(request):
     if res.exists():
         if newpass == confpass:
             ress = res.update(password=newpass)
-            return HttpResponse('''<script>alert('Password Updated');window.location="/unit_view_profile/"</script>''')
+            messages.success(request, 'Password Updated!')
+            return redirect('/unit_view_profile/')
+            # return HttpResponse('''<script>alert('Password Updated');window.location="/unit_view_profile/"</script>''')
         else:
-            return HttpResponse('''<Script>alert("Password Does Not Match");window.location="/unit_change_password/";</Script>''')
+            messages.success(request, 'Password Does Not Match!')
+            return error('/unit_change_password/')
+            # return HttpResponse('''<Script>alert("Password Does Not Match");window.location="/unit_change_password/";</Script>''')
     else:
-        return HttpResponse('''<Script>alert("Old Password DoesNot Match New Password");window.location="/unit_change_password/";</Script>''')
+        messages.success(request, 'Old Password DoesNot Match New Password!')
+        return error('/unit_change_password/')
+        # return HttpResponse('''<Script>alert("Old Password DoesNot Match New Password");window.location="/unit_change_password/";</Script>''')
 
 
 def public_view_predict_mould(request):
@@ -1656,8 +1762,9 @@ def public_rate_mould_post(request):
         else:    
             aj.p3_ratting=int(aj.p3_ratting)+1
         aj.save()    
- 
-    return HttpResponse('''<script>alert('Success');window.location="/public_view_predict_mould/"</script>''')
+    messages.success(request, 'Rating Sucessfully Rated!')
+    return redirect('/public_view_predict_mould/')
+    # return HttpResponse('''<script>alert('Success');window.location="/public_view_predict_mould/"</script>''')
 
 
 
@@ -1735,7 +1842,9 @@ def public_apply_job_post(request):
     
     aj.status='Pending'
     aj.save()
-    return HttpResponse('''<script>alert('Success');window.location="/public_view_carrier/"</script>''')
+    messages.success(request, 'Applied Sucessfully!')
+    return redirect('/public_view_carrier/')
+    # return HttpResponse('''<script>alert('Success');window.location="/public_view_carrier/"</script>''')
 
 def public_business_request(request):
     return render(request,'Public/public_business_request.html')
@@ -1757,7 +1866,9 @@ def public_business_request_post(request):
     aj.Comments=comments
     aj.status='Pending'
     aj.save()
-    return HttpResponse('''<script>alert('Success');window.location="/public_business_request/"</script>''')
+    messages.success(request, 'Request Sent!')
+    return redirect('/public_business_request/')
+    # return HttpResponse('''<script>alert('Success');window.location="/public_business_request/"</script>''')
 
 def public_view_business_request(request):
     aj=business.objects.all()
@@ -1810,8 +1921,9 @@ def public_rate_mould_post(request):
         else:    
             aj.p3_ratting=int(aj.p3_ratting)+1
         aj.save()    
- 
-    return HttpResponse('''<script>alert('Success');window.location="/public_view_predict_mould/"</script>''')
+    messages.success(request, 'Rated Sucessfully !')
+    return redirect('/public_view_predict_mould/')
+    # return HttpResponse('''<script>alert('Success');window.location="/public_view_predict_mould/"</script>''')
 
 
 
@@ -1853,6 +1965,7 @@ def employee_edit_profile_post(request):
         aj.Address=address
         aj.Photo=uploaded_file_url
         aj.save()
+        messages.success(request, 'Sucessfully Updated !')
         return redirect('/employee_view_profile/')
     else:
         aj=staff.objects.get(id=id)
@@ -1863,6 +1976,7 @@ def employee_edit_profile_post(request):
         aj.Phone_Number=phone
         aj.Address=address
         aj.save()
+        messages.success(request, 'Sucessfully Updated !')
         return redirect('/employee_view_profile/')
 
 def employee_loan_request(request):
@@ -1894,7 +2008,9 @@ def employee_loan_request_post(request):
         aj.initial_amount = floan
 
     aj.save()
-    return HttpResponse('''<script>alert('Success');window.location="/employee_loan_request/"</script>''')
+    messages.success(request, 'Loan Request Sent!')
+    return redirect('/employee_loan_request/')
+    # return HttpResponse('''<script>alert('Success');window.location="/employee_loan_request/"</script>''')
 
 
 def employee_view_loan_status(request):
@@ -1976,14 +2092,22 @@ def employee_leave_request_post(request):
         aj.reason=reason
         aj.status='Pending'
         aj.save()
-        return HttpResponse('''<script>alert('Success');window.location="/employee_leave_request/"</script>''')
+        messages.success(request, 'Leave Request Sent!')
+        return redirect('/employee_leave_request/')
+        # return HttpResponse('''<script>alert('Success');window.location="/employee_leave_request/"</script>''')
     else:
 
         if int(obj)>5:
-            return HttpResponse('''<script>alert('Your leave limit is over');window.location="/employee_leave_request/"</script>''')  
+            messages.error(request, 'Your leave limit is over!')
+            return redirect('/employee_leave_request/')
+            # return HttpResponse('''<script>alert('Your leave limit is over');window.location="/employee_leave_request/"</script>''')  
         elif (obj)>10:
+            messages.error(request, 'Your leave limit is over!')
+            return redirect('/employee_leave_request/')
             return HttpResponse('''<script>alert('Your leave limit is over');window.location="/employee_leave_request/"</script>''') 
         elif int(obj)>3:
+            messages.error(request, 'Your leave limit is over!')
+            return redirect('/employee_leave_request/')
             return HttpResponse('''<script>alert('Your leave limit is over');window.location="/employee_leave_request/"</script>''') 
         else:
             aj=Leave3()
@@ -1998,7 +2122,9 @@ def employee_leave_request_post(request):
             aj.reason=reason
             aj.status='Pending'
             aj.save()
-            return HttpResponse('''<script>alert('Success');window.location="/employee_leave_request/"</script>''')
+            messages.success(request, 'Leave Request Sent!')
+            return redirect('/employee_leave_request/')
+            # return HttpResponse('''<script>alert('Success');window.location="/employee_leave_request/"</script>''')
 
 
 def employee_view_leave_status(request):
@@ -2036,11 +2162,17 @@ def employee_change_password_post(request):
     if res.exists():
         if newpass == confpass:
             ress = res.update(password=newpass)
-            return HttpResponse('''<script>alert('Password Updated');window.location="/staff_login/"</script>''')
+            messages.error(request, 'Password Updated!')
+            return redirect('/staff_login/')
+            # return HttpResponse('''<script>alert('Password Updated');window.location="/staff_login/"</script>''')
         else:
+            messages.error(request, 'Password Does Not Match!')
+            return redirect('/employee_change_password/')
             return HttpResponse('''<Script>alert("Password Does Not Match");window.location="/employee_change_password/";</Script>''')
     else:
-        return HttpResponse('''<Script>alert("Old Password DoesNot Match");window.location="/employee_change_password/";</Script>''')
+        messages.error(request, 'Old Password DoesNot Match!')
+        return redirect('/employee_change_password/')
+        # return HttpResponse('''<Script>alert("Old Password DoesNot Match");window.location="/employee_change_password/";</Script>''')
 
 def employee_view_attendance(request):
     aj=staff.objects.get(Email=request.session.get('staff'))
@@ -2092,7 +2224,9 @@ def manager_edit_profile_post(request):
         aj.Pincode=pin
         aj.photo=uploaded_file_url
         aj.save()
-        return HttpResponse('''<script>alert('Updated');window.location="/manager_view_profile/"</script>''')
+        messages.success(request, "Successfully Updated!")
+        return redirect('/manager_view_profile/')
+        # return HttpResponse('''<script>alert('Updated');window.location="/manager_view_profile/"</script>''')
     else:
         aj=manager.objects.get(id=id)
         aj.Name=n
@@ -2106,7 +2240,9 @@ def manager_edit_profile_post(request):
         aj.State=state
         aj.Pincode=pin
         aj.save()
-        return HttpResponse('''<script>alert('Updated');window.location="/manager_view_profile/"</script>''')
+        messages.success(request, "Successfully Updated!")
+        return redirect('/manager_view_profile/')
+        # return HttpResponse('''<script>alert('Updated');window.location="/manager_view_profile/"</script>''')
 
 
 def manager_view_staff(request):
@@ -2179,7 +2315,9 @@ def manager_allot_shift_post(request):
     from datetime import datetime
     aj.date=datetime.now().strftime('%Y-%m-%d')
     aj.save()
-    return HttpResponse('''<script>alert('Alloted');window.location="/manager_view_staff/"</script>''')
+    messages.success(request, "Successfully Alloted!")
+    return redirect('/manager_view_staff/')
+    # return HttpResponse('''<script>alert('Alloted');window.location="/manager_view_staff/"</script>''')
 
 def manager_view_alloted_shift(request):
     aj=shift_allotment.objects.all()
@@ -2209,7 +2347,9 @@ def manager_add_stock1(request, s2):
     stk = int(aj.stock) + int(gt)
     aj.stock = str(stk)
     aj.save()
-    return HttpResponse('''<script>alert('Successfully Added');window.location="/manager_view_moulds/"</script>''')
+    messages.success(request, "Successfully Added!")
+    return redirect('/manager_view_moulds/')
+    # return HttpResponse('''<script>alert('Successfully Added');window.location="/manager_view_moulds/"</script>''')
       
 def manager_view_order(request):
     aj=unit_order.objects.filter(status="Pending")
@@ -2218,7 +2358,8 @@ def manager_view_order(request):
 def manager_delete_order(request,id):
     values=unit_order.objects.get(id=id)
     values.delete()
-    return redirect('/manager_view_order/')
+    messages.error(request, "Successfully Added!")
+    return redirect('/manager_view_moulds/')
 
 
 
@@ -2251,13 +2392,17 @@ def manager_approve_order_post(request):
         aj.mould_id.save()
         
     aj.save()
-    return HttpResponse('''<script>alert('Approved');window.location="/manager_view_order/"</script>''')
+    messages.success(request, "Approved Successfully!")
+    return redirect('/manager_view_order/')
+    # return HttpResponse('''<script>alert('Approved');window.location="/manager_view_order/"</script>''')
     
 def manager_reject_order(request,s7):
     aj=unit_order.objects.get(id=s7)
     aj.status="Rejected"
     aj.save()
-    return HttpResponse('''<script>alert('Rejected');window.location="/manager_view_order/"</script>''')
+    messages.error(request, "Rejected Successfully!")
+    return redirect('/manager_view_order/')
+    # return HttpResponse('''<script>alert('Rejected');window.location="/manager_view_order/"</script>''')
 
 def manager_view_approved_order(request):
     aj=unit_order.objects.filter(status="Approved")
@@ -2272,7 +2417,9 @@ def manager_approve_cancel_request(request,s9):
     aj=cancel.objects.get(id=s9)
     aj.status="Cancelled"
     aj.save()
-    return HttpResponse('''<script>alert('Approved');window.location="/manager_view_cancel_request/"</script>''')
+    messages.success(request, "Approved Successfully!")
+    return redirect('/manager_view_cancel_request/')
+    # return HttpResponse('''<script>alert('Approved');window.location="/manager_view_cancel_request/"</script>''')
 
 def manager_change_password(request):
     aj=request.session.get('mngr')
@@ -2288,11 +2435,17 @@ def manager_change_password_post(request):
     if res.exists():
         if newpass == confpass:
             ress = res.update(password=newpass)
-            return HttpResponse('''<script>alert('Password Updated');window.location="/manager_login/"</script>''')
+            messages.success(request, "Password Updated!")
+            return redirect('/manager_login/')
+            # return HttpResponse('''<script>alert('Password Updated');window.location="/manager_login/"</script>''')
         else:
-            return HttpResponse('''<Script>alert("Password Does Not Match");window.location="/manager_change_password/";</Script>''')
+            messages.error(request, "Password Does Not Match!")
+            return redirect('/manager_change_password/')
+            # return HttpResponse('''<Script>alert("Password Does Not Match");window.location="/manager_change_password/";</Script>''')
     else:
-        return HttpResponse('''<Script>alert("Old Password DoesNot Match New Password");window.location="/manager_change_password/";</Script>''')
+        messages.error(request, "Old Password DoesNot Match New Password!")
+        return redirect('/manager_change_password/')
+        # return HttpResponse('''<Script>alert("Old Password DoesNot Match New Password");window.location="/manager_change_password/";</Script>''')
 
 
 
@@ -2330,6 +2483,7 @@ def supervisor_edit_profile_post(request):
         aj.Address=address
         aj.Photo=uploaded_file_url
         aj.save()
+        messages.success(request, "Updated!")
         return redirect('/supervisor_view_profile/')
     else:
         aj=staff.objects.get(id=id)
@@ -2340,6 +2494,7 @@ def supervisor_edit_profile_post(request):
         aj.Phone_Number=phone
         aj.Address=address
         aj.save()
+        messages.success(request, "Updated!")
         return redirect('/supervisor_view_profile/')
 
 
@@ -2357,11 +2512,17 @@ def supervisor_change_password_post(request):
     if res.exists():
         if newpass == confpass:
             ress = res.update(password=newpass)
-            return HttpResponse('''<script>alert('Password Updated');window.location="/supervisor_login/"</script>''')
+            messages.success(request, "Password Updated!")
+            return redirect('/supervisor_login/')
+            # return HttpResponse('''<script>alert('Password Updated');window.location="/supervisor_login/"</script>''')
         else:
-            return HttpResponse('''<Script>alert("Password Does Not Match");window.location="/supervisor_change_password/";</Script>''')
+            messages.error(request, "Password Does Not Match!")
+            return redirect('/supervisor_change_password/')
+            # return HttpResponse('''<Script>alert("Password Does Not Match");window.location="/supervisor_change_password/";</Script>''')
     else:
-        return HttpResponse('''<Script>alert("Old Password DoesNot Match");window.location="/supervisor_change_password/";</Script>''')
+        messages.error(request, "Old Password DoesNot Match!")
+        return redirect('/supervisor_change_password/')
+        # return HttpResponse('''<Script>alert("Old Password DoesNot Match");window.location="/supervisor_change_password/";</Script>''')
     
 def supervisor_view_staffs(request):
     from datetime import datetime
@@ -2422,7 +2583,9 @@ def supervisor_allot_shift_post(request):
             new_allotment.staff_id_id = staff_instance.id
             new_allotment.date = datetime.now().strftime('%Y-%m-%d')
             new_allotment.save()
-            return HttpResponse('''<script>alert('Alloted');window.location="/supervisor_view_staffs/"</script>''')
+            messages.success(request, "Shift Alloted!")
+            return redirect('/supervisor_view_staffs/')
+            # return HttpResponse('''<script>alert('Alloted');window.location="/supervisor_view_staffs/"</script>''')
         else:
             # If an allotment already exists for the current date, show a message
             return HttpResponse('''<script>alert('Cannot allot shift. Staff already has a shift for today.');window.location="/supervisor_view_staffs/"</script>''')
@@ -2474,7 +2637,9 @@ def supervisor_loan_request_post(request):
         aj.initial_amount = floan
 
     aj.save()
-    return HttpResponse('''<script>alert('Success');window.location="/supervisor_loan_request/"</script>''')
+    messages.success(request, "Loan Request Sent!")
+    return redirect('/supervisor_loan_request/')
+    # return HttpResponse('''<script>alert('Success');window.location="/supervisor_loan_request/"</script>''')
 
 
 def supervisor_view_loan_status(request):
@@ -2551,7 +2716,9 @@ def supervisor_leave_request_post(request):
         aj.reason=reason
         aj.status='Pending'
         aj.save()
-        return HttpResponse('''<script>alert('Success');window.location="/supervisor_leave_request/"</script>''')
+        messages.success(request, "Leave Request Sent!")
+        return redirect('/supervisor_leave_request/')
+        # return HttpResponse('''<script>alert('Success');window.location="/supervisor_leave_request/"</script>''')
     else:
 
         if int(obj)>5:
@@ -2573,7 +2740,9 @@ def supervisor_leave_request_post(request):
             aj.reason=reason
             aj.status='Pending'
             aj.save()
-            return HttpResponse('''<script>alert('Success');window.location="/supervisor_leave_request/"</script>''')
+            messages.success(request, "Leave Request Sent!")
+            return redirect('/supervisor_leave_request/')
+            # return HttpResponse('''<script>alert('Success');window.location="/supervisor_leave_request/"</script>''')
 
 
 def supervisor_view_leave_status(request):

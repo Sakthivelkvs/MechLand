@@ -6,6 +6,17 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
 	<link rel="stylesheet" href="{% static 'admin_site/style.css' %}">
+
+	<!-- Alertify Js -->
+  <!-- CSS -->
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
+  <!-- Default theme -->
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"/>
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css"/>
+<!-- Bootstrap theme -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css"/>
+
+
 	<title>AdminSite</title>
 </head>
 <body>
@@ -302,5 +313,23 @@
 
 	<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 	<script src="{% static 'admin_site/script.js' %}"></script>
+
+	<!-- Alertyfy Js-->
+	<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+  
+	<script>
+	   alertify.set('notifier','position', 'top-center');
+  
+	  {% for msg in messages %}
+	  {% if 'error' in msg.tags %}
+		  alertify.error('{{ msg }}');
+	  {% else %}
+		  alertify.success('{{ msg }}');
+	  {% endif %}
+  {% endfor %}
+  </script>
+  
+
+
 </body>
 </html>

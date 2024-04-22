@@ -45,6 +45,17 @@
   * Author: BootstrapMade.com
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
+
+
+<!-- Alertify Js -->
+  <!-- CSS -->
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
+  <!-- Default theme -->
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"/>
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css"/>
+<!-- Bootstrap theme -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css"/>
+
 </head>
 
 <body>
@@ -1440,6 +1451,22 @@ and footwear accessories mould like Footbed mould. All processes are being execu
 
   <!-- Template Main JS File -->
   <script src="{% static 'public_home/assets/js/main.js' %}"></script>
+
+  <!-- Alertyfy Js-->
+  <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+  
+  <script>
+     alertify.set('notifier','position', 'top-center');
+
+    {% for msg in messages %}
+    {% if 'error' in msg.tags %}
+        alertify.error('{{ msg }}');
+    {% else %}
+        alertify.success('{{ msg }}');
+    {% endif %}
+{% endfor %}
+</script>
+
 
 </body>
 

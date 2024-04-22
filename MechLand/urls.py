@@ -330,22 +330,6 @@ urlpatterns = [
 
     path('mnr_idx/',views.mnr_idx),
     
-
-    @admin.register()
-    class Admin(admin.ModelAdmin):
-        '''Admin View for '''
-    
-        list_display = ('',)
-        list_filter = ('',)
-        inlines = [
-            Inline,
-        ]
-        raw_id_fields = ('',)
-        readonly_fields = ('',)
-        search_fields = ('',)
-        date_hierarchy = ''
-        ordering = ('',)
-
 ]
 
 

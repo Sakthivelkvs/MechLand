@@ -19,7 +19,7 @@
     <tr>
       <td>
       <input type="text" name="textfield" id="textfield" placeholder="Search by Name" class="form-control " required/></td>
-      <td width="80px"><input type="submit" name="button" id="button" value="Search" class="btn btn-success"/></td>
+      <td width="80px"><input type="submit" name="button" id="button" value="Search" class="btn btn-info"/></td>
     </tr>
   </table>
   <table class="table table-bordered">
@@ -42,7 +42,7 @@
       <td><img src="{{ i.mould_id.photo }}" height="100px" width="100px" ></td>
       <td>&nbsp;{{ i.quantity }}</td>
       <td>{{ i.date }}</td>
-      <td>{{ i.status }}</td>
+      <td><label class="badge badge-success">{{ i.status }}</label><td>
     </tr>
       {% endfor %}
   </table> 
