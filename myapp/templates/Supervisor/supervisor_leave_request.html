@@ -7,30 +7,6 @@
       function valid()
       {
       
-var s=form1.select.value;
-var s1=parseInt(form1.textfield5.value);
-
-if(s=='CasualLeave')
-{
-if(s1>5)
-{
-  alert("Please Enter Less than 5 Days");
-}
-}
-if(s=='MedicalLeave')
-{
-if(s1>10)
-{
-  alert("Please Enter Less than 12 Days");
-}
-}
-if(s=='SickLeave')
-{
-if(s1>3)
-{
-  alert("Please Enter Less than 3 Days");   
-}
-}
       }
     </script>
   </head>
@@ -60,60 +36,103 @@ if(s1>3)
   </div>
 <form action="/supervisor_leave_request_post/" method="post" enctype="multipart/form-data" name="form1" id="form1">
     {% csrf_token %}
-  <table class="table table-bordered">
-    <tr>
-        <th>Staff Name</th>
-        <td>
-        <input type="text" name="textfield1" id="textfield1" class="form-control" value="{{data.Name}}" required/></td>
-      </tr> 
+    <table class="table table-bordered">
       <tr>
-        <th>Leave Type</th>
-        <td>
-          <select name="select" class="form-control"  id="select">
-             {% for ct in data2 %}
-             <option value={{ct.leave_type}}>{{ct.leave_type}}(min days {{ct.leave_limit}})</option>
-             {% endfor %}
-        </select></td>
-      </tr>
-  <!-- HTML -->
-<tr>
-  <th>From Date</th>
-  <td><input type="date" name="textfield4" id="from_date" class="form-control" required/></td>
-</tr>
-<tr>
-  <th>To Date</th>
-  <td><input type="date" name="textfield9" id="to_date" class="form-control" required/></td>
-</tr>
-<tr>
-  <th>No. of Days</th>
-  <td><input type="text" name="textfield5" id="num_of_days" placeholder="" class="form-control" required readonly/></td>
-</tr>
-
-<!-- JavaScript -->
-<script>
-  function calculateDays() {
+          <th>Staff Name</th>
+          <td>
+          <input type="text" name="textfield1" id="textfield1" class="form-control" value="{{data.Name}}" required/></td>
+        </tr> 
+        <tr>
+          <th>Leave Type</th>
+          <td>
+            <select name="select" class="form-control"  id="select">
+               <option value="">Select Leave</option>
+                  {% for ct in data2 %}
+                      <option value="{{ ct.leave_type }}">{{ ct.leave_type }} (MAX  {{ ct.leave_limit }} days)</option>
+                  {% endfor %}
+  
+          </select></td>
+        </tr>
+        <!-- HTML -->
+        <input type="hidden" name="leavelimit" id="leavelimit" value="{{data2.leave_limit}}" class="form-control" />
+  
+        
+  <!-- JavaScript -->
+  <script>
+  function updateLeaveLimit() {
+      var leaveType = document.getElementById("select").value;
+      var leaveLimitField = document.getElementById("leavelimit");
+  
+      // Loop through the options to find the selected leave type and its corresponding leave limit
+      var options = document.getElementById("select").options;
+      for (var i = 0; i < options.length; i++) {
+          if (options[i].value === leaveType) {
+              var leaveLimit = options[i].textContent.match(/\(MAX  (\d+) days\)/)[1];
+              leaveLimitField.value = leaveLimit;
+              break;
+          }
+      }
+  }
+  
+  document.getElementById("select").addEventListener("change", updateLeaveLimit);
+  </script>
+  
+    
+  
+  <tr>
+    <th>From Date</th>
+    <td><input type="date" name="textfield4" id="from_date" class="form-control" required/></td>
+  </tr>
+  <tr>
+    <th>To Date</th>
+    <td><input type="date" name="textfield9" id="to_date" class="form-control" required/></td>
+  </tr>
+  <tr>
+    <th>No. of Days</th>
+    <td><input type="text" name="textfield5" id="num_of_days" placeholder="" class="form-control" required readonly/></td>
+  </tr>
+  
+  <!-- JavaScript -->
+  <script>
+    function calculateDays() {
       var fromDate = new Date(document.getElementById("from_date").value);
       var toDate = new Date(document.getElementById("to_date").value);
-
+  
       var differenceMs = toDate - fromDate;
       var differenceDays = Math.ceil(differenceMs / (1000 * 60 * 60 * 24));
-      
+  
       document.getElementById("num_of_days").value = differenceDays;
+  
+      var leaveType = document.getElementById("select").value;
+      var leaveLimit = parseInt(document.getElementById("leavelimit").value);
+      var numDays = parseInt(document.getElementById("num_of_days").value);
+  
+      if (leaveType && numDays > leaveLimit) {
+          alert("Please enter less than " + leaveLimit + " days for the selected leave type.");
+          document.getElementById("num_of_days").value = leaveLimit;
+      } else {
+        document.getElementById("num_of_days").value = differenceDays;
+      }
   }
-
+  
   document.getElementById("from_date").addEventListener("change", calculateDays);
   document.getElementById("to_date").addEventListener("change", calculateDays);
-</script>
-    <tr>
-    <th>Reason</th>
-        <td>
-            <textarea name="textarea2" id="textarea2" cols="45" class="form-control" rows="3"></textarea></td>
+  document.getElementById("select").addEventListener("change", calculateDays);
+  
+  
+  </script>
+  
+      <tr>
+      <th>Reason</th>
+          <td>
+              <textarea name="textarea2" id="textarea2" cols="45" class="form-control" rows="3"></textarea></td>
+        </tr>
+      <tr>
+        <td>&nbsp;</td>
+        <td><input type="submit" name="button" id="button" value="Submit" class="btn btn-success"/></td>
       </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td><input type="submit" name="button" id="button" value="Submit" class="btn btn-success"/></td>
-    </tr>
-  </table>
+    </table>
+  
 </form>
 </div>
 </section>

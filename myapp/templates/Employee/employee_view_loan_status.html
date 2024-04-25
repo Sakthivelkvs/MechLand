@@ -39,7 +39,11 @@
                 <td>{{ i.loan_amount }}</td>
                 <td>{{ i.date }}</td>
                 <td>{{ i.purpose }}</td>
-                <td>{{ i.status }}</td>
+                {% if i.status == "Pending" %}
+                  <td><label class="badge bg-danger text-white">{{ i.status }}</label></td>
+                {% else %}
+                  <td><label class="badge bg-success text-white">{{ i.status }}</label></td>
+                {% endif %}
             </tr>
         {% endfor %}
     </table>

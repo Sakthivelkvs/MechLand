@@ -15,6 +15,9 @@ from django.core.mail import send_mail
 
 from django.contrib import messages
 
+from django.db.models import Q
+
+
 # Create your views here.
 
 def unitcard(request):
@@ -183,7 +186,7 @@ def admin_add_mould_post(request):
     # return HttpResponse('''<script>alert('Success');window.location="/admin_view_mould/"</script>''')
 
 def admin_view_mould(request):
-    values=add_mould.objects.all()
+    values=add_mould.objects.all().order_by('-id')
     return render(request,"Admin/admin_view_moulds.html",{'data':values})
 
 def admin_edit_mould(request,s1):
@@ -676,13 +679,13 @@ def admin_edit_staff_post(request):
         messages.success(request, 'Successfully Edited!')
         return redirect('/admin_view_staff/')
 
+
+
 def admin_delete_staff(request, s8):
-    values=staff.objects.get(id=s8)
-    values.delete()
+    data = staff.objects.get(id=s8)
+    data.delete()
     messages.error(request, 'Successfully Deleted!')
     return redirect('/admin_view_staff/')
-
-
 
 ######### Vacancy Management #########
 
@@ -1116,6 +1119,52 @@ def admin_view_staff_for_attendance(request):
     data=staff.objects.exclude(job_id_id__in=[ct.id for ct in data10]).filter(section=request.POST.get('select'))
     return render(request,"Admin/admin_view_staff_for_attendance.html",{'data': data})
 
+
+def admin_add_excel(request):
+    return render(request, 'Admin/admin_add_excel.html')
+
+
+
+def Import_Excel_pandas(request):
+    import pandas as pd
+    if request.method == 'POST' and request.FILES['myfile']:      
+        myfile = request. FILES['myfile']
+        fs = FileSystemStorage()
+        filename = fs.save(myfile.name, myfile)
+        uploaded_file_url = fs.url(myfile)              
+        at_data = pd.read_excel(myfile)        
+        dbd = at_data
+        for dbd in dbd.itertuples():
+            obj = attendance.objects.create(month=dbd.month,year=dbd.year, no_of_working_days=dbd.no_of_working_days,staff_id_id=dbd.staff_id_id )           
+            obj.save()
+        return redirect('/admin_view_attendance/')   
+    return redirect('/admin_view_attendance/')  
+
+
+
+# def admin_add_excel(request):
+#     import pandas as pd
+#     if request.method == 'POST' and request.FILES['excel_file']:
+#         excel_file = request.FILES['excel_file']
+        
+#         # Load the Excel file into a pandas DataFrame
+#         df = pd.read_excel(excel_file)
+        
+#         # Iterate over each row in the DataFrame and create attendance objects
+#         for index, row in df.iterrows():
+#             attendance.objects.create(
+#                 month=row['month'],
+#                 year=row['year'],
+#                 no_of_working_days=row['no_of_working_days'],
+#                 staff_id_id=row['staff_id_id']
+#             )
+        
+#         # Optionally, you can redirect the user to another page after successful import
+#         return redirect('/admin_view_attendance/')
+    
+#     return render(request, 'Admin/admin_add_excel.html')
+
+
 def admin_add_attendance(request,s2):
     aj=staff.objects.get(id=s2)
     return render(request,'Admin/admin_add_attendance.html',{'data':aj})
@@ -1216,6 +1265,10 @@ def admin_view_staff_leave_for_salary(request,l1):
 def admin_view_staff_loan_for_salary(request,l2):
     d1 = loan.objects.filter(staff_id_id=l2, status="Approved")
     return render(request,"Admin/admin_view_staff_loan_for_salary.html",{'data':d1})
+
+def admin_view_staff_loanmaster_for_salary(request,l3):
+    d2 = loan_master.objects.get(id=l3)
+    return render(request,"Admin/admin_view_staff_loanmaster_for_salary.html",{'data':d2})
 
 def admin_view_staff_adttendance_for_salary(request,s2):
     d6=attendance.objects.filter(staff_id_id=s2)
@@ -1652,7 +1705,7 @@ def unit_make_payment_post(request):
     aj.amount=amnt
     from datetime import datetime
     aj.date=datetime.now().strftime('%Y-%m-%d')
-    aj.status="Paid"
+    aj.status=""
     aj.save()
     messages.success(request, 'Transaction Sucessfull!')
     return redirect('/unit_view_moulds/')
@@ -2066,12 +2119,15 @@ def employee_leave_request(request):
 def employee_leave_request_post(request):
     name=request.POST.get('textfield1')
     lt=request.POST['select']
+    ll=request.POST['leavelimit']
     fd=request.POST['textfield4']
     td=request.POST['textfield9']
     nod=request.POST['textfield5']
     reason=request.POST['textarea2']
     print(lt)
+    print(ll)
     data=leave_master.objects.get(leave_type=lt)
+    print(data)
     var = staff.objects.get(Name=name)
     
 
@@ -2097,18 +2153,10 @@ def employee_leave_request_post(request):
         # return HttpResponse('''<script>alert('Success');window.location="/employee_leave_request/"</script>''')
     else:
 
-        if int(obj)>5:
-            messages.error(request, 'Your leave limit is over!')
-            return redirect('/employee_leave_request/')
-            # return HttpResponse('''<script>alert('Your leave limit is over');window.location="/employee_leave_request/"</script>''')  
-        elif (obj)>10:
-            messages.error(request, 'Your leave limit is over!')
-            return redirect('/employee_leave_request/')
-            return HttpResponse('''<script>alert('Your leave limit is over');window.location="/employee_leave_request/"</script>''') 
-        elif int(obj)>3:
-            messages.error(request, 'Your leave limit is over!')
-            return redirect('/employee_leave_request/')
-            return HttpResponse('''<script>alert('Your leave limit is over');window.location="/employee_leave_request/"</script>''') 
+        if int(obj)>=int(ll):
+            # messages.error(request, 'Your leave limit is over!')
+            # return redirect('/employee_leave_request/')
+            return HttpResponse('''<script>alert('Your leave limit is over');window.location="/employee_leave_request/"</script>''')  
         else:
             aj=Leave3()
             aj.leave_id=data
@@ -2176,7 +2224,7 @@ def employee_change_password_post(request):
 
 def employee_view_attendance(request):
     aj=staff.objects.get(Email=request.session.get('staff'))
-    aj2 = advance.objects.filter(staff_id_id=aj)
+    aj2 = attendance.objects.filter(staff_id_id=aj)
     return render(request, 'Employee/employee_view_attendance.html',{'data':aj2})
 
 
@@ -2248,11 +2296,14 @@ def manager_edit_profile_post(request):
 def manager_view_staff(request):
     data11 = job_master.objects.filter(job_role="Supervisor")
     selected_section = request.POST.get('select')
-    if selected_section:
+
+    if selected_section and selected_section != 'All':
         data = staff.objects.filter(job_id_id__in=[ct.id for ct in data11]).filter(section=selected_section)
     else:
         data = staff.objects.filter(job_id_id__in=[ct.id for ct in data11])
-    return render(request,'Manager/manager_view_section.html',{'data':data})
+
+    return render(request, 'Manager/manager_view_section.html', {'data': data})
+
 
 
 # def manager_view_staff2(request):
@@ -2319,8 +2370,40 @@ def manager_allot_shift_post(request):
     return redirect('/manager_view_staff/')
     # return HttpResponse('''<script>alert('Alloted');window.location="/manager_view_staff/"</script>''')
 
+def manager_view_alloted_staff(request):
+    data11 = job_master.objects.filter(job_role="Supervisor")
+    data12=staff.objects.filter(job_id_id__in=[ct.id for ct in data11])
+    return render(request, 'Manager/manager_view_alloted_staff.html',{'data':data12})
+
+def manager_view_alloted_staff_post(request):
+    selected_section = request.POST.get('select')
+
+    if selected_section == 'All':
+        data12 = job_master.objects.filter(job_role="Labour")
+        data = staff.objects.exclude(job_id_id__in=[ct.id for ct in data12]) 
+    else:
+        data13 = job_master.objects.filter(job_role="Labour")
+        data = staff.objects.exclude(job_id_id__in=[ct.id for ct in data13]).filter(section=selected_section)
+
+    return render(request, 'Manager/manager_view_alloted_staff.html', {'data': data})
+
+
+def manager_view_alloted_staff_details(request, s11):
+    var = shift_allot.objects.filter(supervisor_id=s11)
+    return render(request, 'Manager/manager_view_alloted_staff_details.html', {'data': var})
+
+
+
+
+
+
+
 def manager_view_alloted_shift(request):
-    aj=shift_allotment.objects.all()
+    from datetime import datetime
+    aj = request.session.get('sprvr')
+    supervisor = staff.objects.get(Email=aj)
+    shift_allotments = shift_allot.objects.filter(supervisor_id=supervisor.id)
+    aj=shift_allot.objects.all()
     return render(request,'Manager/manager_view_alloted_shift.html',{'data':aj})
 
 def manager_view_alloted_shift_post(request):
@@ -2337,10 +2420,9 @@ def manager_view_moulds(request):
     return render(request,'Manager/manager_view_moulds.html',{'data':aj})
 
 def manager_add_stock(request, s2):
-   
     aj = add_mould.objects.get(id=s2)
-
     return render(request,'Manager/manager_add_stock.html',{'data':aj})
+
 def manager_add_stock1(request, s2):
     gt=request.POST.get('textfield2')
     aj = add_mould.objects.get(id=s2)
@@ -2448,6 +2530,111 @@ def manager_change_password_post(request):
         # return HttpResponse('''<Script>alert("Old Password DoesNot Match New Password");window.location="/manager_change_password/";</Script>''')
 
 
+def manager_import_excel(request):
+    return render(request,"Manager/manager_import_excel.html")
+
+
+def manager_import_excel_post(request):
+    import pandas as pd
+    if request.method == 'POST' and request.FILES['myfile']:      
+        myfile = request. FILES['myfile']
+        fs = FileSystemStorage()
+        filename = fs.save(myfile.name, myfile)
+        uploaded_file_url = fs.url(myfile)              
+        exceldata = pd.read_excel(myfile)        
+        db = exceldata
+        for db in db.itertuples():
+            obj = Production.objects.create(date=db.date,shift=db.shift, unit=db.unit,product_id_id=db.product_id_id )           
+            obj.save()
+        return redirect('/manager_view_production_report/')  
+    return redirect('/manager_view_production_report/')
+
+
+def manager_view_production_report(request):
+    aj=Production.objects.all()
+    return render(request,'Manager/manager_view_production_report.html',{'data':aj})
+
+def manager_view_production_report_post(request):
+    name = request.POST.get('textfield')
+    shift = request.POST.get('select')
+    date = request.POST.get('date')
+    if name and shift:
+        var=Production.objects.filter(product_id__mname__icontains=name,shift__icontains=shift)
+        if var:
+            return render(request,"Manager/manager_view_production_report.html",{'data':var})
+        else:
+            return HttpResponse('''<script>alert('Search Not Found!!!!!');window.location="/manager_view_production_report/"</script>''')
+    elif name and date:
+        var=Production.objects.filter(product_id__mname__icontains=name,date=date)
+        if var:
+            return render(request,"Manager/manager_view_production_report.html",{'data':var})
+        else:
+            return HttpResponse('''<script>alert('Search Not Found!!!!!');window.location="/manager_view_production_report/"</script>''')
+    elif shift and date:
+        var=Production.objects.filter(shift__icontains=shift,date=date)
+        if var:
+            return render(request,"Manager/manager_view_production_report.html",{'data':var})
+        else:
+            return HttpResponse('''<script>alert('Search Not Found!!!!!');window.location="/manager_view_production_report/"</script>''')
+    elif shift and name:
+        var=Production.objects.filter(shift__icontains=shift,product_id__mname__icontains=name)
+        if var:
+            return render(request,"Manager/manager_view_production_report.html",{'data':var})
+        else:
+            return HttpResponse('''<script>alert('Search Not Found!!!!!');window.location="/manager_view_production_report/"</script>''')
+    elif date and shift:
+        var=Production.objects.filter(shift__icontains=shift,date=date)
+        if var:
+            return render(request,"Manager/manager_view_production_report.html",{'data':var})
+        else:
+            return HttpResponse('''<script>alert('Search Not Found!!!!!');window.location="/manager_view_production_report/"</script>''')
+    elif date and name:
+        var=Production.objects.filter(product_id__mname__icontains=name,date=date)
+        if var:
+            return render(request,"Manager/manager_view_production_report.html",{'data':var})
+        else:
+            return HttpResponse('''<script>alert('Search Not Found!!!!!');window.location="/manager_view_production_report/"</script>''')
+    elif date:
+        var=Production.objects.filter(date=date)
+        if var:
+            return render(request,"Manager/manager_view_production_report.html",{'data':var})
+        else:
+            return HttpResponse('''<script>alert('Search Not Found!!!!!');window.location="/manager_view_production_report/"</script>''')
+    elif name:
+        var=Production.objects.filter(product_id__mname__icontains=name)
+        if var:
+            return render(request,"Manager/manager_view_production_report.html",{'data':var})
+        else:
+            return HttpResponse('''<script>alert('Search Not Found!!!!!');window.location="/manager_view_production_report/"</script>''')
+    elif shift:
+        var=Production.objects.filter(shift__icontains=shift)
+        if var:
+            return render(request,"Manager/manager_view_production_report.html",{'data':var})
+        else:
+            return HttpResponse('''<script>alert('Search Not Found!!!!!');window.location="/manager_view_production_report/"</script>''')
+    else:
+        var=Production.objects.all()
+        if var:
+            return render(request,"Manager/manager_view_production_report.html",{'data':var})
+        else:
+            return HttpResponse('''<script>alert('Search Not Found!!!!!');window.location="/manager_view_production_report/"</script>''')
+        
+
+def manager_view_production_report_post2(request):
+    shift = request.POST.get('select')
+    date = request.POST.get('date')
+    if shift and date: 
+        var=Production.objects.filter(shift__icontains=shift,date=date)
+        if var:
+            return render(request,"Manager/manager_view_production_report_post2.html",{'data':var})
+        else:
+            return HttpResponse('''<script>alert('Search Not Found!!!!!');window.location="/manager_view_production_report/"</script>''')
+    
+
+
+
+
+
 
 ################### SUPERVISOR #################
 
@@ -2529,19 +2716,18 @@ def supervisor_view_staffs(request):
     aj = request.session.get('sprvr')
     supervisor = staff.objects.get(Email=aj)
     
-    # Get the current date
+
     cur_date = datetime.now().strftime('%Y-%m-%d')
     
-    # Get all leaves approved for the current date
+
     leaves_today = Leave3.objects.filter(fromdate=cur_date, status="approved")
-    
-    # Get all shift allotments for the supervisor
+
     shift_allotments = shift_allot.objects.filter(supervisor_id=supervisor.id)
     
-    # Exclude staff who have taken leave today
+
     staff_with_leaves_today = [leave.staff_id_id for leave in leaves_today]
     
-    # Pass the data and staff_with_leaves_today to the template
+
     return render(request, "Supervisor/supervisor_view_staffs.html", {'data': shift_allotments, 'staff_with_leaves_today': staff_with_leaves_today})
 
 
@@ -2587,8 +2773,10 @@ def supervisor_allot_shift_post(request):
             return redirect('/supervisor_view_staffs/')
             # return HttpResponse('''<script>alert('Alloted');window.location="/supervisor_view_staffs/"</script>''')
         else:
+            messages.error(request, "Cannot allot shift. Staff already has a shift for today!")
+            return redirect('/supervisor_view_staffs/')
             # If an allotment already exists for the current date, show a message
-            return HttpResponse('''<script>alert('Cannot allot shift. Staff already has a shift for today.');window.location="/supervisor_view_staffs/"</script>''')
+            # return HttpResponse('''<script>alert('Cannot allot shift. Staff already has a shift for today.');window.location="/supervisor_view_staffs/"</script>''')
     else:
         # Handle the case where the request method is not POST
         return HttpResponse("Method Not Allowed")
@@ -2615,31 +2803,37 @@ def supervisor_loan_request(request):
     return render(request,'Supervisor/supervisor_loan_request.html',{'data':data,'data2':var})
 
 def supervisor_loan_request_post(request):
-    id = request.POST.get('id')
-    la = int(request.POST['t2'])  
-    intsa = int(request.POST['select'])
-    p = request.POST['t4']
-    # var=staff.objects.get(id=id)
-    aj = loan()
-    val2=request.session['sprvr']
-    data5=staff.objects.get(Email=val2)
-    aj.staff_id_id = data5.id
-    aj.loan_amount = la
-    aj.installment = intsa
-    from datetime import datetime
-    aj.date = datetime.now().strftime('%Y-%m-%d')
-    aj.purpose = p
-    aj.status = 'Pending'
+    var = loan.objects.filter(staff_id__Email=request.session['sprvr'], status='Pending').exists()
+    if var:
+        messages.error(request, "You already have a pending loan request. Please wait until the current loan is completed.")
+        return redirect('/supervisor_loan_request/')
+        # return HttpResponse('''<script>alert('Loan Request Already Sent!');window.location="/supervisor_loan_request/"</script>''')
+    else:
+        id = request.POST.get('id')
+        la = int(request.POST['t2'])  
+        intsa = int(request.POST['select'])
+        p = request.POST['t4']
+        # var=staff.objects.get(id=id)
+        aj = loan()
+        val2=request.session['sprvr']
+        data5=staff.objects.get(Email=val2)
+        aj.staff_id_id = data5.id
+        aj.loan_amount = la
+        aj.installment = intsa
+        from datetime import datetime
+        aj.date = datetime.now().strftime('%Y-%m-%d')
+        aj.purpose = p
+        aj.status = 'Pending'
 
-    if la:      
-        floan = la / intsa
-        print(floan)
-        aj.initial_amount = floan
+        if la:      
+            floan = la / intsa
+            print(floan)
+            aj.initial_amount = floan
 
-    aj.save()
-    messages.success(request, "Loan Request Sent!")
-    return redirect('/supervisor_loan_request/')
-    # return HttpResponse('''<script>alert('Success');window.location="/supervisor_loan_request/"</script>''')
+        aj.save()
+        messages.success(request, "Loan Request Sent!")
+        return redirect('/supervisor_loan_request/')
+        # return HttpResponse('''<script>alert('Success');window.location="/supervisor_loan_request/"</script>''')
 
 
 def supervisor_view_loan_status(request):
@@ -2689,13 +2883,17 @@ def supervisor_leave_request(request):
 
 def supervisor_leave_request_post(request):
     name=request.POST.get('textfield1')
+    name=request.POST.get('textfield1')
     lt=request.POST['select']
+    ll=request.POST['leavelimit']
     fd=request.POST['textfield4']
     td=request.POST['textfield9']
     nod=request.POST['textfield5']
     reason=request.POST['textarea2']
     print(lt)
+    print(ll)
     data=leave_master.objects.get(leave_type=lt)
+    print(data)
     var = staff.objects.get(Name=name)
     
 
@@ -2716,17 +2914,15 @@ def supervisor_leave_request_post(request):
         aj.reason=reason
         aj.status='Pending'
         aj.save()
-        messages.success(request, "Leave Request Sent!")
+        messages.success(request, 'Leave Request Sent!')
         return redirect('/supervisor_leave_request/')
-        # return HttpResponse('''<script>alert('Success');window.location="/supervisor_leave_request/"</script>''')
+        # return HttpResponse('''<script>alert('Success');window.location="/employee_leave_request/"</script>''')
     else:
 
-        if int(obj)>5:
-            return HttpResponse('''<script>alert('Your leave limit is over');window.location="/supervisor_leave_request/"</script>''')  
-        elif (obj)>10:
-            return HttpResponse('''<script>alert('Your leave limit is over');window.location="/supervisor_leave_request/"</script>''') 
-        elif int(obj)>3:
-            return HttpResponse('''<script>alert('Your leave limit is over');window.location="/supervisor_leave_request/"</script>''') 
+        if int(obj)>=int(ll):
+            messages.error(request, 'Your leave limit is over!')
+            return redirect('/supervisor_leave_request/')
+            # return HttpResponse('''<script>alert('Your leave limit is over');window.location="/supervisor_leave_request/"</script>''')  
         else:
             aj=Leave3()
             aj.leave_id=data
@@ -2740,9 +2936,9 @@ def supervisor_leave_request_post(request):
             aj.reason=reason
             aj.status='Pending'
             aj.save()
-            messages.success(request, "Leave Request Sent!")
+            messages.success(request, 'Leave Request Sent!')
             return redirect('/supervisor_leave_request/')
-            # return HttpResponse('''<script>alert('Success');window.location="/supervisor_leave_request/"</script>''')
+            # return HttpResponse('''<script>alert('Success');window.location="/employee_leave_request/"</script>''')
 
 
 def supervisor_view_leave_status(request):

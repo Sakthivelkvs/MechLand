@@ -1,0 +1,114 @@
+{% extends "Manager/manager_index3.html" %}
+{% block body %}
+{% load static %}
+
+
+<html lang="en">
+
+<head>
+  <style>
+    .company {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center; /* Fallback for older browsers */
+      height: 15vh; /* Adjust height as needed */
+    }
+  </style>
+  </head>
+<body>
+  <div class="container-fluid" id="container-wrapper">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+      <h1 class="h3 mb-0 text-gray-800">Production Report</h1>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/manager_login">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Production Report</li>
+      </ol>
+    </div>
+    <div class="col-xl-12 col-lg-9">
+      <form id="form1" name="form1" method="post" enctype="multipart/form-data" action="/manager_view_production_report_post/">
+        {% csrf_token %}
+        <table class="table table-bordered">
+          <tr>
+            <td>
+              <input type="text" name="textfield" id="textfield" placeholder="Search by Product" class="form-control " />
+            </td>
+            <td>
+              <select name="select" id="textfield" class="form-control" >
+                <option value="">Select Name</option>
+                <option value="Morning">Morning</option>
+                <option value="Evening">Evening</option>
+                <!-- Add more options as needed -->
+              </select>
+            </td>
+            <td>
+              <input type="date" name="date" class="form-control" >
+            </td>
+            <td width="80px">
+              <input type="submit" name="button" id="button" value="Search" class="btn btn-success"/>
+            </td>
+            <td>
+              <a href="" class="btn btn-danger" onclick="printContent()">
+                <i class="fa fa-print"></i> Print
+              </a>
+            </td>
+          </tr>
+        </table>
+
+        <div class="company" id="printContent">
+          <div class="logo">
+            <img src="{% static 'manager/img/logo/mech_logo.png' %}" height="80px" width="100px">
+          </div>
+          <h3> Daily Production Report</h3>
+        </div>
+        <table id="printTable" class="table table-bordered">
+          <tr>
+            <th>SL.NO</th>
+            <th>Product</th>
+            <th>Date</th>
+            <th>Shift</th>
+            <th>No.of Units</th>
+          </tr>
+          {% for i in data %}
+          <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ i.product_id.mname }}</td>
+            <td>{{ i.date }}</td>
+            <td>&nbsp;{{ i.shift }}</td>
+            <td>&nbsp;{{ i.unit }}</td>
+          </tr>
+          {% endfor %}
+        </table> 
+      </form>
+      <script>
+        function printContent() {
+          var printContents = document.getElementById("printContent").innerHTML;
+          var tableContents = document.getElementById("printTable").outerHTML;
+          var originalContents = document.body.innerHTML;
+      
+          // Create a div to wrap the content
+          var printWrapper = document.createElement("div");
+          printWrapper.innerHTML = printContents + tableContents;
+      
+          // Apply CSS styles to center the content and move it down
+          printWrapper.style.textAlign = "center";
+          printWrapper.style.margin = "20px auto"; // Adjust margin-top as needed
+          printWrapper.style.width = "50%"; // Adjust width as needed
+      
+          // Replace the body content with the wrapped content
+          document.body.innerHTML = printWrapper.outerHTML;
+      
+          // Trigger the print dialog
+          window.print();
+      
+          // Restore the original body content
+          document.body.innerHTML = originalContents;
+        }
+      </script>
+      
+      
+      
+    </div>
+  </div>
+</body>
+{% endblock %}

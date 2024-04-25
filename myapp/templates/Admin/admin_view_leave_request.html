@@ -53,10 +53,10 @@
               <td>{{ i.staff_id.Name }}</td>
               <td>{{ i.leave_id.leave_type }}</td>
               <td>{{ i.req_date }}</td>
-              <td>{{ i.leave_date }}</td>
+              <td>{{ i.fromdate }} to {{i.todate}}</td>
               <td>{{ i.no_of_days }}</td>
               <td>{{ i.reason }}</td>
-              <td  ><label class="badge badge-danger">{{ i.status }}</label></td>
+              <td><label class="badge badge-danger">{{ i.status }}</label></td>
               <td><a href="/admin_approve_leave_request/{{i.id}}" class="fas fa-check"></a>
               <a href="/admin_reject_leave_request/{{i.id}}" class="fas fa-times"></a></td>
           </tr>

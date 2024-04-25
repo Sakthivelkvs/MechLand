@@ -157,6 +157,7 @@ urlpatterns = [
     # path('admin_view_staff_for_salary/',views.admin_view_staff_for_salary),
     path('admin_view_staff_leave_for_salary/<int:l1>',views.admin_view_staff_leave_for_salary),
     path('admin_view_staff_loan_for_salary/<int:l2>',views.admin_view_staff_loan_for_salary),
+    path('admin_view_staff_loanmaster_for_salary/<int:l3>',views.admin_view_staff_loanmaster_for_salary),
     path('admin_view_staff_adttendance_for_salary/<int:s2>',views.admin_view_staff_adttendance_for_salary),
 
     path('admin_prepare_salary_slip/<int:p1>',views.admin_prepare_salary_slip),
@@ -175,6 +176,11 @@ urlpatterns = [
     path('admin_loan_report/',views.admin_loan_report),
     path('admin_loan_report_post/',views.admin_loan_report_post),
     path('admin_loan_report_post2/',views.admin_loan_report_post2),
+
+
+    path('admin_add_excel/',views.admin_add_excel),
+    path('Import_Excel_pandas/',views.Import_Excel_pandas),
+    # path('admin_add_excel_post/',views.admin_add_excel_post),
 
     path('admin_logout/',views.admin_logout),
     path('supervisor_logout/',views.supervisor_logout),
@@ -304,6 +310,16 @@ urlpatterns = [
     path('manager_add_stock1/<int:s2>',views.manager_add_stock1),
     path('manager_change_password/',views.manager_change_password),
     path('manager_change_password_post/',views.manager_change_password_post),
+
+    path('manager_view_alloted_staff/',views.manager_view_alloted_staff),
+    path('manager_view_alloted_staff_post/',views.manager_view_alloted_staff_post),
+    path('manager_view_alloted_staff_details/<int:s11>',views.manager_view_alloted_staff_details),
+
+    path('manager_import_excel/',views.manager_import_excel),
+    path('manager_import_excel_post/',views.manager_import_excel_post),
+    path('manager_view_production_report/',views.manager_view_production_report),
+    path('manager_view_production_report_post/',views.manager_view_production_report_post),
+    path('manager_view_production_report_post2/',views.manager_view_production_report_post2),
 
 
 

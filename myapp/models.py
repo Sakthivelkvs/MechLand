@@ -246,9 +246,9 @@ class unit_complaint(models.Model):
 class attendance(models.Model):
     id=models.AutoField(primary_key=True)
     staff_id=models.ForeignKey(staff,on_delete=models.CASCADE)
-    month=models.CharField(max_length=50)
-    year=models.CharField(max_length=50)
-    no_of_working_days=models.CharField(max_length=50)
+    month=models.CharField(max_length=50,default='')
+    year=models.CharField(max_length=50,default='')
+    no_of_working_days=models.CharField(max_length=50,default='')
     class Meta:
         db_table="attendance"
 
@@ -348,6 +348,21 @@ class shift_allot(models.Model):
     class Meta:
         db_table="shift_allot"
 
+class Attendance_File(models.Model):
+    id=models.AutoField(primary_key=True)
+    file = models.FileField(upload_to="excel") 
+    class Meta:
+        db_table="Attendance_File"
+
+
+class Production(models.Model):
+    id=models.AutoField(primary_key=True)
+    date=models.DateField(default="")
+    shift=models.CharField(max_length=50,default="")
+    unit=models.CharField(max_length=50,default="")
+    product_id=models.ForeignKey(add_mould,on_delete=models.CASCADE)
+    class Meta:
+        db_table="Production"
 
 
 

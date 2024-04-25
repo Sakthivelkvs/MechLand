@@ -3,38 +3,13 @@
 {% load static %}
 <html lang="en">
   <head>
-    <script>
-      function valid()
-      {
-      
-var s=form1.select.value;
-var s1=parseInt(form1.textfield5.value);
+   <!-- JavaScript -->
+<script>
+function valid() {
+    
+}
+</script>
 
-if(s=='CasualLeave')
-{
-if(s1>5)
-{
-  alert("Please Enter Less than 5 Days");
-}
-}
-if(s=='MedicalLeave')
-{
-if(s1>10)
-{
-  alert("Please Enter Less than 12 Days");
-}
-}
-if(s=='SickLeave')
-{
-if(s1>3)
-{
-  alert("Please Enter Less than 3 Days");   
-}
-}
-      }
-
-      
-    </script>
   </head>
 <body>
   <!-- ======= Breadcrumbs ======= -->
@@ -72,12 +47,39 @@ if(s1>3)
         <th>Leave Type</th>
         <td>
           <select name="select" class="form-control"  id="select">
-             {% for ct in data2 %}
-             <option value={{ct.leave_type}}>{{ct.leave_type}}(min days {{ct.leave_limit}})</option>
-             {% endfor %}
+             <option value="">Select Leave</option>
+                {% for ct in data2 %}
+                    <option value="{{ ct.leave_type }}">{{ ct.leave_type }} (MAX  {{ ct.leave_limit }} days)</option>
+                {% endfor %}
+
         </select></td>
       </tr>
       <!-- HTML -->
+      <input type="hidden" name="leavelimit" id="leavelimit" value="{{data2.leave_limit}}" class="form-control" />
+
+      
+<!-- JavaScript -->
+<script>
+function updateLeaveLimit() {
+    var leaveType = document.getElementById("select").value;
+    var leaveLimitField = document.getElementById("leavelimit");
+
+    // Loop through the options to find the selected leave type and its corresponding leave limit
+    var options = document.getElementById("select").options;
+    for (var i = 0; i < options.length; i++) {
+        if (options[i].value === leaveType) {
+            var leaveLimit = options[i].textContent.match(/\(MAX  (\d+) days\)/)[1];
+            leaveLimitField.value = leaveLimit;
+            break;
+        }
+    }
+}
+
+document.getElementById("select").addEventListener("change", updateLeaveLimit);
+</script>
+
+  
+
 <tr>
   <th>From Date</th>
   <td><input type="date" name="textfield4" id="from_date" class="form-control" required/></td>
@@ -94,17 +96,31 @@ if(s1>3)
 <!-- JavaScript -->
 <script>
   function calculateDays() {
-      var fromDate = new Date(document.getElementById("from_date").value);
-      var toDate = new Date(document.getElementById("to_date").value);
+    var fromDate = new Date(document.getElementById("from_date").value);
+    var toDate = new Date(document.getElementById("to_date").value);
 
-      var differenceMs = toDate - fromDate;
-      var differenceDays = Math.ceil(differenceMs / (1000 * 60 * 60 * 24));
-      
+    var differenceMs = toDate - fromDate;
+    var differenceDays = Math.ceil(differenceMs / (1000 * 60 * 60 * 24));
+
+    document.getElementById("num_of_days").value = differenceDays;
+
+    var leaveType = document.getElementById("select").value;
+    var leaveLimit = parseInt(document.getElementById("leavelimit").value);
+    var numDays = parseInt(document.getElementById("num_of_days").value);
+
+    if (leaveType && numDays > leaveLimit) {
+        alert("Please enter less than " + leaveLimit + " days for the selected leave type.");
+        document.getElementById("num_of_days").value = leaveLimit;
+    } else {
       document.getElementById("num_of_days").value = differenceDays;
-  }
+    }
+}
 
-  document.getElementById("from_date").addEventListener("change", calculateDays);
-  document.getElementById("to_date").addEventListener("change", calculateDays);
+document.getElementById("from_date").addEventListener("change", calculateDays);
+document.getElementById("to_date").addEventListener("change", calculateDays);
+document.getElementById("select").addEventListener("change", calculateDays);
+
+
 </script>
 
     <tr>

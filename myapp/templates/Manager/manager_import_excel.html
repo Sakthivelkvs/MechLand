@@ -1,0 +1,35 @@
+{% extends "Manager/manager_index3.html" %}
+{% block body %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+
+<body>
+    <form method="POST" enctype="multipart/form-data" action="/manager_import_excel_post/">
+        {% csrf_token %}
+     
+        <div class="row">
+            <div class="col-md-6 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2>Daily Production Data</h2>           
+                  <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                  <div class="col-md-8 col-sm-12 col-xs-12 form-group">      
+                  </div>
+                  <!-- <label style="font-weight: bold;">Export Excel</label> -->
+
+                        <input type="file" name="myfile" class="form-control" required><br>
+                                 <button type="submit" class="btn btn-success" >Upload Data</button>
+                                 <!-- <a href="/admin_view_section" class="btn btn-info">Add Manully</a> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+      </form>   
+</body>
+
+{%endblock%}
+</html>

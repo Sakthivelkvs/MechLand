@@ -1,0 +1,58 @@
+{% extends "Manager/manager_index3.html" %}
+{% block body %}
+{% load static %}
+<html lang="en">
+    <!-- Container Fluid-->
+   <div class="container-fluid" id="container-wrapper">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+      <h1 class="h3 mb-0 text-gray-800">Alloted Staffs</h1>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/manager_login">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Alloted Staffs</li>
+      </ol>
+    </div>
+<body>
+   
+<div class="col-xl-12 col-lg-9">
+<form action="//" method="post" enctype="multipart/form-data" name="form1" id="form1">
+    {% csrf_token %}
+    <!-- <table class="table table-bordered table-hover">
+        <tr>
+            <th>Section</th>
+            <td>
+                <select name="select" class="form-control" id="select">
+                    <option>Production</option>
+                    <option>Packing</option>
+                    <option>Sales</option>
+                </select>
+            </td>
+            <td><input type="submit" name="button" id="button" value="Submit" class="btn btn-success"/></td>
+        </tr>
+    </table> -->
+
+    <table class="table table-bordered table-hover">
+        <tr>
+            <th>SL.NO</th>
+            <th>Name</th>
+            <!-- <th>Gender</th> -->
+            <th>Email</th>
+            <th>Job Role</th>
+            <th>Section</th>
+        </tr>
+        {% for i in data %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ i.staff_id.Name }} <br> <img src="{{ i.staff_id.Photo }}" height="100px" width="100px"> </td>
+            <!-- <td>{{ i.Gender }}</td> -->
+            <td>&nbsp;{{ i.staff_id.Email }}</td>
+            <td>{{i.staff_id.job_id.job_role}}</td>
+            <td>{{i.staff_id.section}}</td>
+            <!-- <td><a href="/manager_allot_staff/{{i.id}}" class="btn btn-success">Allot Staff</a></td> -->
+        </tr>
+        {% endfor %}
+    </table>
+</form>
+</div>
+</body>
+{% endblock %}
+</html>

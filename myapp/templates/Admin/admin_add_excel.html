@@ -1,0 +1,54 @@
+<!-- <!DOCTYPE html> -->
+{% extends "admin_master.html" %}
+{% block body %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>RoyalUI Admin</title>
+  <!-- plugins:css -->
+  <link rel="stylesheet" href="{% static 'Admin-Master/vendors/ti-icons/css/themify-icons.css' %}">
+  <link rel="stylesheet" href="{% static 'Admin-Master/vendors/base/vendor.bundle.base.css' %}">
+  <!-- endinject -->
+  <!-- plugin css for this page -->
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <link rel="stylesheet" href="{% static 'Admin-Master/css/style.css' %}">
+  <!-- endinject -->
+  <link rel="shortcut icon" href="{% static 'Admin-Master/images/favicon.png' %}" />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+
+<body>
+    <form method="POST" enctype="multipart/form-data" action="/Import_Excel_pandas/">
+        {% csrf_token %}
+     
+        <div class="row">
+            <div class="col-md-6 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2>Import Attendance Data</h2>           
+                  <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                  <div class="col-md-8 col-sm-12 col-xs-12 form-group">      
+                  </div>
+                  <!-- <label style="font-weight: bold;">Export Excel</label> -->
+
+                        <input type="file" name="myfile" class="form-control" required><br>
+                                 <button type="submit" class="btn btn-success" >Upload Data</button>
+                                 <a href="/admin_view_section" class="btn btn-info">Add Manully</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+      </form>   
+</body>
+
+{%endblock%}
+</html>

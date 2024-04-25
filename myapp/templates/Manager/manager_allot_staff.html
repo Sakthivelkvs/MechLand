@@ -24,9 +24,9 @@
             <td>
                
                 <select name="select" class="form-control"  id="select">
-                    <option>Production</option>
-                    <option>Packing</option>
-                    <option>Sales</option>
+                    <option {% if data.section == "Production" %}selected{% endif %}>Production</option>
+                    <option {% if data.section == "Packing" %}selected{% endif %}>Packing</option>
+                    <option {% if data.section == "Sales" %}selected{% endif %}>Sales</option>
                 </select>
             </td>
             <td><input type="submit" name="button" id="button" value="Submit" class="btn btn-success"/></td>
