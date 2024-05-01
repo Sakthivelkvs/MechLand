@@ -49,10 +49,16 @@
         <td>{{ i.date }}</td>
         <td>{{ i.initial_amount }}</td>
         <td>{{ i.installment }}</td>
+  
+
+
+      <td>
+  <a href="/admin_view_staff_loanmaster_for_salary/{{i.id}}" >
+    <i class="fas fa-eye"></i> Details
+  </a>
+</td>
+
       {% endfor %}
-
-
-      <td><a href="/admin_view_staff_loanmaster_for_salary/{{i.id}}" class="edit-link"></a></td>
       <!-- <td><a href="//{{i.id}}" class="view-link"></a></td> -->
     </tr>
   </table> 

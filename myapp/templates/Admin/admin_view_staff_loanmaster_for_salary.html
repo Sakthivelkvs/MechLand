@@ -35,25 +35,25 @@
   <table class="table table-hover">
     <tr>
         <th>Staff Name</th>
-        <th>Loan Amount</th>
+        <!-- <th>Loan Amount</th> -->
         <th>Approval Date</th>
-        <th>Initial Amount</th>
- 
+        <!-- <th>Initial Amount</th> -->
+        <th>Installment</th>
         <th>Status</th>
 
 
 
     </tr>
     <tr>
-        {% for i in data %}
+      
         <td>{{ i.staff_id.Name }}</td>
-        <td>{{ i.loan_amount }}</td>
+        <!-- <td>{{ i.loan_id.loan_amount }}</td> -->
         <td>{{ i.approval_date }}</td>
-        <td>{{ i.initial_amount }}</td>
-
-        <td>{{ i.status }}</td>
+        <!-- <td>{{ i.loan_id.initial_amount }}</td> -->
+        <td>{{ i.installment }}</td>
+        <td><label class="badge badge-danger">{{ i.status }}</label></td>
         
-      {% endfor %}
+
 
 
       {% comment %} <td><a href="/admin_edit_shift/{{i.id}}" class="edit-link"></a></td>

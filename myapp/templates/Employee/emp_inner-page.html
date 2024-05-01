@@ -161,7 +161,7 @@
       <i class="bi bi-list mobile-nav-toggle d-none"></i>
     </nav><!-- .navbar -->
 
-    <a class="btn-getstarted scrollto" href="/logout">Logout</a>
+    <a class="btn-getstarted scrollto" href="/staff_logout">Logout</a>
 
   </div>
 </header><!-- End Header -->
@@ -302,19 +302,24 @@
   <!-- Template Main JS File -->
   <script src="{% static 'public_home/assets/js/main.js' %}"></script>
 
-  <!-- Alertyfy Js-->
-  <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
-  
-  <script>
-     alertify.set('notifier','position', 'top-right');
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
-    {% for msg in messages %}
-    {% if 'error' in msg.tags %}
-        alertify.error('{{ msg }}');
+<script>
+  {% for msg in messages %}
+    {% if msg.tags == 'success' %}
+      swal({
+        title: "Success!",
+        text: '{{ msg }}',
+        icon: "success"
+      });
     {% else %}
-        alertify.success('{{ msg }}');
+      swal({
+        title: '{{ msg }}',
+        text: "Sorry!",
+        icon: "error"
+      });
     {% endif %}
-{% endfor %}
+  {% endfor %}
 </script>
 
 

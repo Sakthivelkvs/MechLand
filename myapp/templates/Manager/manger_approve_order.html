@@ -5,10 +5,10 @@
 <body>
   <div class="container-fluid" id="container-wrapper">
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-      <h1 class="h3 mb-0 text-gray-800">Approved Order</h1>
+      <h1 class="h3 mb-0 text-gray-800">Approve Order</h1>
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="/manager_login">Home</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Approved Orders</li>
+        <li class="breadcrumb-item active" aria-current="page">Approve Orders</li>
       </ol>
     </div>
 <div class="col-xl-12 col-lg-9">
@@ -17,14 +17,35 @@
     {% csrf_token %}
   <table class="table table-bordered">
     <input type="hidden" name="id" id="" value="{{i.id}}">
+    <!-- <tr>
+      <th>Vehicle</th>
+      <td>
+      <select name="time_select" id="time_select" class="form-control" required>
+    <option value="">Select Vehicle</option>
+    <option value="Truck">Truck</option>
+    <option value="Tipper">Tipper</option>
+   Add more options as needed   
+</select>
+</td>
+    </tr> -->
     <tr>
-      <th>Delivary Date</th>
+      <th>Vehicle Number</th>
+      <td>
+      <input type="text" name="appt2" id="appt2" class="form-control" required/></td>
+    </tr>
+    <tr>
+      <th>Contact Number</th>
+      <td>
+      <input type="text" name="appt3" id="appt3" class="form-control" required/></td>
+    </tr>
+    <tr>
+      <th>Delivery Date</th>
       <td>
       <input type="date" name="textfield" id="textfield" class="form-control" required/></td>
     </tr>
     <tr>
-        <th>Estimated Delivary Time</th>
-        <td>
+        <th>Estimated Delivery Time</th>
+        <td>  
         <input type="time" name="appt" id="appt" class="form-control" required/></td>
       </tr>
       

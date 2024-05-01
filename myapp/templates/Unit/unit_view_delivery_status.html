@@ -3,6 +3,12 @@
 {% block body %}
 {% load static %}
 <html lang="en">
+  <script>
+    $(function () {
+        $('[data-toggle="popover"]').popover();
+    });
+</script>
+
 <body>
   <div class="breadcrumbs">
     <div class="container">
@@ -37,15 +43,23 @@
   </table> -->
   <table class="table table-bordered">
     <tr>
+      <th>Vehicle Number</th>
+      <th>Contact Number</th>
       <th>Delivary Date</th>
       <th>Estimated Delivary Time</th>
       <th> Remarks </th>
     </tr>
       
     <tr>
+      <td>{{ data.vehicle_number }}</td>
+      <td>{{ data.contact_number }}</td>
       <td>{{ data.delivary_date }}</td>
       <td>{{ data.delivary_time}}</td>
       <td>{{ data.remarks }}</td>
+      <!-- <td>
+    <a href="/unit_recieve_product/{{data.id}}" class="btn btn-info" data-toggle="popover" title="Click Only The Product is Recieved" data-content="Click to mark as received" data-placement="top">Recieved</a>
+</td> -->
+
     </tr>
       
   </table> 

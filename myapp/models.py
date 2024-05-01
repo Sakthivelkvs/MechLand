@@ -125,7 +125,11 @@ class job_apply(models.Model):
     Date_of_birth = models.CharField(max_length=100)
     Email = models.CharField(max_length=100)
     Phone_Number = models.CharField(max_length=100)
-    Address=models.CharField(max_length=150,default="")
+    Hname=models.CharField(max_length=50,default="")
+    Place=models.CharField(max_length=50,default="")
+    City=models.CharField(max_length=50,default="")
+    State=models.CharField(max_length=50,default="")
+    Pin=models.CharField(max_length=50,default="")
     Photo=models.CharField(max_length=200,default="")
     qualifications=models.CharField(max_length=50)
     experiences=models.CharField(max_length=50)
@@ -177,6 +181,7 @@ class loan_master(models.Model):
     approval_date=models.CharField(max_length=50)
     installment=models.CharField(max_length=50)
     status=models.CharField(max_length=50)
+    ins_status=models.CharField(max_length=50)
     class Meta:
         db_table="loan_master"
 
@@ -267,7 +272,11 @@ class unit_order(models.Model):
     quantity=models.CharField(max_length=50)
     size=models.CharField(max_length=50,default="")
     date=models.CharField(max_length=50)
+    c_date=models.CharField(max_length=50,default="")
     status=models.CharField(max_length=50)
+    cancel_status=models.CharField(max_length=50,default="")
+    vehicle_number=models.CharField(max_length=50,default="")
+    contact_number=models.CharField(max_length=50,default="")
     delivary_date=models.CharField(max_length=50,default="")
     delivary_time=models.CharField(max_length=50,default="")
     remarks=models.CharField(max_length=50,default="")
@@ -363,6 +372,15 @@ class Production(models.Model):
     product_id=models.ForeignKey(add_mould,on_delete=models.CASCADE)
     class Meta:
         db_table="Production"
+
+class product_review(models.Model):
+    id=models.AutoField(primary_key=True)
+    order_id=models.ForeignKey(unit_order,on_delete=models.CASCADE)
+    review=models.CharField(max_length=200)
+    date=models.CharField(max_length=50)
+    class Meta:
+        db_table="product_review"
+
 
 
 

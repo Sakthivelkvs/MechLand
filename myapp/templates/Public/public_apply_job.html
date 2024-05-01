@@ -25,7 +25,7 @@
 <body>
 
     <!-- ======= Breadcrumbs ======= -->
-    <div class="breadcrumbs">
+    <!-- <div class="breadcrumbs">
       <div class="container">
   
         <div class="d-flex justify-content-between align-items-center">
@@ -36,7 +36,7 @@
           </ol>
         </div>
   
-      </div>
+      </div> -->
     </div><!-- End Breadcrumbs -->
   
   <!-- ======= Blog Section ======= -->
@@ -44,12 +44,12 @@
   <div class="container" data-aos="fade-up">
   
     <div class="section-header">
-      <h2>MechLand Tools</h2>
+      <h2>Application</h2>
       <p>Submit Your Form</p>
     </div>
     <form action="/public_apply_job_post/" method="post" enctype="multipart/form-data" name="form1" id="form1">
       {% csrf_token %}
-    <table class="table table-bordered">
+    <table class="table table-borderless">
       <tr>
         <th>Applied Position</th>
         <td>
@@ -58,38 +58,60 @@
         </tr>
         <input type="hidden" name="textfield1" id="textfield1" class="form-control" value="{{data.id}}">
       <tr>
-        <th>Name</th>
-        <td>
-        <input type="text" name="textfield" id="textfield" class="form-control" required/></td>
-      </tr>
-        <tr>
-          <th>Gender</th>
-          <th><select name="RadioGroup1" class="form-control">
-  
-              <option value="Male" {% if val.Gender == 'Male' %}selected{% endif %}>Male</option>
-              <option value="Female" {% if val.Gender == 'Female' %}selected{% endif %}>Female</option>
-              <option value="Others" {% if val.Gender == 'Others' %}selected{% endif %}>Others</option>
-          </select></th>
-        </tr>
+  <th>Personal Details</th>
+  <td>
+    <div class="row">
+      <div class="col-md-6">
+        <input type="text" name="textfield" id="textfield" placeholder="Enter Your Name" class="form-control mb-3" required/>
+        <input type="email" name="textfield4" id="textfield4" placeholder="Enter Your Email" class="form-control mb-3" required/>
+      </div>
+      <div class="col-md-6">
+       <select name="RadioGroup1" class="form-control mb-3">
+  <option value="">---Select Gender---</option>
+  <option value="Male" {% if val.Gender == 'Male' %}selected{% endif %}>Male</option>
+  <option value="Female" {% if val.Gender == 'Female' %}selected{% endif %}>Female</option>
+  <option value="Others" {% if val.Gender == 'Others' %}selected{% endif %}>Others</option>
+</select>
+<input type="text" name="textfield5" placeholder="Enter Your Phone Number" pattern="[6789][0-9]{9}" maxlength="10" id="textfield5" class="form-control" required/>
+
+    </div>
+  </td>
+</tr>
+
+       
       <tr>
         <th>Date Of Birth</th>
         <td>
         <input type="date" name="textfield2" min="1800-01-01" max="2010-12-31"  placeholder="" id="textfield2" class="form-control" required/></td>
       </tr>
-      <tr>
+      <!-- <tr>
         <th>Email</th>
         <td>
-        <input type="email" name="textfield4" id="textfield4" class="form-control" required/></td>
-      </tr>
-      <tr>
+        <input type="email" name="textfield4" id="textfield4" placeholder="Enter Your Email" class="form-control" required/></td>
+      </tr> -->
+      <!-- <tr>
         <th>Phone Number</th>
         <td>
-        <input type="text" name="textfield5" placeholder="" pattren="[6789][1-9] {9}" max="10" id="textfield5" class="form-control" required/></td>
-      </tr>
-      <th>Address</th>
-          <td>
-              <textarea name="textarea2" id="textarea2" cols="45" rows="3" class="form-control"></textarea></td>
-        </tr>
+        <input type="text" name="textfield5" placeholder="Enter Your Phone Number" pattren="[6789][1-9] {9}" max="10" id="textfield5" class="form-control" required/></td>
+      </tr> -->
+<th>Address</th>
+<td>
+  <div class="row">
+    <div class="col-md-6">
+      <input type="text" name="HouseName" placeholder="House Name" class="form-control mb-3" required/>
+    <input type="text" name="City" placeholder="City" class="form-control mb-3" required/>
+    <input type="text" name="pin" placeholder="Pincode" class="form-control" required/>
+
+    </div>
+    <div class="col-md-6">
+      <input type="text" name="Place" placeholder="Place" class="form-control mb-3" required/>
+      <input type="text" name="State" placeholder="State" class="form-control" required/>
+    </div>
+    
+  </div>
+</td>
+
+
       <!-- <tr>
         <th>Qualification</th>
         <td>
@@ -99,7 +121,7 @@
         <th>Qualification</th>
         <td>
             <select name="textfield7" id="textfield6" class="form-control" required>
-                <option value="">Select Qualification</option>
+                <option value="">---Select Qualification---</option>
                 <option value="SSLC">SSLC</option>
                 <option value="+2">+2</option>
                 <option value="Degree">Degree</option>
@@ -111,12 +133,12 @@
       <tr>
           <th>Experience</th>
           <td>
-          <input type="text" name="textfield8" id="textfield6" class="form-control" required/></td>
+          <input type="text" name="textfield8" id="textfield6" placeholder="Enter Your Experience" class="form-control" required/></td>
         </tr>
         <tr>
           <th>Remark</th>
           <td>
-              <textarea name="textarea" id="textarea" cols="45" rows="3" class="form-control"></textarea></td>
+              <textarea name="textarea" id="textarea" cols="45" rows="2" placeholder="Add Remark" class="form-control"></textarea></td>
         </tr>
         <tr>
           <th>Photo</th>

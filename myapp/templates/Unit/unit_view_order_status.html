@@ -1,109 +1,127 @@
-
 {% extends "Unit/inner-page.html" %}
+
 {% block body %}
-{% load static %}
 <html lang="en">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.0/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Script to initialize popover -->
+    <script>
+      $(document).ready(function(){
+        $('[data-toggle="popover"]').popover();
+      });
+    </script>
+
+    <style>
+      table {
+        text-align: center; /* Center align all table data values */
+      }
+    </style>
 </head>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
 <body>
-  <div class="breadcrumbs">
-    <div class="container">
+    <div class="breadcrumbs">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <h2></h2>
+                <ol>
+                    <li><a href="/unit_login">Home</a></li>
+                    <li>Status</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- End Breadcrumbs -->
 
-      <div class="d-flex justify-content-between align-items-center">
-        <h2>Status</h2>
-        <ol>
-          <li><a href="/unit_login">Home</a></li>
-          <li>Status</li>
-        </ol>
-      </div>
+    <section class="inner-page">
+        <div class="container" data-aos="fade-up">
+            <div class="section-header">
+                <h2>My Orders</h2>
+                <!-- <p>Order Your Moulds</p> -->
+            </div>
 
-    </div>
-  </div><!-- End Breadcrumbs -->
+            <form id="form1" name="form1" method="post" enctype="multipart/form-data" action="">
+                {% csrf_token %}
+                <table class="table table-bordered">
+                    <tr>
+                        <td>
+                            <input type="text" name="textfield" id="textfield" placeholder="Search by Name" class="form-control " required/>
+                        </td>
+                        <td width="80px">
+                            <input type="submit" name="button" id="button" value="Search" class="btn btn-success"/>
+                        </td>
+                    </tr>
+                </table>
 
-<!-- ======= Blog Section ======= -->
-<section class="inner-page">
-<div class="container" data-aos="fade-up">
+                <table class="table table-bordered">
+                    <tr>
+                        <th>SL.NO</th>
+                        <th>Name</th>
+                        <th>Mould</th>
+                        <th>Quantity</th>
+                        <th>Date</th>
+                        <th>Payment Method</th>
+                        <th>Status</th>
+                    </tr>
+                    {% for i in data %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ i.unit_id.Name }}</td>
+                        <td>&nbsp;{{ i.mould_id.mname }}<br><img src="{{ i.mould_id.photo }}"  height="50px" width="50px" style="border-radius: 50%;" ></td>
+                        <td>&nbsp;{{ i.quantity }}</td>
+                        <td>{{ i.date }}</td>
+                        {% if i.payment_method == "COD" %}
+                            <td><label class="badge bg-indigo text-white">{{ i.payment_method }}</label></td>
+                        {% else %}
+                            <td><label class="badge bg-blue text-white">{{ i.payment_method }}</label></td>
+                        {% endif %}
+                        {% if i.status == "Pending" %}
+                            <td><label class="badge bg-warning text-white">{{ i.status }}</label></td>
+                        {% elif i.status == "Rejected" %}
+                            <td><label class="badge bg-danger-subtle text-white">{{ i.status }}</label></td>
+                        {% elif i.status == "Cancelled" %}
+                            <td><label class="badge bg-danger text-white">{{ i.status }}</label></td>
+                        {% elif i.status == "Delivered" %}
+                            <td><label class="badge bg-teal">{{ i.status }}</label></td>
+                        {% else %}
+                            <td><label class="badge bg-primary text-white">{{ i.status }}</label></td>
+                        {% endif %}
+                        {% if i.status == "Approved" %}
+                            <td>
+                                <a href="/unit_view_delivery_status/{{i.id}}" class="btn btn-info" data-toggle="popover" title="Delivery Details" data-content="Add your delivery details here">
+                                    <i class="fas fa-truck"></i>
+                                </a>
+                            </td>
+                        {% endif %}
+                        {% if i.status == "Rejected" or i.status == "Delivered" %}
+                        {% else %}
+                            {% if i.status == "Cancelled" %}
+                            {% else %}
+                                <td>
+                                    <a href="/unit_cancel_order/{{i.id}}" class="btn btn-danger" data-toggle="popover" title="Cancel Order" data-content="Are you sure you want to cancel this order?">
+                                        <i class="fas fa-times"></i>
+                                    </a>
+                                </td>
+                            {% endif %}
+                        {% endif %}
+                        
+                        {% if i.status == "Delivered" %}
+                        <td>
+                          <a href="/unit_mould_review/{{i.id}}" class="btn btn-primary" data-bs-toggle="popover" title="Mould Review" data-bs-content="Add your review here">
+                              <i class="bi bi-star-fill"></i>
+                          </a>
+                      </td>
+                      
+                        {% else %}
 
-  <div class="section-header">
-    <h2>Order Status</h2>
-    {% comment %} <p>Order Your Moulds</p> {% endcomment %}
-  </div>
-<form id="form1" name="form1" method="post" enctype="multipart/form-data" action="">
-    {% csrf_token %}
-  <table class="table table-bordered">
-    <tr>
-      <td>
-      <input type="text" name="textfield" id="textfield" placeholder="Search by Name" class="form-control " required/></td>
-      <td width="80px"><input type="submit" name="button" id="button" value="Search" class="btn btn-success"/></td>
-    </tr>
-  </table>
-  <table class="table table-bordered">
-    <tr>
-      <th>SL.NO</th>
-      <th>Name</th>
-      <th>Company Name</th>
-      <th> Mould </th>
-      <th> Photo </th>
-      <th> Quantity </th>
-      <th> Date </th>
-      <th> Status </th>
-    </tr>
-      {% for i in data %}
-    <tr>
-      <td>{{ forloop.counter }}</td>
-      <td>{{ i.unit_id.Name }}</td>
-      <td>{{ i.unit_id.Company_Name }}</td>
-      <td>&nbsp;{{ i.mould_id.mname }}</td>
-      <td><img src="{{ i.mould_id.photo }}" height="100px" width="100px" ></td>
-      <td>&nbsp;{{ i.quantity }}</td>
-      <td>{{ i.date }}</td>
-      {% if i.status == "Pending" %}
-          <td><label class="badge bg-danger text-white">{{ i.status }}</label></td>
-      {% elif i.status == "Rejected" %}
-          <td><label class="badge bg-danger-subtle text-white">{{ i.status }}</label></td>
-      {% else %}
-          <td><label class="badge bg-success text-white">{{ i.status }}</label></td>
-      {% endif %}
-
-    {% if i.status == "Approved" %}
-
-      <td>
-        <a href="/unit_view_delivery_status/{{i.id}}" class="btn btn-info">
-          <i class="fas fa-truck"></i> Details
-        </a>
-      </td>
-      
-    {% else %}
-
-    {% endif %}
-    
-    {% if i.status == "Rejected" %}
-
-    {% else %}
-      {% if var.status == "Requested" %}
-      
-      {% else %}
-      <td><a href="/unit_cancel_order/{{i.id}}" class="btn btn-danger">
-        <i class="fas fa-times"></i> Order
-      </a>
-      </td>
-
-      {% endif %}
-
-    {% endif %}
-  
-      
-    
-      
-  </tr>
-
-      {% endfor %}
-  </table> 
-</form>
-</div>
-</section>
+                        {% endif %}
+                          
+                    </tr>
+                    {% endfor %}
+                </table>
+            </form>
+        </div>
+    </section>
 </body>
-{%endblock%}
-
+{% endblock %}

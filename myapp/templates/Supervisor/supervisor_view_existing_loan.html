@@ -1,0 +1,171 @@
+{% extends "Supervisor/emp_inner-page.html" %}
+{% block body %}
+{% load static %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+<html lang="en">
+    <style>
+        
+
+        
+        .card {
+ width: 190px;
+ height: 254px;
+ border-radius: 20px;
+ background: #f5f5f5;
+ position: relative;
+ padding: 1.8rem;
+ border: 2px solid #c3c6ce;
+ transition: 0.5s ease-out;
+ overflow: visible;
+ width: 400px; /* Set the desired width for the card */
+    margin: 0 auto; /* Center the card horizontally */
+    text-align: center; /* Center the content inside the card */
+}
+
+.card-details {
+ color: black;
+ height: 100%;
+ gap: .5em;
+ display: grid;
+ place-content: center;
+}
+
+.card-button {
+ transform: translate(-50%, 125%);
+ width: 60%;
+ border-radius: 1rem;
+ border: none;
+ background-color: #008bf8;
+ color: #fff;
+ font-size: 1rem;
+ padding: .5rem 1rem;
+ position: absolute;
+ left: 50%;
+ bottom: 0;
+ opacity: 0;
+ transition: 0.3s ease-out;
+ color: white; /* Set the text color of the button to white */
+    text-decoration: none; /* Remove underline from the link */
+}
+
+.text-body {
+ color: rgb(134, 134, 134);
+}
+
+/*Text*/
+.text-title {
+ font-size: 1.5em;
+ font-weight: bold;
+}
+
+/*Hover*/
+.card:hover {
+ border-color: #008bf8;
+ box-shadow: 0 4px 18px 0 rgba(0, 0, 0, 0.25);
+}
+
+.card:hover .card-button {
+ transform: translate(-50%, 50%);
+ opacity: 1;
+}
+
+
+
+        </style>
+<body>
+  <!-- ======= Breadcrumbs ======= -->
+  <div class="breadcrumbs">
+    <div class="container">
+
+      <div class="d-flex justify-content-between align-items-center">
+        <h2>Loan Status</h2>
+        <ol>
+          <li><a href="/supervisor_login">Home</a></li>
+          <li>Loan Status</li>
+        </ol>
+      </div>
+
+    </div>
+  </div><!-- End Breadcrumbs -->
+
+<!-- ======= Blog Section ======= -->
+<section class="inner-page">
+<div class="container" data-aos="fade-up">
+
+  <div class="section-header">
+    <h2>Loan Status</h2>
+
+  </div>
+
+    {% csrf_token %}
+
+
+<div class="card">
+  <div class="card-details">
+    <p class="text-title">{{ i.staff_id.Name }}</p>
+    <p class="text-body"><strong><i class="fas fa-calendar-alt"></i> Approval Date:</strong>
+ {{ i.approval_date }}</p>
+    <p class="text-body"><p class="text-body"><strong><i class="fas fa-coins"></i>  Installment:</strong>
+ {{ i.installment }}</p>
+    <p class="text-body"><strong><i class="fas fa-info-circle"></i>  Status:</strong>
+ 
+      {% if i.status == "pending" %}
+        <label class="badge bg-danger text-white">{{ i.status }}</label>
+      {% else %}
+        <label class="badge bg-success text-white">{{ i.status }}</label>
+      {% endif %}
+    </p>
+  </div>
+  <button class="card-button"><a href="/supervisor_view_loan_status" >Back</a></button>
+</div>
+
+
+
+  <!-- <table class="table table-hover">
+    <tr>
+        <th>Staff Name</th>
+        <th>Loan Amount</th>
+        <th>Approval Date</th>
+        <th>Initial Amount</th>
+        <th>Installment</th>
+        <th>Status</th>
+
+
+
+    </tr>
+    <tr>
+      
+        <td>{{ i.staff_id.Name }}</td>
+        <td>{{ i.loan_id.loan_amount }}</td>
+        <td>{{ i.approval_date }}</td>
+        <td>{{ i.loan_id.initial_amount }}</td>
+        <td>{{ i.installment }}</td>
+        
+        {% if i.status == "pending" %}
+            <td><label class="badge bg-danger text-white">{{ i.status }}</label></td>
+        {% else %}
+            <td><label class="badge bg-success text-white">{{ i.status }}</label></td>
+        {% endif %}
+            
+        
+
+
+
+      {% comment %} <td><a href="/admin_edit_shift/{{i.id}}" class="edit-link"></a></td>
+      <td><a href="//{{i.id}}" class="delete-link"></a></td> {% endcomment %}
+    </tr>
+  </table>  -->
+
+</div>
+</section>
+</body>
+{%endblock%}
+</html>
+
+
+
+
+
+
+

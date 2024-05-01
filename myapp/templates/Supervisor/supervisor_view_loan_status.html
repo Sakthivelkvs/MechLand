@@ -1,6 +1,9 @@
 {% extends "Supervisor/emp_inner-page.html" %}
 {% block body %}
 {% load static %}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
 <html lang="en">
 <body>
   <!-- ======= Breadcrumbs ======= -->
@@ -26,6 +29,7 @@
     <h2>Loan Status</h2>
 
   </div>
+  
   <table class="table table-bordered">
     <tr>
         <th>Staff Name</th>
@@ -41,10 +45,24 @@
             <td>{{ i.date }}</td>
             <td>{{ i.purpose }}</td>
             {% if i.status == "Pending" %}
-                  <td><label class="badge bg-danger text-white">{{ i.status }}</label></td>
-                {% else %}
-                  <td><label class="badge bg-success text-white">{{ i.status }}</label></td>
-                {% endif %}
+                <td><label class="badge bg-danger text-white">{{ i.status }}</label></td>
+            {% elif i.status == "Rejected" %}
+                <td><label class="badge bg-warning text-white">{{ i.status }}</label></td>
+            {% else %}
+                <td><label class="badge bg-success text-white">{{ i.status }}</label></td>
+            {% endif %}
+            
+            {% if i.status == "Rejected" %}
+
+            {% else %}
+              <td>
+                <a href="/supervisor_view_existing_loan/{{i.id}}">
+                  <i class="fas fa-info-circle"></i>View More
+                </a>
+              </td>
+
+            {% endif %}
+              
         </tr>
     {% endfor %}
 </table>

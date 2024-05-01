@@ -29,7 +29,7 @@
     <form action="/public_business_request_post/" method="post" enctype="multipart/form-data" name="form1" id="form1">
       {% csrf_token %}
   
-    <table class="table table-bordered">
+    <table class="table table-borderless">
       <!-- <tr>
           <th>Comapany Name</th>
           <td>
@@ -39,7 +39,7 @@
           <th>Select Product</th>
           <td>
               <select name="textfield1" id="textfield1" class="form-control" required>
-                  <option value="">Select Company Type</option>
+                  <option value="">---Select Product Type---  </option>
                   <option value="Footwear">Footwear</option>
                   <option value="Plastic">Plastic</option>
                   <option value="Blow">Blow</option>

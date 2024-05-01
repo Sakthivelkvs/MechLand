@@ -46,7 +46,7 @@ function valid() {
       <tr>
         <th>Leave Type</th>
         <td>
-          <select name="select" class="form-control"  id="select">
+          <select name="select" class="form-control"  id="select" required>
              <option value="">Select Leave</option>
                 {% for ct in data2 %}
                     <option value="{{ ct.leave_type }}">{{ ct.leave_type }} (MAX  {{ ct.leave_limit }} days)</option>
@@ -126,7 +126,7 @@ document.getElementById("select").addEventListener("change", calculateDays);
     <tr>
     <th>Reason</th>
         <td>
-            <textarea name="textarea2" id="textarea2" cols="45" class="form-control" rows="3"></textarea></td>
+            <textarea name="textarea2" id="textarea2" cols="45" class="form-control" rows="3" required></textarea></td>
       </tr>
     <tr>
       <td>&nbsp;</td>

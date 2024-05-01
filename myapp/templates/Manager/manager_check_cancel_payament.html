@@ -51,16 +51,16 @@
           {% endif %}
         </td>
 
-       <td>
-  <a href="/manger_approve_order/{{i.unit_order_id_id}}" class="btn btn-success">
-    <i class="fas fa-check"></i> 
-  </a>
-</td>
-<td>
+        <td>
+            <a href="/manager_approve_cancel_request/{{i.id}}" class="btn btn-success" data-toggle="popover" title="Approve Request" data-content="Click to approve this cancel request">
+              <i class="fas fa-check"></i>
+          
+          </td>
+<!-- <td>
   <a href="/manager_reject_order/{{i.unit_order_id_id}}" class="btn btn-danger">
     <i class="fas fa-times"></i> 
   </a>
-</td>
+</td> -->
 
       {% endfor %}
         

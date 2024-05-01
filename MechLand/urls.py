@@ -185,6 +185,8 @@ urlpatterns = [
     path('admin_logout/',views.admin_logout),
     path('supervisor_logout/',views.supervisor_logout),
     path('staff_logout/',views.staff_logout),
+    path('manager_logout/',views.manager_logout),
+    path('unit_logout/',views.unit_logout),
 
     ######################## UNIT ####################################
     
@@ -224,7 +226,10 @@ urlpatterns = [
     
     path('unit_change_password/',views.unit_change_password),
     path('unit_change_password_post/',views.unit_change_password_post),
+    
+    #   
 
+    ######################## SUPERVISOR ####################################
     ######################## STAFF ####################################
 
 
@@ -304,6 +309,7 @@ urlpatterns = [
     path('manager_reject_order/<int:s7>',views.manager_reject_order),
     path('manager_view_approved_order/',views.manager_view_approved_order),
     path('manager_view_cancel_request/',views.manager_view_cancel_request),
+    path('manager_check_cancel_payament/<int:s8>',views.manager_check_cancel_payament),
     path('manager_approve_cancel_request/<int:s9>',views.manager_approve_cancel_request),
     path('manager_view_moulds/',views.manager_view_moulds),
     path('manager_add_stock/<int:s2>',views.manager_add_stock),
@@ -320,6 +326,8 @@ urlpatterns = [
     path('manager_view_production_report/',views.manager_view_production_report),
     path('manager_view_production_report_post/',views.manager_view_production_report_post),
     path('manager_view_production_report_post2/',views.manager_view_production_report_post2),
+
+    path('manager_update_delivery_status/<int:a1>',views.manager_update_delivery_status),
 
 
 
@@ -343,7 +351,7 @@ urlpatterns = [
     path('supervisor_view_leave_status/',views.supervisor_view_leave_status),
     path('supervisor_view_salary_slip/',views.supervisor_view_salary_slip),
     path('supervisor_view_attendance/',views.supervisor_view_attendance),
-
+    path('supervisor_view_existing_loan/<int:s5>',views.supervisor_view_existing_loan),
     path('mnr_idx/',views.mnr_idx),
     
 ]

@@ -3,16 +3,70 @@
 {% load static %}
 <html lang="en">
 <head>
+  <style>
+    /* Style for the review container */
+    .center-container {
+        margin: 0 auto;
+        max-width: 800px;
+        padding: 20px;
+    }
+
+    .review-title {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .review-container {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+
+    .review-item {
+        display: flex;
+        margin-bottom: 20px;
+        border-bottom: 1px solid #ccc; /* Add border bottom */
+        padding-bottom: 20px; /* Add some space between reviews */
+    }
+
+    .left-content {
+        flex: 1;
+        text-align: center;
+    }
+
+    .left-content img {
+        border-radius: 50%;
+    }
+
+    .right-content {
+        flex: 3;
+        padding-left: 20px;
+    }
+
+    .review-content h3 {
+        margin-top: 0;
+        font-size: small; /* Adjust the font size for h3 */
+    }
+
+    .review-content p {
+        font-size: large; /* Adjust the font size for p */
+    }
+    .review-class {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* Add shadow effect */
+}
+
+</style>
 
 </head>
 <body>
   <div class="breadcrumbs">
     <div class="container">
       <div class="d-flex justify-content-between align-items-center">
-        <h2>Mould</h2>
+        <h2></h2>
         <ol>
           <li><a href="/unit_login">Home</a></li>
-          <li>View Moulds</li>
+          <li>View Products</li>
         </ol>
       </div>
     </div>
@@ -21,6 +75,10 @@
   <!-- ======= Blog Section ======= -->
   <section class="inner-page">
     <div class="container" data-aos="fade-up">
+      <div class="section-header">
+        <h2>Products</h2>
+        <!-- <p>Order Your Moulds</p> -->
+    </div>
 
       <section id="contact" class="contact">
         <div class="container">
@@ -103,11 +161,40 @@
               </form>
             </div><!-- End Contact Form -->
           </div>
-        </div>
+        </div><br><br><br><br>
+
+
+        <div class="center-container">
+          <div class="review-title">
+              <h2>Reviews</h2>
+          </div>
+  
+          <div class="review-class">
+              <div class="review-container">
+                  {% for i in data3 %}
+                  <div class="review-item">
+                      <div class="left-content">
+                          <img src="{{ i.order_id.unit_id.Photo }}" height="30px" width="30px" alt="">
+                          <br>
+                          <span class="small-text">{{ i.order_id.unit_id.Name }}</span>
+                      </div>
+  
+                      <div class="right-content">
+                          <div class="review-content left-align">
+                              <h6><span style="font-weight: bold; color: blue;">Product:</span>  {{ i.order_id.mould_id.mname }}</h6>
+                              <p> <span style="font-weight: bold; color: green;">Review:</span>  {{ i.review }}</p>
+                              <h6><span style="font-weight: bold; color: dimgrey;">Published on</span> {{i.date}}</h6>
+                          </div>
+                      </div>
+                  </div>
+                  {% endfor %}
+              </div>
+          </div>
+      </div>
+
+
       </section><!-- End Contact Section -->
     </div>
-  </section><!-- End Inner Page Section -->
-</body>
 {% endblock %}
 
 

@@ -139,7 +139,7 @@
             <i class="fa fa-bars"></i>
           </button>
           <ul class="navbar-nav ml-auto">
-            <li class="nav-item dropdown no-arrow">
+            <!-- <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-search fa-fw"></i>
@@ -158,8 +158,8 @@
                   </div>
                 </form>
               </div>
-            </li>
-            <li class="nav-item dropdown no-arrow mx-1">
+            </li> -->
+            <!-- <li class="nav-item dropdown no-arrow mx-1">
               <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-bell fa-fw"></i>
@@ -241,8 +241,8 @@
                 </a>
                 <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
               </div>
-            </li>
-            <li class="nav-item dropdown no-arrow mx-1">
+            </li> -->
+            <!-- <li class="nav-item dropdown no-arrow mx-1">
               <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-tasks fa-fw"></i>
@@ -288,7 +288,7 @@
                 </a>
                 <a class="dropdown-item text-center small text-gray-500" href="#">View All Taks</a>
               </div>
-            </li>
+            </li> -->
             <div class="topbar-divider d-none d-sm-block"></div>
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
@@ -416,33 +416,15 @@
             <div class="col-xl-12 col-lg-9">
               
               <div class="card mb-8">
-
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  {%block body%}  
-                  {%endblock%}
-                  <!-- <h6 class="m-0 font-weight-bold text-primary">Monthly Recap Report</h6> -->
-                  <!-- <div class="dropdown no-arrow">
-                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
-                      aria-haspopup="true" aria-expanded="false">
-                      <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                      aria-labelledby="dropdownMenuLink">
-                      <div class="dropdown-header">Dropdown Header:</div>
-                      <a class="dropdown-item" href="#">Action</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                  </div> -->
-                
-                  <!-- <div class="card-body">
-                    <div class="chart-area">
-                      <canvas id="myAreaChart"></canvas>
-                    </div>
-                  </div> -->
+                <div class="card-header py-3 d-flex flex-column align-items-center justify-content-center">
+                    <img src="{% static 'manager/img/logo/mech_logo.png' %}" class="img-fluid mx-auto d-block mb-4" alt="Company Logo" style="max-height: 100px; max-width: 200px;">
+                    <h3 class="m-0 font-weight-bold text-primary" class="text-center mb-0">MechLand Tools</h3><br>
+                    <p class="card-text">Manufactures of Footwear Mould, Plastic Mould, Blow Mould, and all types of Tool Room Works</p>
                 </div>
-              </div>
+            </div>
+            
+            
+            
             </div>
             <!-- Pie Chart -->
             <!-- <div class="col-xl-4 col-lg-5">
@@ -647,7 +629,7 @@
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cancel</button>
-                  <a href="/logout" class="btn btn-primary">Logout</a>
+                  <a href="/manager_logout" class="btn btn-primary">Logout</a>
                 </div>
               </div>
             </div>
@@ -661,18 +643,18 @@
         <div class="container my-auto">
           <div class="copyright text-center my-auto">
             <span>copyright &copy; <script> document.write(new Date().getFullYear()); </script> - developed by
-              <b><a href="https://indrijunanda.gitlab.io/" target="_blank">indrijunanda</a></b>
+              <b><a href="https://github.com/Sakthivelkvs/MechLand" target="_blank">Sakthi</a></b>
             </span>
           </div>
         </div>
 
-        <div class="container my-auto py-2">
+        <!-- <div class="container my-auto py-2">
           <div class="copyright text-center my-auto">
             <span>copyright &copy; <script> document.write(new Date().getFullYear()); </script> - distributed by
               <b><a href="https://themewagon.com/" target="_blank">themewagon</a></b>
             </span>
           </div>
-        </div>
+        </div> -->
       </footer>
       <!-- Footer -->
     </div>

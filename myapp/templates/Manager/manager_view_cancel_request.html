@@ -2,6 +2,11 @@
 {% block body %}
 {% load static %}
 <html lang="en">
+  <style>
+    table {
+      text-align: center; /* Center align all table data values */
+    }
+  </style>
 <body>
   <div class="container-fluid" id="container-wrapper">
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -20,22 +25,51 @@
           <th>Name</th>
           <th>Company Name</th>
           <th> Mould </th>
-          <th> Photo </th>
+          <!-- <th> Photo </th> -->
           <th> Quantity </th>
           <th> Date </th>
+          <th> Payment Method </th>
           <th> Status </th>
         </tr>
           {% for i in data %}
         <tr>
           <td>{{ forloop.counter }}</td>
-          <td>{{ i.order_id.unit_id.Name }}</td>
-          <td>{{ i.order_id.unit_id.Company_Name }}</td>
-          <td>&nbsp;{{ i.order_id.mould_id.mname }}</td>
-          <td><img src="{{ i.order_id.mould_id.photo }}" height="100px" width="100px" ></td>
-          <td>&nbsp;{{ i.order_id.quantity }}</td>
+          <td>{{ i.unit_id.Name }}</td>
+          <td>{{ i.unit_id.Company_Name }}</td>
+          <td>&nbsp;{{ i.mould_id.mname }}<br><img src="{{ i.mould_id.photo }}" height="100px" width="100px" ></td>
+          <!-- <td><img src="{{ i.mould_id.photo }}" height="100px" width="100px" ></td> -->
+          <td>&nbsp;{{ i.quantity }}</td>
           <td>{{ i.date }}</td>
-          <td>{{ i.status }}</td>
-          <td><a href="/manager_approve_cancel_request/{{i.id}}" class="btn btn-success">Approve</a></td>
+          <td>
+  {% if i.payment_method == 'COD' %}
+    <span class="badge bg-warning text-dark">{{ i.payment_method }}</span>
+
+  {% else %}
+    <span class="badge bg-info text-white">{{ i.payment_method }}</span>
+  {% endif %}
+</td>
+
+
+          <td><label class="badge badge-danger">{{ i.status }}</label></td>
+
+          <td>
+            <a href="/manager_check_cancel_payament/{{i.id}}" class="btn btn-info">
+              <i class="fas fa-money-check-alt"></i>  Payment
+            </a>
+          </td>
+          
+  
+  <!-- {% if i.payment_method == "COD" %}
+
+  {% else %}
+    <td>
+    <a href="/manager_approve_cancel_request/{{i.id}}" class="btn btn-success" data-toggle="popover" title="Approve Request" data-content="Click to approve this cancel request">
+      <i class="fas fa-check"></i>
+  
+  </td>
+  {% endif %} -->
+    
+
           {% endfor %}
       </table> 
  </form> 

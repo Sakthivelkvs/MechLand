@@ -34,23 +34,38 @@
         <tr>
           <th>SL.NO</th>
           <th>Name</th>
-          <th>Company Name</th>
+          <!-- <th>Company Name</th> -->
           <th> Mould </th>
-          <th> Photo </th>
+          <!-- <th> Photo </th> -->
           <th> Quantity </th>
           <th> Date </th>
+          <th> Payment </th>
           <th> Status </th>
         </tr>
           {% for i in data %}
         <tr>
           <td>{{ forloop.counter }}</td>
-          <td>{{ i.order_id.unit_id.Name }}</td>
-          <td>{{ i.order_id.unit_id.Company_Name }}</td>
-          <td>&nbsp;{{ i.order_id.mould_id.mname }}</td>
-          <td><img src="{{ i.order_id.mould_id.photo }}" height="100px" width="100px" ></td>
-          <td>&nbsp;{{ i.order_id.quantity }}</td>
-          <td>{{ i.date }}</td>
-          <td>{{ i.status }}</td>
+          <td>{{ i.unit_id.Name }}</td>
+          <!-- <td>{{ i.unit_id.Company_Name }}</td> -->
+          <td>&nbsp;{{ i.mould_id.mname }}<br><img src="{{ i.mould_id.photo }}" height="100px" width="100px" ></td>
+          <!-- <td><img src="{{ i.order_id.mould_id.photo }}" height="100px" width="100px" ></td> -->
+          <td>&nbsp;{{ i.quantity }}</td>
+          <td>{{ i.c_date }}</td>
+          {% if i.payment_method == "COD" %}
+                            <td><label class="badge bg-indigo text-white">{{ i.payment_method }}</label></td>
+                        {% else %}
+                            <td><label class="badge bg-blue text-white">{{ i.payment_method }}</label></td>
+                        {% endif %}
+
+<td>
+  {% if i.cancel_status == "Your Order is Cancelled" %}
+    <span class="badge bg-danger text-white">{{ i.cancel_status }}</span>
+  {% elif i.cancel_status == "Your Money will be refunded within 4 days" %}
+  <span class="badge bg-warning text-white">{{ i.cancel_status }}</span>
+  {% else %}
+    <span class="badge bg-success text-white">{{ i.cancel_status }}</span>
+  {% endif %}
+</td>
           {% endfor %}
       </table> 
 </form>

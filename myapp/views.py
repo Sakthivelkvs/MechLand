@@ -38,13 +38,13 @@ def unit_login(request):
     #return render(request, 'unit_index.html')
 
 def staff_login(request):
-    var = request.session.get('staff')
-    var2 = staff.objects.get(Email=var)  
+    aj = request.session.get('staff')
+    var2 = staff.objects.get(Email=aj)  
     return render(request,'staff_index.html', {'data': var2})
 
 def manager_login(request):
-    var = request.session.get('mngr')
-    var2 = manager.objects.get(Email=var)
+    aj = request.session.get('mngr')
+    var2 = manager.objects.get(Email=aj)
     aj=unit_order.objects.filter(status="Pending").count()
     print(aj)
     aj2=staff.objects.filter(job_id__job_role="Supervisor").count()
@@ -55,8 +55,8 @@ def manager_login(request):
     return render(request,'manager_index3.html',{'data': var2,'data2':aj, 'data1':aj2, 'data3':aj3, 'data4':aj4})
 
 def supervisor_login(request):
-    var = request.session.get('sprvr')
-    var2 = staff.objects.get(Email=var)  
+    aj = request.session.get('sprvr')
+    var2 = staff.objects.get(Email=aj)  
     return render(request,'supervisor_index.html',{'data': var2})
 
 def login1_post(request):
@@ -118,16 +118,29 @@ def logout(request):
 
 def admin_logout(request):
     del request.session['adm']
-    return render(request,'index copy.html')
+    messages.error(request, 'You Are Logged Out!')
+    return redirect('/public_home2/')
 
 def staff_logout(request):
     del request.session['staff']
-    return render(request,'index copy.html')
+    messages.error(request, 'You Are Logged Out!')
+    return redirect('/public_home2/')
 
 def supervisor_logout(request):
     del request.session['sprvr']
-    return render(request,'index copy.html')
-            
+    messages.error(request, 'You Are Logged Out!')
+    return redirect('/public_home2/')
+
+def manager_logout(request):
+    del request.session['mngr']
+    messages.error(request, 'You Are Logged Out!')
+    return redirect('/public_home2/')
+
+def unit_logout(request):
+    del request.session['unit']
+    messages.error(request, 'You Are Logged Out!')
+    return redirect('/public_home2/')
+
 
 
 ### Admin Home   ########
@@ -152,222 +165,264 @@ def admin3(request):
 #### Mould Management     ########
 
 def admin_add_mould(request):
-    return render(request, 'Admin/admin_add_mould.html')
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        return render(request, 'Admin/admin_add_mould.html')
 def admin_add_mould_post(request):
-    mn=request.POST['textfield']
-    mt=request.POST['select']
-    Description=request.POST['textarea']
-    sizet=request.POST['select2']
-    size1=request.POST['textfield4']
-    size2=request.POST['textfield5']
-    size3=request.POST['textfield6']
-    size=request.POST['textfield7']
-    price=request.POST['textfield2']
-    photo=request.FILES['photo']
-    fs=FileSystemStorage()
-    filename=fs.save(photo.name,photo)
-    uploaded_file_url = fs.url(filename)
-    
-    aj=add_mould()
-    aj.mname=mn
-    aj.mtype=mt
-    aj.Description=Description
-    aj.price=price
-    aj.stock="0"
-    aj.size_type=sizet
-    aj.size1=size1
-    aj.size2=size2
-    aj.size3=size3
-    aj.size=size
-    aj.photo = uploaded_file_url
-    aj.save()
-    messages.success(request, 'Added successfully!')
-    return redirect('/admin_view_mould/')
-    # return HttpResponse('''<script>alert('Success');window.location="/admin_view_mould/"</script>''')
-
-def admin_view_mould(request):
-    values=add_mould.objects.all().order_by('-id')
-    return render(request,"Admin/admin_view_moulds.html",{'data':values})
-
-def admin_edit_mould(request,s1):
-    data=add_mould.objects.get(id=s1)
-    return render(request,"Admin/admin_edit_mould.html",{'data':data})
-
-def admin_edit_mould_post(request):
-    id = request.POST.get('id')
-    v1=request.POST['textfield']
-    v2=request.POST['select']
-    v3=request.POST['textarea']
-    v4=request.POST['textfield2']
-    sizet=request.POST['select2']
-    size1=request.POST['textfield4']
-    size2=request.POST['textfield5']
-    size3=request.POST['textfield6']
-    size=request.POST['textfield7']
-    if 'photo' in request.FILES:
-        photo = request.FILES['photo']
-
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        mn=request.POST['textfield']
+        mt=request.POST['select']
+        Description=request.POST['textarea']
+        sizet=request.POST['select2']
+        size1=request.POST['textfield4']
+        size2=request.POST['textfield5']
+        size3=request.POST['textfield6']
+        size=request.POST['textfield7']
+        price=request.POST['textfield2']
         photo=request.FILES['photo']
         fs=FileSystemStorage()
         filename=fs.save(photo.name,photo)
         uploaded_file_url = fs.url(filename)
-
-        aj=add_mould.objects.get(id=id)
-        aj.mname=v1
-        aj.mtype=v2
-        aj.Description=v3
+        
+        aj=add_mould()
+        aj.mname=mn
+        aj.mtype=mt
+        aj.Description=Description
+        aj.price=price
+        aj.stock="0"
         aj.size_type=sizet
         aj.size1=size1
         aj.size2=size2
         aj.size3=size3
         aj.size=size
-        aj.price=v4
-        aj.stock="0"
         aj.photo = uploaded_file_url
         aj.save()
-        messages.success(request, 'Edited successfully!')
+        messages.success(request, 'Added successfully!')
         return redirect('/admin_view_mould/')
+        # return HttpResponse('''<script>alert('Success');window.location="/admin_view_mould/"</script>''')
 
+def admin_view_mould(request):
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
     else:
-        aj = add_mould.objects.get(id=id)
-        aj.mname=v1
-        aj.mtype=v2
-        aj.Description=v3
-        aj.size_type=sizet
-        aj.size1=size1
-        aj.size2=size2
-        aj.size3=size3
-        aj.size=size
-        aj.price=v4
-        aj.stock="0"
-        aj.save()
-        messages.success(request, 'Edited successfully!')
-        return redirect('/admin_view_mould/')
+        values=add_mould.objects.all().order_by('-id')
+        return render(request,"Admin/admin_view_moulds.html",{'data':values})
+
+def admin_edit_mould(request,s1):
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        data=add_mould.objects.get(id=s1)
+        return render(request,"Admin/admin_edit_mould.html",{'data':data})
+
+def admin_edit_mould_post(request):
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        id = request.POST.get('id')
+        v1=request.POST['textfield']
+        v2=request.POST['select']
+        v3=request.POST['textarea']
+        v4=request.POST['textfield2']
+        sizet=request.POST['select2']
+        size1=request.POST['textfield4']
+        size2=request.POST['textfield5']
+        size3=request.POST['textfield6']
+        size=request.POST['textfield7']
+        if 'photo' in request.FILES:
+            photo = request.FILES['photo']
+
+            photo=request.FILES['photo']
+            fs=FileSystemStorage()
+            filename=fs.save(photo.name,photo)
+            uploaded_file_url = fs.url(filename)
+
+            aj=add_mould.objects.get(id=id)
+            aj.mname=v1
+            aj.mtype=v2
+            aj.Description=v3
+            aj.size_type=sizet
+            aj.size1=size1
+            aj.size2=size2
+            aj.size3=size3
+            aj.size=size
+            aj.price=v4
+            aj.stock="0"
+            aj.photo = uploaded_file_url
+            aj.save()
+            messages.success(request, 'Edited successfully!')
+            return redirect('/admin_view_mould/')
+
+        else:
+            aj = add_mould.objects.get(id=id)
+            aj.mname=v1
+            aj.mtype=v2
+            aj.Description=v3
+            aj.size_type=sizet
+            aj.size1=size1
+            aj.size2=size2
+            aj.size3=size3
+            aj.size=size
+            aj.price=v4
+            aj.stock="0"
+            aj.save()
+            messages.success(request, 'Edited successfully!')
+            return redirect('/admin_view_mould/')
 
 def admin_delete_mould(request,s2):
-    values=add_mould.objects.get(id=s2)
-    values.delete()
-    messages.error(request, 'Deleted successfully!')
-    return redirect('/admin_view_mould/')
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        values=add_mould.objects.get(id=s2)
+        values.delete()
+        messages.error(request, 'Deleted successfully!')
+        return redirect('/admin_view_mould/')
 
 
 ##### Predict Mould management    ########
 
 def admin_add_predict_mould(request):
-    return render(request, 'Admin/admin_add_predict_mould.html')
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        return render(request, 'Admin/admin_add_predict_mould.html')
 
 def admin_add_predict_mould_post(request):
-    mn=request.POST['textfield']
-    photo1=request.FILES['photo1']
-    fs=FileSystemStorage()
-    filename=fs.save(photo1.name,photo1)
-    uploaded_file_url = fs.url(filename)
-
-    photo2=request.FILES['photo2']
-    fs2=FileSystemStorage()
-    filename1=fs2.save(photo2.name,photo2)
-    uploaded_file_url2 = fs2.url(filename1)
-
-    photo3=request.FILES['photo3']
-    fs3=FileSystemStorage()
-    filename2=fs3.save(photo3.name,photo3)
-    uploaded_file_url3 = fs3.url(filename2)
-
-    aobj=predict_mould()
-    aobj.mldname=mn
-    aobj.photo1=uploaded_file_url
-    aobj.photo2=uploaded_file_url2
-    aobj.photo3=uploaded_file_url3
-    aobj.save()
-    messages.success(request, 'Added successfully!')
-    return render('/admin_view_predict_mould/')
-    # return HttpResponse('''<script>alert('Success');window.location="/admin_view_predict_mould/"</script>''')
-    # return HttpResponse("Success")
-    
-def admin_view_predict_mould(request):
-    values=predict_mould.objects.all()
-    return render(request,"Admin/admin_view_predict_mould.html",{'data': values})
-
-def admin_edit_predict_mould(request,s3):
-    data=predict_mould.objects.get(id=s3)
-    return render(request,"Admin/admin_edit_predict_mould.html",{'data':data})
-
-def admin_edit_predict_mould_post(request):
-    id = request.POST.get('id')
-    v1=request.POST['textfield']
-    if 'photo1' in request.FILES:
-        photo = request.FILES['photo1']  
-        fs = FileSystemStorage()
-        filename = fs.save(photo.name, photo)
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        mn=request.POST['textfield']
+        photo1=request.FILES['photo1']
+        fs=FileSystemStorage()
+        filename=fs.save(photo1.name,photo1)
         uploaded_file_url = fs.url(filename)
 
-        aj = predict_mould.objects.get(id=id)
-        aj.mldname = v1
-        aj.photo1 = uploaded_file_url
-        aj.save()
-        messages.success(request, 'Edited successfully!')
-        return redirect('/admin_view_predict_mould/')
+        photo2=request.FILES['photo2']
+        fs2=FileSystemStorage()
+        filename1=fs2.save(photo2.name,photo2)
+        uploaded_file_url2 = fs2.url(filename1)
 
-    elif 'photo2' in request.FILES:
-        photo1 = request.FILES['photo2']  
-        fs2 = FileSystemStorage()
-        filename2 = fs2.save(photo1.name, photo1)
-        uploaded_file_url2 = fs2.url(filename2)
+        photo3=request.FILES['photo3']
+        fs3=FileSystemStorage()
+        filename2=fs3.save(photo3.name,photo3)
+        uploaded_file_url3 = fs3.url(filename2)
 
-        aj = predict_mould.objects.get(id=id)
-        aj.mldname = v1
-        aj.photo2 = uploaded_file_url2
-        aj.save()
-        messages.success(request, 'Edited successfully!')
-        return redirect('/admin_view_predict_mould/')
-
-    elif 'photo3' in request.FILES:
-        photo2 = request.FILES['photo3'] 
-        fs3 = FileSystemStorage()
-        filename3 = fs3.save(photo2.name, photo2)
-        uploaded_file_url3 = fs3.url(filename3)
-
-        aj = predict_mould.objects.get(id=id)
-        aj.mldname = v1
-        aj.photo3 = uploaded_file_url3
-        aj.save()
-        messages.success(request, 'Edited successfully!')
-        return redirect('/admin_view_predict_mould/')
-
+        aobj=predict_mould()
+        aobj.mldname=mn
+        aobj.photo1=uploaded_file_url
+        aobj.photo2=uploaded_file_url2
+        aobj.photo3=uploaded_file_url3
+        aobj.save()
+        messages.success(request, 'Added successfully!')
+        return render('/admin_view_predict_mould/')
+        # return HttpResponse('''<script>alert('Success');window.location="/admin_view_predict_mould/"</script>''')
+        # return HttpResponse("Success")
+    
+def admin_view_predict_mould(request):
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
     else:
-        aj = predict_mould.objects.get(id=id)
-        aj.mldname = v1
-        aj.save()
-        messages.success(request, 'Edited successfully!')
-        return redirect('/admin_view_predict_mould/')
+        values=predict_mould.objects.all()
+        return render(request,"Admin/admin_view_predict_mould.html",{'data': values})
+
+def admin_edit_predict_mould(request,s3):
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        data=predict_mould.objects.get(id=s3)
+        return render(request,"Admin/admin_edit_predict_mould.html",{'data':data})
+
+def admin_edit_predict_mould_post(request):
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        id = request.POST.get('id')
+        v1=request.POST['textfield']
+        if 'photo1' in request.FILES:
+            photo = request.FILES['photo1']  
+            fs = FileSystemStorage()
+            filename = fs.save(photo.name, photo)
+            uploaded_file_url = fs.url(filename)
+
+            aj = predict_mould.objects.get(id=id)
+            aj.mldname = v1
+            aj.photo1 = uploaded_file_url
+            aj.save()
+            messages.success(request, 'Edited successfully!')
+            return redirect('/admin_view_predict_mould/')
+
+        elif 'photo2' in request.FILES:
+            photo1 = request.FILES['photo2']  
+            fs2 = FileSystemStorage()
+            filename2 = fs2.save(photo1.name, photo1)
+            uploaded_file_url2 = fs2.url(filename2)
+
+            aj = predict_mould.objects.get(id=id)
+            aj.mldname = v1
+            aj.photo2 = uploaded_file_url2
+            aj.save()
+            messages.success(request, 'Edited successfully!')
+            return redirect('/admin_view_predict_mould/')
+
+        elif 'photo3' in request.FILES:
+            photo2 = request.FILES['photo3'] 
+            fs3 = FileSystemStorage()
+            filename3 = fs3.save(photo2.name, photo2)
+            uploaded_file_url3 = fs3.url(filename3)
+
+            aj = predict_mould.objects.get(id=id)
+            aj.mldname = v1
+            aj.photo3 = uploaded_file_url3
+            aj.save()
+            messages.success(request, 'Edited successfully!')
+            return redirect('/admin_view_predict_mould/')
+
+        else:
+            aj = predict_mould.objects.get(id=id)
+            aj.mldname = v1
+            aj.save()
+            messages.success(request, 'Edited successfully!')
+            return redirect('/admin_view_predict_mould/')
     
 def delete_predict_mouold(request,s4):
-    values=predict_mould.objects.get(id=s4)
-    values.delete()
-    messages.error(request, 'Deleted successfully!')
-    return redirect('/admin_view_predict_mould/')
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        values=predict_mould.objects.get(id=s4)
+        values.delete()
+        messages.error(request, 'Deleted successfully!')
+        return redirect('/admin_view_predict_mould/')
 
 def admin_view_public_ratting(request):
-    values=predict_mould.objects.all()
-    return render(request,"Admin/admin_view_public_ratting.html",{'data':values})
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        values=predict_mould.objects.all()
+        return render(request,"Admin/admin_view_public_ratting.html",{'data':values})
 
     
 def admin_view_public_ratting2(request,s1):
-    instance=ratting.objects.get(predict_mould_id_id=s1)
-    result = instance.get_column_with_highest_value()
-    
-    if result=="p1_ratting":
-        data=predict_mould.objects.get(id=s1)
-        res=data.photo1
-        return render(request,"Admin/rattingresult.html",{'res':res})
-    elif result=="p2_ratting":
-        data=predict_mould.objects.get(id=s1)
-        res=data.photo2
-        return render(request,"Admin/rattingresult.html",{'res':res})   
-    elif result=="p3_ratting":
-        data=predict_mould.objects.get(id=s1)
-        res=data.photo3
-        return render(request,"Admin/rattingresult.html",{'res':res})     
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        instance=ratting.objects.get(predict_mould_id_id=s1)
+        result = instance.get_column_with_highest_value()
+        
+        if result=="p1_ratting":
+            data=predict_mould.objects.get(id=s1)
+            res=data.photo1
+            return render(request,"Admin/rattingresult.html",{'res':res})
+        elif result=="p2_ratting":
+            data=predict_mould.objects.get(id=s1)
+            res=data.photo2
+            return render(request,"Admin/rattingresult.html",{'res':res})   
+        elif result=="p3_ratting":
+            data=predict_mould.objects.get(id=s1)
+            res=data.photo3
+            return render(request,"Admin/rattingresult.html",{'res':res})     
 
 
     
@@ -379,77 +434,95 @@ def admin_view_public_ratting2(request,s1):
 ##### Job Master    ########
 
 def admin_add_job(request):
-    return render(request, 'Admin/admin_add_job.html')
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        return render(request, 'Admin/admin_add_job.html')
 
 def admin_add_job_post(request):
-    job_role=request.POST['textfield']
-    basic_salary=request.POST['textfield2']
-    # allowance=request.POST['textfield3']
-    loan_allowance=request.POST['textfield3']
-    salary=request.POST['textfield4']
-    r=request.POST['textfield5']
-    v=request.POST['textfield6']
-    q=request.POST['textfield7']
-    e=request.POST['textfield8']
-    d=request.POST['textfield9']
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        job_role=request.POST['textfield']
+        basic_salary=request.POST['textfield2']
+        # allowance=request.POST['textfield3']
+        loan_allowance=request.POST['textfield3']
+        salary=request.POST['textfield4']
+        r=request.POST['textfield5']
+        v=request.POST['textfield6']
+        q=request.POST['textfield7']
+        e=request.POST['textfield8']
+        d=request.POST['textfield9']
 
-    aj=job_master()
-    aj.job_role=job_role
-    aj.basic_salary=basic_salary
-    # aj.allowance=allowance
-    aj.cut_salary=salary 
-    aj.loan_allowance=loan_allowance
-    aj.requirements=r
-    aj.vacancies=v
-    aj.qualifications=q
-    aj.experiences=e
-    aj.date=d
-    aj.status="ok"
-    aj.save()
-    messages.success(request, 'Added successfully!')
-    return redirect('/admin_view_job/')
-    # return HttpResponse('''<script>alert('Success');window.location="/admin_view_job/"</script>''')
+        aj=job_master()
+        aj.job_role=job_role
+        aj.basic_salary=basic_salary
+        # aj.allowance=allowance
+        aj.cut_salary=salary 
+        aj.loan_allowance=loan_allowance
+        aj.requirements=r
+        aj.vacancies=v
+        aj.qualifications=q
+        aj.experiences=e
+        aj.date=d
+        aj.status="ok"
+        aj.save()
+        messages.success(request, 'Added successfully!')
+        return redirect('/admin_view_job/')
+        # return HttpResponse('''<script>alert('Success');window.location="/admin_view_job/"</script>''')
 
 
 def admin_view_job(request):
-    values=job_master.objects.all()
-    return render(request,"Admin/admin_view_job.html",{'data':   values})
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        values=job_master.objects.all()
+        return render(request,"Admin/admin_view_job.html",{'data':   values})
 
 def admin_edit_job(request,s5):
-    data=job_master.objects.get(id=s5)
-    return render(request,"Admin/admin_edit_job.html",{'data':data})
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        data=job_master.objects.get(id=s5)
+        return render(request,"Admin/admin_edit_job.html",{'data':data})
 def admin_edit_job_post(request):
-    id = request.POST.get('id')
-    v1=request.POST['textfield']
-    v2=request.POST['textfield2']
-    v3=request.POST['textfield3']
-    v4=request.POST['textfield4']
-    r=request.POST['textfield5']
-    v=request.POST['textfield6']
-    q=request.POST['textfield7']
-    e=request.POST['textfield8']
-    d=request.POST['textfield9']
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        id = request.POST.get('id')
+        v1=request.POST['textfield']
+        v2=request.POST['textfield2']
+        v3=request.POST['textfield3']
+        v4=request.POST['textfield4']
+        r=request.POST['textfield5']
+        v=request.POST['textfield6']
+        q=request.POST['textfield7']
+        e=request.POST['textfield8']
+        d=request.POST['textfield9']
 
-    aj=job_master.objects.get(id=id)
-    aj.job_role=v1
-    aj.basic_salary=v2
-    aj.cut_salary=v3
-    # aj.allowance=v3
-    aj.loan_allowance=v4
-    aj.requirements=r
-    aj.vacancies=v
-    aj.qualifications=q
-    aj.experiences=e
-    aj.date=d
-    aj.save()
-    messages.success(request, 'Edited successfully!')
-    return redirect('/admin_view_job/')
+        aj=job_master.objects.get(id=id)
+        aj.job_role=v1
+        aj.basic_salary=v2
+        aj.cut_salary=v3
+        # aj.allowance=v3
+        aj.loan_allowance=v4
+        aj.requirements=r
+        aj.vacancies=v
+        aj.qualifications=q
+        aj.experiences=e
+        aj.date=d
+        aj.save()
+        messages.success(request, 'Edited successfully!')
+        return redirect('/admin_view_job/')
 
 def admin_delete_job(request,s6):
-    values=job_master.objects.get(id=s6)
-    values.delete()
-    messages.error(request, 'Deleted successfully!')
-    return redirect('/admin_view_job/')
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        values=job_master.objects.get(id=s6)
+        values.delete()
+        messages.error(request, 'Deleted successfully!')
+        return redirect('/admin_view_job/')
 
 
 
@@ -476,241 +549,289 @@ def admin_delete_job(request,s6):
 
     
 def  admin_allotstaff(request,s16):
-    return render(request, 'Admin/admin_add_staff.html',{'s16':s16})
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        return render(request, 'Admin/admin_add_staff.html',{'s16':s16})
 
 
 def  admin_add_staff_post(request,id):
-    joindate=request.POST['textfield']
-    remark=request.POST['textfield2']
-    sec=request.POST['select']
-    data=job_apply.objects.get(id=id)
-    data.status="accepted"
-    data.save()
-    aj=staff()
-    aj.Name=data.Name
-    aj.Gender=data.Gender
-    aj.Date_of_birth=data.Date_of_birth
-    aj.Email=data.Email
-    aj.Phone_Number=data.Phone_Number
-    aj.Address=data.Address
-    aj.Photo=data.Photo
-    aj.join_date=joindate
-    aj.remark=remark
-    aj.section=sec
-    aj.job_id_id=data.job_id_id
-    aj.status="active"
-    aj.save()
-    # send_mail('Congratulations you are Appointed...','Username:'+data.Name,'Password:'+data.Phone_Number,'from@example.co',[aj.Email,]) 
-    data3=login.objects.filter(username=data.Email).count()
-    if data3>0:
-        return HttpResponse('''<script>alert('Already Exist');window.location="/admin_view_carrier_application/"</script>''')
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
     else:
-        if data.job_id.job_role == "Supervisor":
-            data2=login()
-            data2.username=data.Email
-            data2.password=data.Phone_Number
-            data2.category='Supervisor'
-            data2.save()     
-        else:      
+        joindate=request.POST['textfield']
+        remark=request.POST['textfield2']
+        sec=request.POST['select']
+        data=job_apply.objects.get(id=id)
+        data.status="accepted"
+        data.save()
+        aj=staff()
+        aj.Name=data.Name
+        aj.Gender=data.Gender
+        aj.Date_of_birth=data.Date_of_birth
+        aj.Email=data.Email
+        aj.Phone_Number=data.Phone_Number
+        aj.Address=data.Address
+        aj.Photo=data.Photo
+        aj.join_date=joindate
+        aj.remark=remark
+        aj.section=sec
+        aj.job_id_id=data.job_id_id
+        aj.status="active"
+        aj.save()
+        # send_mail('Congratulations you are Appointed...','Username:'+data.Name,'Password:'+data.Phone_Number,'from@example.co',[aj.Email,]) 
+        data3=login.objects.filter(username=data.Email).count()
+        if data3>0:
+            return HttpResponse('''<script>alert('Already Exist');window.location="/admin_view_carrier_application/"</script>''')
+        else:
+            if data.job_id.job_role == "Supervisor":
+                data2=login()
+                data2.username=data.Email
+                data2.password=data.Phone_Number
+                data2.category='Supervisor'
+                data2.save()     
+            else:      
 
 
-            data2=login()
-            data2.username=data.Email
-            data2.password=data.Phone_Number
-            data2.category='staff'
-            data2.save()  
-    messages.success(request, 'Staff is Alloted!')
-    return redirect('/admin_view_carrier_application/')      
-    # return HttpResponse('''<script>alert('Success');window.location="/admin_view_carrier_application/"</script>''')
+                data2=login()
+                data2.username=data.Email
+                data2.password=data.Phone_Number
+                data2.category='staff'
+                data2.save()  
+        messages.success(request, 'Staff is Alloted!')
+        return redirect('/admin_view_carrier_application/')      
+        # return HttpResponse('''<script>alert('Success');window.location="/admin_view_carrier_application/"</script>''')
 
 
 
 def admin_allot_manager(request):
-    return render(request, 'Admin/admin_allot_manager.html')
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        return render(request, 'Admin/admin_allot_manager.html')
 
 def admin_allot_manager_post2(request):
-    search=request.POST['textfield']
-    if search:
-        var=staff.objects.filter(Name__icontains=search)
-        if var:
-            return render(request,"Admin/admin_allot_manager.html",{'data':var})
-        else:
-            return HttpResponse('''<script>alert('Search Not Found!!!!!');window.location="/admin_allot_manager/"</script>''')
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        search=request.POST['textfield']
+        if search:
+            aj=staff.objects.filter(Name__icontains=search)
+            if aj:
+                return render(request,"Admin/admin_allot_manager.html",{'data':aj})
+            else:
+                return HttpResponse('''<script>alert('Search Not Found!!!!!');window.location="/admin_allot_manager/"</script>''')
 
 def admin_allot_manager_post(request):
-    name=request.POST['textfield']
-    gndr=request.POST['RadioGroup1']
-    dob=request.POST['textfield4']
-    email=request.POST['textfield2']
-    phn=request.POST['textfield6']
-    hn=request.POST['textfield7']
-    place=request.POST['textfield8']
-    city=request.POST['textfield10']
-    state=request.POST['textfield9']
-    pin=request.POST['textfield11']
-    photo=request.FILES['photo']
-    fs=FileSystemStorage()
-    filename=fs.save(photo.name,photo)
-    uploaded_file_url = fs.url(filename)
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        name=request.POST['textfield']
+        gndr=request.POST['RadioGroup1']
+        dob=request.POST['textfield4']
+        email=request.POST['textfield2']
+        phn=request.POST['textfield6']
+        hn=request.POST['textfield7']
+        place=request.POST['textfield8']
+        city=request.POST['textfield10']
+        state=request.POST['textfield9']
+        pin=request.POST['textfield11']
+        photo=request.FILES['photo']
+        fs=FileSystemStorage()
+        filename=fs.save(photo.name,photo)
+        uploaded_file_url = fs.url(filename)
 
-    data=manager()
-    data.Name=name
-    data.Gender=gndr
-    data.Date_of_birth=dob
-    data.Email=email
-    data.Phone_Number=phn
-    data.house_name=hn
-    data.Place=place
-    data.City=city
-    data.State=state
-    data.Pincode=pin
-    data.photo=uploaded_file_url
-    data.save()
+        data=manager()
+        data.Name=name
+        data.Gender=gndr
+        data.Date_of_birth=dob
+        data.Email=email
+        data.Phone_Number=phn
+        data.house_name=hn
+        data.Place=place
+        data.City=city
+        data.State=state
+        data.Pincode=pin
+        data.photo=uploaded_file_url
+        data.save()
 
-    data2=login()
-    data2.username=data.Email
-    data2.password=data.Phone_Number
-    data2.category='manager'
-    data2.save()
-    messages.success(request, 'Manager Added!')
-    return redirect('/admin_allot_manager/')
-    # return HttpResponse('''<script>alert('Success');window.location="/admin_allot_manager/"</script>''')
-    
-    
-    # data=staff.objects.get(id=s20)
-    # data10=job_master.objects.get(job_role="manager")
-    # data.job_id_id=data10.id
-    # data.save()
-    # data2=login.objects.get(username=data.Email)
-    # data2.category="manager"
-    # data2.save()
-    # return HttpResponse('''<script>alert('Success');window.location="/admin_allot_manager/"</script>''')
+        data2=login()
+        data2.username=data.Email
+        data2.password=data.Phone_Number
+        data2.category='manager'
+        data2.save()
+        messages.success(request, 'Manager Added!')
+        return redirect('/admin_allot_manager/')
+        # return HttpResponse('''<script>alert('Success');window.location="/admin_allot_manager/"</script>''')
+        
+        
+        # data=staff.objects.get(id=s20)
+        # data10=job_master.objects.get(job_role="manager")
+        # data.job_id_id=data10.id
+        # data.save()
+        # data2=login.objects.get(username=data.Email)
+        # data2.category="manager"
+        # data2.save()
+        # return HttpResponse('''<script>alert('Success');window.location="/admin_allot_manager/"</script>''')
 
 # def admin_add_Labour(request):
-#     var=job_master.objects.all()
-#     return render(request, 'Admin/admin_allot_manager.html',{'data':var})
+#     aj=job_master.objects.all()
+#     return render(request, 'Admin/admin_allot_manager.html',{'data':aj})
 
 # def admin_add_Labour_post(request):
 
 
 def admin_view_manager(request):
-    data10=manager.objects.all()
-    return render(request, 'Admin/admin_view_manager.html',{'data':data10})
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        data10=manager.objects.all()
+        return render(request, 'Admin/admin_view_manager.html',{'data':data10})
 
 def admin_view_manager_post(request):
-    search=request.POST['textfield']
-    if search:
-        var=staff.objects.filter(Name__icontains=search)
-        if var:
-            return render(request,"Admin/admin_view_manager.html",{'data':var})
-        else:
-            return HttpResponse('''<script>alert('Search Not Found!!!!!');window.location="/admin_view_manager/"</script>''')
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        search=request.POST['textfield']
+        if search:
+            aj=staff.objects.filter(Name__icontains=search)
+            if aj:
+                return render(request,"Admin/admin_view_manager.html",{'data':aj})
+            else:
+                return HttpResponse('''<script>alert('Search Not Found!!!!!');window.location="/admin_view_manager/"</script>''')
 
 def admin_delete_manager(request,s21):
-    values=manager.objects.get(id=s21)
-    values.delete()
-    messages.error(request, 'Manager Deleted!')
-    return redirect('/admin_view_manager/')
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        values=manager.objects.get(id=s21)
+        values.delete()
+        messages.error(request, 'Manager Deleted!')
+        return redirect('/admin_view_manager/')
 
 def admin_view_staff(request):
-    data10=job_master.objects.filter(job_role="manager")
-    data=staff.objects.exclude(job_id_id__in=[ct.id for ct in data10])
-    return render(request,"Admin/admin_view_staff.html",{'data': data})
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        data10=job_master.objects.filter(job_role="manager")
+        data=staff.objects.exclude(job_id_id__in=[ct.id for ct in data10])
+        return render(request,"Admin/admin_view_staff.html",{'data': data})
 
 def admin_view_staff_details(request,s12):
-    data=staff.objects.get(id=s12)
-    return render(request,"Admin/admin_view_staff_details.html",{'data':data})
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        data=staff.objects.get(id=s12)
+        return render(request,"Admin/admin_view_staff_details.html",{'data':data})
 
 
 def admin_view_staff_post(request):
-    search=request.POST['textfield']
-    if search:
-        data=staff.objects.filter(Name__icontains=search)
-        return render(request,"Admin/admin_view_staff.html",{'data': data})
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
     else:
-        return HttpResponse('''<script>alert('Search Not Found!!!!!');window.location="/admin_view_staff/"</script>''')
+        search=request.POST['textfield']
+        if search:
+            data=staff.objects.filter(Name__icontains=search)
+            return render(request,"Admin/admin_view_staff.html",{'data': data})
+        else:
+            return HttpResponse('''<script>alert('Search Not Found!!!!!');window.location="/admin_view_staff/"</script>''')
 
 
 def admin_edit_staff(request,s7):
-    data=staff.objects.get(id=s7)
-    return render(request,"Admin/admin_edit_staff.html",{'data':data})
-def admin_edit_staff_post(request):
-    id=request.POST.get('id')
-    n=request.POST['textfield']
-    g=request.POST['RadioGroup1']
-    dob=request.POST['textfield2']
-    email=request.POST['textfield4']
-    phone=request.POST['textfield5']
-    address=request.POST['textfield7']
-    jd=request.POST['textfield9']
-    sec=request.POST['select']
-    rem=request.POST['textfield8']
-    if 'Photo' in request.FILES:
-        Photo = request.FILES['Photo']  
-        fs = FileSystemStorage()
-        filename = fs.save(Photo.name, Photo)
-        uploaded_file_url = fs.url(filename)
-
-        aj=staff.objects.get(id=id)
-        aj.Name=n
-        aj.Gender=g
-        aj.Date_of_birth=dob
-        aj.Email=email
-        aj.Phone_Number=phone
-        aj.Address=address
-        aj.join_date=jd
-        aj.remark=rem
-        aj.section=sec
-        aj.Photo=uploaded_file_url
-        aj.save()
-        return redirect('/admin_view_staff/')
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
     else:
-        aj=staff.objects.get(id=id)
-        aj.Name=n
-        aj.Gender=g
-        aj.Date_of_birth=dob
-        aj.Email=email
-        aj.Phone_Number=phone
-        aj.Address=address
-        aj.join_date=jd
-        aj.remark=rem
-        aj.section=sec
-        aj.save()
-        messages.success(request, 'Successfully Edited!')
-        return redirect('/admin_view_staff/')
+        data=staff.objects.get(id=s7)
+        return render(request,"Admin/admin_edit_staff.html",{'data':data})
+def admin_edit_staff_post(request):
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        id=request.POST.get('id')
+        n=request.POST['textfield']
+        g=request.POST['RadioGroup1']
+        dob=request.POST['textfield2']
+        email=request.POST['textfield4']
+        phone=request.POST['textfield5']
+        address=request.POST['textfield7']
+        jd=request.POST['textfield9']
+        sec=request.POST['select']
+        rem=request.POST['textfield8']
+        if 'Photo' in request.FILES:
+            Photo = request.FILES['Photo']  
+            fs = FileSystemStorage()
+            filename = fs.save(Photo.name, Photo)
+            uploaded_file_url = fs.url(filename)
+
+            aj=staff.objects.get(id=id)
+            aj.Name=n
+            aj.Gender=g
+            aj.Date_of_birth=dob
+            aj.Email=email
+            aj.Phone_Number=phone
+            aj.Address=address
+            aj.join_date=jd
+            aj.remark=rem
+            aj.section=sec
+            aj.Photo=uploaded_file_url
+            aj.save()
+            return redirect('/admin_view_staff/')
+        else:
+            aj=staff.objects.get(id=id)
+            aj.Name=n
+            aj.Gender=g
+            aj.Date_of_birth=dob
+            aj.Email=email
+            aj.Phone_Number=phone
+            aj.Address=address
+            aj.join_date=jd
+            aj.remark=rem
+            aj.section=sec
+            aj.save()
+            messages.success(request, 'Successfully Edited!')
+            return redirect('/admin_view_staff/')
 
 
 
 def admin_delete_staff(request, s8):
-    data = staff.objects.get(id=s8)
-    data.delete()
-    messages.error(request, 'Successfully Deleted!')
-    return redirect('/admin_view_staff/')
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        data = staff.objects.get(id=s8)
+        data.delete()
+        messages.error(request, 'Successfully Deleted!')
+        return redirect('/admin_view_staff/')
 
 ######### Vacancy Management #########
 
 def admin_add_vacancy(request,s3):
-    values=job_master.objects.get(id=s3)
-    return render(request, 'Admin/admin_add_vacancies.html',{'data':values})
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        values=job_master.objects.get(id=s3)
+        return render(request, 'Admin/admin_add_vacancies.html',{'data':values})
 
 def admin_add_vacancy_post(request):
-    id=request.POST.get('id')
-    r=request.POST['textfield']
-    v=request.POST['textfield2']
-    q=request.POST['textfield3']
-    e=request.POST['textfield4']
-    
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        id=request.POST.get('id')
+        r=request.POST['textfield']
+        v=request.POST['textfield2']
+        q=request.POST['textfield3']
+        e=request.POST['textfield4']
+        
 
-    aj=job_master.objects.get(id=id)
-    aj=vaccancy()
-    aj.job_id_id=id
-    aj.requirements=r
-    aj.vacancies=v
-    aj.qualifications=q
-    aj.experiences=e
-    aj.status="ok"
-    aj.save()
-    return HttpResponse('''<script>alert('Success');window.location="/admin_view_job/"</script>''')
+        aj=job_master.objects.get(id=id)
+        aj=vaccancy()
+        aj.job_id_id=id
+        aj.requirements=r
+        aj.vacancies=v
+        aj.qualifications=q
+        aj.experiences=e
+        aj.status="ok"
+        aj.save()
+        return HttpResponse('''<script>alert('Success');window.location="/admin_view_job/"</script>''')
 
 def admin_view_vacancy(request,job_id):
     job = job_master.objects.get(id=job_id)
@@ -748,181 +869,250 @@ def admin_delete_vacancy(request,s10):
 ######## Shift Management #########
 
 def admin_add_shift(reqest):
-    return render(reqest,'Admin/admin_add_shif.html')
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        return render(reqest,'Admin/admin_add_shif.html')
 
 def admin_add_shift_post(request):
-    shift_nbr=request.POST['textfield']
-    shift_time=request.POST['appt']
-    aj=shift()
-    aj.shift_nbr=shift_nbr
-    aj.shift_time=shift_time
-    aj.save()
-    messages.success(request, 'Shift is Successfully Added!')
-    return redirect('/admin_view_shift/')
-    # return HttpResponse('''<script>alert('Success');window.location="/admin_view_shift/"</script>''')
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        shift_nbr=request.POST['textfield']
+        shift_time=request.POST['appt']
+        aj=shift()
+        aj.shift_nbr=shift_nbr
+        aj.shift_time=shift_time
+        aj.save()
+        messages.success(request, 'Shift is Successfully Added!')
+        return redirect('/admin_view_shift/')
+        # return HttpResponse('''<script>alert('Success');window.location="/admin_view_shift/"</script>''')
 
 def admin_view_shift(request):
-    aj=shift.objects.all()
-    return render(request,"Admin/admin_view_shift.html",{'data':aj})
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        aj=shift.objects.all()
+        return render(request,"Admin/admin_view_shift.html",{'data':aj})
 
 def admin_edit_shift(request,s11):
-    aj=shift.objects.get(id=s11)
-    return render(request,'Admin/admin_edit_shift.html',{'data':aj})
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        aj=shift.objects.get(id=s11)
+        return render(request,'Admin/admin_edit_shift.html',{'data':aj})
 
 def admin_edit_shift_post(request):
-    id=request.POST.get('id')
-    shift_nbr=request.POST['textfield']
-    shift_time=request.POST['appt']
-    aj=shift.objects.get(id=id)
-    aj.shift_nbr=shift_nbr
-    aj.shift_time=shift_time
-    aj.save()
-    messages.success(request, 'Shift is Successfully Edited!')
-    return redirect('/admin_view_shift/')
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        id=request.POST.get('id')
+        shift_nbr=request.POST['textfield']
+        shift_time=request.POST['appt']
+        aj=shift.objects.get(id=id)
+        aj.shift_nbr=shift_nbr
+        aj.shift_time=shift_time
+        aj.save()
+        messages.success(request, 'Shift is Successfully Edited!')
+        return redirect('/admin_view_shift/')
 
 
 ######## Unit Request Management #########
 
 def admin_view_unit_request(request):
-    aj=uint_registration.objects.filter(status='Pending')
-    return render(request,"Admin/admin_view_unit_request.html",{'data':aj})
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        aj=uint_registration.objects.filter(status='Pending')
+        return render(request,"Admin/admin_view_unit_request.html",{'data':aj})
 
 def admin_view_unit_request_post(request):
-    search=request.POST['textfield']
-    if search:
-        var=uint_registration.objects.filter(Name__icontains=search)
-        if var:
-            return render(request,"Admin/admin_view_unit_request.html",{'data':var})
-        else:
-            return HttpResponse('''<script>alert('Search Not Found!!!!!');window.location="/admin_view_unit_request/"</script>''')
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        search=request.POST['textfield']
+        if search:
+            aj=uint_registration.objects.filter(Name__icontains=search)
+            if aj:
+                return render(request,"Admin/admin_view_unit_request.html",{'data':aj})
+            else:
+                return HttpResponse('''<script>alert('Search Not Found!!!!!');window.location="/admin_view_unit_request/"</script>''')
 
 
 def admin_approve_unit_request(request,s12):
-    aj=uint_registration.objects.get(id=s12)
-    aj.status='Approved'
-    aj.save()
-    log=login()
-    log.username=aj.Email
-    log.password=aj.password
-    log.category='Unit'
-    log.save()
-    messages.success(request, 'Approved!')
-    return redirect('/admin_view_unit_request/')
-    # return HttpResponse('''<script>alert('Approved');window.location="/admin_view_unit_request/"</script>''')
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        aj=uint_registration.objects.get(id=s12)
+        aj.status='Approved'
+        aj.save()
+        log=login()
+        log.username=aj.Email
+        log.password=aj.password
+        log.category='Unit'
+        log.save()
+        messages.success(request, 'Approved!')
+        return redirect('/admin_view_unit_request/')
+        # return HttpResponse('''<script>alert('Approved');window.location="/admin_view_unit_request/"</script>''')
 
 def admin_view_approve_unit_request(request):
-    aj=uint_registration.objects.filter(status='Approved')
-    return render(request,"Admin/admin_view_approve_unit_request.html",{'data':aj})
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        aj=uint_registration.objects.filter(status='Approved')
+        return render(request,"Admin/admin_view_approve_unit_request.html",{'data':aj})
 
 
 def admin_reject_unit_request(request,s13):
-    aj=uint_registration.objects.get(id=s13)
-    aj.status='Rejected'
-    aj.save()
-    messages.error(request, 'Rejected!')
-    return redirect('/admin_view_unit_request/')
-    # return HttpResponse('''<script>alert('Rejected');window.location="/admin_view_unit_request/"</script>''')
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        aj=uint_registration.objects.get(id=s13)
+        aj.status='Rejected'
+        aj.save()
+        messages.error(request, 'Rejected!')
+        return redirect('/admin_view_unit_request/')
+        # return HttpResponse('''<script>alert('Rejected');window.location="/admin_view_unit_request/"</script>''')
 
 
 ###### Carrier Management  ########
 
 
 def admin_view_carrier_application(request):
-    aj=job_apply.objects.filter(status="Pending")
-    return render(request,"Admin/admin_view_carrier_application.html",{'data':aj})
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        aj=job_apply.objects.filter(status="Pending")
+        return render(request,"Admin/admin_view_carrier_application.html",{'data':aj})
 
 def admin_view_personal_details(request,s9):
-    aj=job_apply.objects.get(id=s9)
-    return render(request,"Admin/admin_View_personal_details.html",{'data':aj})
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        aj=job_apply.objects.get(id=s9)
+        return render(request,"Admin/admin_View_personal_details.html",{'data':aj})
 
 def admin_allot_interview(request,s30):
-    data=job_apply.objects.get(id=s30)
-    return render(request,"Admin/admin_allot_interview.html",{'data':data})
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        data=job_apply.objects.get(id=s30)
+        return render(request,"Admin/admin_allot_interview.html",{'data':data})
 
 def admin_allot_interview_post(request):
-    id=request.POST.get('id')
-    d=request.POST.get('textfield')
-    t=request.POST.get('textfield4')
-    v=request.POST.get('textarea')
-    bobj=job_apply.objects.get(id=id)
-    bobj.int_date=d
-    bobj.int_time=t
-    bobj.venue=v
-    bobj.int_status='Scheduled'
-    bobj.save()
-    send_mail('Thanks for Your Response...','Mr'+bobj.Name+'   ''Your Are SortListed By Mechland Tools''    ''Your Interview Will be on''   ''Date:'+d+'   ''and''   ''Time:'+t+'  ''Venue:'+v, 'from@example.co',[bobj.Email,])
-    messages.success(request, 'Interview Alloted!')
-    return redirect('/admin_view_carrier_application/')
-    # return HttpResponse('''<script>alert('Interview Alloted');window.location="/admin_view_carrier_application/"</script>''')
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        id=request.POST.get('id')
+        d=request.POST.get('textfield')
+        t=request.POST.get('textfield4')
+        v=request.POST.get('textarea')
+        bobj=job_apply.objects.get(id=id)
+        bobj.int_date=d
+        bobj.int_time=t
+        bobj.venue=v
+        bobj.int_status='Scheduled'
+        bobj.save()
+        send_mail('Thanks for Your Response...','Mr'+bobj.Name+'   ''Your Are SortListed By Mechland Tools''    ''Your Interview Will be on''   ''Date:'+d+'   ''and''   ''Time:'+t+'  ''Venue:'+v, 'from@example.co',[bobj.Email,])
+        messages.success(request, 'Interview Alloted!')
+        return redirect('/admin_view_carrier_application/')
+        # return HttpResponse('''<script>alert('Interview Alloted');window.location="/admin_view_carrier_application/"</script>''')
 
 
 
 def admin_view_carrier_application_post(request):
-    search=request.POST['textfield']
-    if search:
-        var=job_apply.objects.filter(Name__icontains=search)
-        if var:
-            return render(request,"Admin/admin_view_carrier_application.html",{'data':var})
-        else:
-            return HttpResponse('''<script>alert('Search Not Found!!!!!');window.location="/admin_view_carrier_application/"</script>''')
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        search=request.POST['textfield']
+        if search:
+            aj=job_apply.objects.filter(Name__icontains=search)
+            if aj:
+                return render(request,"Admin/admin_view_carrier_application.html",{'data':aj})
+            else:
+                return HttpResponse('''<script>alert('Search Not Found!!!!!');window.location="/admin_view_carrier_application/"</script>''')
 
 def admin_view_carrier_application_labour(request):
-    # var=job_master.objects.filter(job_role="Labour")
-    var2=job_apply.objects.filter(job_id_id__job_role="Labour",status="Pending")
-    return render(request,"Admin/admin_view_carrier_application_labour.html",{'data':var2})
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        # aj=job_master.objects.filter(job_role="Labour")
+        var2=job_apply.objects.filter(job_id_id__job_role="Labour",status="Pending")
+        return render(request,"Admin/admin_view_carrier_application_labour.html",{'data':var2})
 
 def admin_view_carrier_application_supervisor(request):
-    var2=job_apply.objects.filter(job_id_id__job_role="Supervisor",status="Pending")
-    return render(request,"Admin/admin_view_carrier_application_labour.html",{'data':var2})
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        var2=job_apply.objects.filter(job_id_id__job_role="Supervisor",status="Pending")
+        return render(request,"Admin/admin_view_carrier_application_labour.html",{'data':var2})
 
 
 def admin_delete_carrier_application(request,s15):
-    aj=job_apply.objects.get(id=s15)
-    aj.delete()
-    messages.error(request, 'Deleted!')
-    return redirect('/admin_view_carrier_application/')
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        aj=job_apply.objects.get(id=s15)
+        aj.delete()
+        messages.error(request, 'Deleted!')
+        return redirect('/admin_view_carrier_application/')
 
 
 
 ###### Business Request Management  ########
 
 def admin_view_business_request(request):
-    aj=business.objects.filter(status='Pending')
-    return render(request,"Admin/admin_view_business_request.html",{'data':aj})
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        aj=business.objects.filter(status='Pending')
+        return render(request,"Admin/admin_view_business_request.html",{'data':aj})
 
 def admin_approve_business_request(request,s16):
-    aj=business.objects.get(id=s16) 
-    return render(request,"Admin/admin_reply_business_request.html",{'data':aj})
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        aj=business.objects.get(id=s16) 
+        return render(request,"Admin/admin_reply_business_request.html",{'data':aj})
 
 def admin_approve_business_request_post(request):
-    id=request.POST.get('id')
-    d=request.POST.get('textfield')
-    t=request.POST.get('textfield4')
-    bobj=business.objects.get(id=id)
-    bobj.date=d
-    bobj.time=t
-    bobj.status='Approved'
-    bobj.save()
-    send_mail('Thanks for Responding...','Mr'+bobj.Name+'Please Visit Our Company on''Date:'+d+'and''Time:'+t, 'from@example.co',[bobj.Email,])
-    messages.success(request, 'Apporved!')
-    return redirect('/admin_view_business_request/')
-    # return HttpResponse('''<script>alert('Accepted');window.location="/admin_view_business_request/"</script>''')
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        id=request.POST.get('id')
+        d=request.POST.get('textfield')
+        t=request.POST.get('textfield4')
+        bobj=business.objects.get(id=id)
+        bobj.date=d
+        bobj.time=t
+        bobj.status='Approved'
+        bobj.save()
+        send_mail('Thanks for Responding...','Mr'+bobj.Name+'Please Visit Our Company on''Date:'+d+'and''Time:'+t, 'from@example.co',[bobj.Email,])
+        messages.success(request, 'Apporved!')
+        return redirect('/admin_view_business_request/')
+        # return HttpResponse('''<script>alert('Accepted');window.location="/admin_view_business_request/"</script>''')
 
 
 
 
 def admin_reject_business_request(request,s17):
-    aj=business.objects.get(id=s17)
-    aj.status='Rejected'
-    aj.save()
-    messages.error(request, 'Apporved!')
-    return redirect('/admin_view_business_request/')
-    # return HttpResponse('''<script>alert('Rejected');window.location="/admin_view_business_request/"</script>''')
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        aj=business.objects.get(id=s17)
+        aj.status='Rejected'
+        aj.save()
+        messages.error(request, 'Apporved!')
+        return redirect('/admin_view_business_request/')
+        # return HttpResponse('''<script>alert('Rejected');window.location="/admin_view_business_request/"</script>''')
 
 
 def admin_view_approved_business_request(request):
-    aj=business.objects.filter(status='Approved')
-    return render(request,"Admin/admin_view_approved_business_request.html",{'data':aj})
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        aj=business.objects.filter(status='Approved')
+        return render(request,"Admin/admin_view_approved_business_request.html",{'data':aj})
 
 
 
@@ -966,179 +1156,245 @@ def admin_view_approved_business_request(request):
 
     
 def admin_view_loan_request(request):
-    aj=loan.objects.filter(status='Pending')
-    return render(request,"Admin/admin_view_loan_request.html",{'data':aj})
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        aj=loan.objects.filter(status='Pending')
+        return render(request,"Admin/admin_view_loan_request.html",{'data':aj})
 
 
 def admin_approve_loan_request(request,s18):
-    aj=loan.objects.get(id=s18)
-    aj.status='Approved'
-    aj.save()
-    var=loan_master()
-    from datetime import datetime
-    var.approval_date=datetime.now().strftime('%Y-%m-%d')
-    var.installment=aj.installment
-    var.staff_id_id=aj.staff_id_id
-    var.loan_id_id=aj.id
-    var.status='pending'
-    var.save()
-    messages.success(request, 'Loan Apporved!')
-    return redirect('/admin_view_loan_request/')
-    # return HttpResponse('''<script>alert('Approved');window.location="/admin_view_loan_request/"</script>''')
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        aj=loan.objects.get(id=s18)
+        aj.status='Approved'
+        aj.save()
+        aj=loan_master()
+        from datetime import datetime
+        aj.approval_date=datetime.now().strftime('%Y-%m-%d')
+        aj.installment=aj.installment
+        aj.staff_id_id=aj.staff_id_id
+        aj.loan_id_id=aj.id
+        aj.status='pending'
+        aj.save()
+        messages.success(request, 'Loan Apporved!')
+        return redirect('/admin_view_loan_request/')
+        # return HttpResponse('''<script>alert('Approved');window.location="/admin_view_loan_request/"</script>''')
 
 def admin_reject_loan_request(request,s19):
-    aj=loan.objects.get(id=s19)
-    aj.status='Rejected'
-    aj.save()
-    messages.success(request, 'Loan Rejected!')
-    return redirect('/admin_view_loan_request/')
-    # return HttpResponse('''<script>alert('Rejected');window.location="/admin_view_loan_request/"</script>''')
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        aj=loan.objects.get(id=s19)
+        aj.status='Rejected'
+        aj.save()
+        messages.success(request, 'Loan Rejected!')
+        return redirect('/admin_view_loan_request/')
+        # return HttpResponse('''<script>alert('Rejected');window.location="/admin_view_loan_request/"</script>''')
 
 def admin_view_approved_loan_request(request):
-    aj=loan.objects.filter(status='Approved')
-    return render(request,"Admin/admin_view_approved_loan_request.html",{'data':aj})
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        aj=loan.objects.filter(status='Approved')
+        return render(request,"Admin/admin_view_approved_loan_request.html",{'data':aj})
 
 
 ##### LEAVE REQUEST ######
 
 def admin_set_leave_master(request):
-    return render(request,'Admin/admin_add_leave_master.html')
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        return render(request,'Admin/admin_add_leave_master.html')
 
 def admin_set_leave_master_post(request):
-    lt=request.POST['textfield']
-    nod=request.POST['textfield2']
-    # sal=request.POST['textfield3']
-    aj=leave_master()
-    aj.leave_type=lt
-    aj.leave_limit=nod
-    # aj.salary=sal
-    aj.save()
-    messages.success(request, 'Added Succesfully!')
-    return redirect('/admin_view_leave_master/')
-    # return HttpResponse('''<script>alert('Success');window.location="/admin_view_leave_master/"</script>''')
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        lt=request.POST['textfield']
+        nod=request.POST['textfield2']
+        # sal=request.POST['textfield3']
+        aj=leave_master()
+        aj.leave_type=lt
+        aj.leave_limit=nod
+        # aj.salary=sal
+        aj.save()
+        messages.success(request, 'Added Succesfully!')
+        return redirect('/admin_view_leave_master/')
+        # return HttpResponse('''<script>alert('Success');window.location="/admin_view_leave_master/"</script>''')
 
 def admin_view_leave_master(request):
-    aj=leave_master.objects.all()
-    return render(request,"Admin/admin_view_leave_master.html",{'data':aj})
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        aj=leave_master.objects.all()
+        return render(request,"Admin/admin_view_leave_master.html",{'data':aj})
 
 def admin_view_leave_request(request):
-    aj=Leave3.objects.filter(status='Pending')
-    return render(request,"Admin/admin_view_leave_request.html",{'data':aj})
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        aj=Leave3.objects.filter(status='Pending')
+        return render(request,"Admin/admin_view_leave_request.html",{'data':aj})
 
 def admin_view_leave_request_post(request):
-    search=request.POST['date']
-    if search:
-        var=Leave3.objects.filter(req_date__icontains=search)
-        if var:
-            return render(request,"Admin/admin_view_leave_request.html",{'data':var})
-        else:
-            return HttpResponse('''<script>alert('Search Not Found!!!!!');window.location="/admin_view_leave_request/"</script>''')
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        search=request.POST['date']
+        if search:
+            aj=Leave3.objects.filter(req_date__icontains=search)
+            if aj:
+                return render(request,"Admin/admin_view_leave_request.html",{'data':aj})
+            else:
+                return HttpResponse('''<script>alert('Search Not Found!!!!!');window.location="/admin_view_leave_request/"</script>''')
 
 def admin_edit_leave_master(request,s14):
-    aj=leave_master.objects.get(id=s14)
-    return render(request,'Admin/admin_edit_leave_master.html',{'data':aj})
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        aj=leave_master.objects.get(id=s14)
+        return render(request,'Admin/admin_edit_leave_master.html',{'data':aj})
 
 def admin_delete_leave_master(request,s18):
-    aj=leave_master.objects.get(id=s18)
-    aj.delete()
-    messages.error(request, 'Deleted Succesfully!')
-    return redirect('/admin_view_leave_master/')
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        aj=leave_master.objects.get(id=s18)
+        aj.delete()
+        messages.error(request, 'Deleted Succesfully!')
+        return redirect('/admin_view_leave_master/')
 
 
 
 def admin_edit_leave_master_post(request):
-    id=request.POST.get('id')
-    lt=request.POST['textfield']
-    nod=request.POST['textfield2']
-    # sal=request.POST['textfield3']
-    aj=leave_master.objects.get(id=id)
-    aj.leave_type=lt
-    aj.leave_limit=nod
-    # aj.salary=sal
-    aj.save()
-    messages.success(request, 'Edited Succesfully!')
-    return redirect('/admin_view_leave_master/')
-    # return HttpResponse('''<script>alert('Success');window.location="/admin_view_leave_master/"</script>''')
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        id=request.POST.get('id')
+        lt=request.POST['textfield']
+        nod=request.POST['textfield2']
+        # sal=request.POST['textfield3']
+        aj=leave_master.objects.get(id=id)
+        aj.leave_type=lt
+        aj.leave_limit=nod
+        # aj.salary=sal
+        aj.save()
+        messages.success(request, 'Edited Succesfully!')
+        return redirect('/admin_view_leave_master/')
+        # return HttpResponse('''<script>alert('Success');window.location="/admin_view_leave_master/"</script>''')
 
 
 def admin_approve_leave_request(request,s22):
-    aj=Leave3.objects.get(id=s22)
-    aj.status='Approved'
-    aj.save()
-    messages.success(request, 'Leave Approved!')
-    return redirect('/admin_view_leave_request/')
-    # return HttpResponse('''<script>alert('Approved');window.location="/admin_view_leave_request/"</script>''')
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        aj=Leave3.objects.get(id=s22)
+        aj.status='Approved'
+        aj.save()
+        messages.success(request, 'Leave Approved!')
+        return redirect('/admin_view_leave_request/')
+        # return HttpResponse('''<script>alert('Approved');window.location="/admin_view_leave_request/"</script>''')
 
 def admin_reject_leave_request(request,s23):
-    aj=Leave3.objects.get(id=s23)
-    aj.status='Rejected'
-    aj.save()
-    messages.error(request, 'Leave Rejected!')
-    return redirect('/admin_view_leave_request/')
-    # return HttpResponse('''<script>alert('Rejected');window.location="/admin_view_leave_request/"</script>''')
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        aj=Leave3.objects.get(id=s23)
+        aj.status='Rejected'
+        aj.save()
+        messages.error(request, 'Leave Rejected!')
+        return redirect('/admin_view_leave_request/')
+        # return HttpResponse('''<script>alert('Rejected');window.location="/admin_view_leave_request/"</script>''')
 
 def admin_view_approved_leave_request(request):
-    aj=Leave3.objects.filter(status='Approved')
-    return render(request,"Admin/admin_view_approved_leave_request.html",{'data':aj})
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        aj=Leave3.objects.filter(status='Approved')
+        return render(request,"Admin/admin_view_approved_leave_request.html",{'data':aj})
 
 
 ################ REVIEWS AND COMPLAINTS ######################
 
 def admin_view_unit_reviews(request):
-    aj=unit_review1.objects.all()
-    return render(request,"Admin/admin_view_unit_reviews.html",{'data':aj})
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        aj=unit_review1.objects.all()
+        return render(request,"Admin/admin_view_unit_reviews.html",{'data':aj})
 
 def admin_view_unit_complaints(request):
-    aj=unit_complaint.objects.filter(status='Pending')
-    return render(request,"Admin/admin_view_unit_complaints.html",{'data':aj})
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        aj=unit_complaint.objects.filter(status='Pending')
+        return render(request,"Admin/admin_view_unit_complaints.html",{'data':aj})
 
 def admin_respond_unit_complaint(request,s25):
-    aj=unit_complaint.objects.get(id=s25)
-    aj.status='We will sort it out soon, Thanks!'
-    aj.save()
-    messages.success(request, 'Success!')
-    return redirect('/admin_view_unit_complaints/')
-    # return HttpResponse('''<script>alert('Success');window.location="/admin_view_unit_complaints/"</script>''')
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        aj=unit_complaint.objects.get(id=s25)
+        aj.status='We will sort it out soon, Thanks!'
+        aj.save()
+        messages.success(request, 'Success!')
+        return redirect('/admin_view_unit_complaints/')
+        # return HttpResponse('''<script>alert('Success');window.location="/admin_view_unit_complaints/"</script>''')
 
 
 ################ Attendance ######################
 
 def admin_view_section(request):
-    data10 = job_master.objects.filter(job_role="manager")
-    selected_section = request.POST.get('select')
-    if selected_section:
-        data = staff.objects.exclude(job_id_id__in=[ct.id for ct in data10]).filter(section=selected_section)
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
     else:
-        data = staff.objects.exclude(job_id_id__in=[ct.id for ct in data10])
+        data10 = job_master.objects.filter(job_role="manager")
+        selected_section = request.POST.get('select')
+        if selected_section:
+            data = staff.objects.exclude(job_id_id__in=[ct.id for ct in data10]).filter(section=selected_section)
+        else:
+            data = staff.objects.exclude(job_id_id__in=[ct.id for ct in data10])
 
-    return render(request, 'Admin/admin_view_section.html', {'data': data})
+        return render(request, 'Admin/admin_view_section.html', {'data': data})
 
 
 def admin_view_staff_for_attendance(request):
-    data10=job_master.objects.filter(job_role="manager")
-    data=staff.objects.exclude(job_id_id__in=[ct.id for ct in data10]).filter(section=request.POST.get('select'))
-    return render(request,"Admin/admin_view_staff_for_attendance.html",{'data': data})
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        data10=job_master.objects.filter(job_role="manager")
+        data=staff.objects.exclude(job_id_id__in=[ct.id for ct in data10]).filter(section=request.POST.get('select'))
+        return render(request,"Admin/admin_view_staff_for_attendance.html",{'data': data})
 
 
 def admin_add_excel(request):
-    return render(request, 'Admin/admin_add_excel.html')
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        return render(request, 'Admin/admin_add_excel.html')
 
 
 
 def Import_Excel_pandas(request):
-    import pandas as pd
-    if request.method == 'POST' and request.FILES['myfile']:      
-        myfile = request. FILES['myfile']
-        fs = FileSystemStorage()
-        filename = fs.save(myfile.name, myfile)
-        uploaded_file_url = fs.url(myfile)              
-        at_data = pd.read_excel(myfile)        
-        dbd = at_data
-        for dbd in dbd.itertuples():
-            obj = attendance.objects.create(month=dbd.month,year=dbd.year, no_of_working_days=dbd.no_of_working_days,staff_id_id=dbd.staff_id_id )           
-            obj.save()
-        return redirect('/admin_view_attendance/')   
-    return redirect('/admin_view_attendance/')  
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        import pandas as pd
+        if request.method == 'POST' and request.FILES['myfile']:      
+            myfile = request. FILES['myfile']
+            fs = FileSystemStorage()
+            filename = fs.save(myfile.name, myfile)
+            uploaded_file_url = fs.url(myfile)              
+            at_data = pd.read_excel(myfile)        
+            dbd = at_data
+            for dbd in dbd.itertuples():
+                obj = attendance.objects.create(month=dbd.month,year=dbd.year, no_of_working_days=dbd.no_of_working_days,staff_id_id=dbd.staff_id_id )           
+                obj.save()
+            return redirect('/admin_view_attendance/')   
+        return redirect('/admin_view_attendance/')  
 
 
 
@@ -1166,298 +1422,404 @@ def Import_Excel_pandas(request):
 
 
 def admin_add_attendance(request,s2):
-    aj=staff.objects.get(id=s2)
-    return render(request,'Admin/admin_add_attendance.html',{'data':aj})
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        aj=staff.objects.get(id=s2)
+        return render(request,'Admin/admin_add_attendance.html',{'data':aj})
 
 def admin_add_attendance_post(request):
-    id=request.POST.get('id')
-    wd=request.POST['textfield4']
-    aj=attendance()
-    aj.staff_id_id=id
-    from datetime import datetime
-    aj.month=datetime.now().strftime('%m')
-    aj.year=datetime.now().strftime('%Y')
-    aj.no_of_working_days=wd
-    aj.save()
-    messages.success(request, 'Attendance Added Succesfully!')
-    return redirect('/admin_view_attendance/')
-    # return HttpResponse('''<script>alert('Success');window.location="/admin_view_attendance/"</script>''')
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        id=request.POST.get('id')
+        wd=request.POST['textfield4']
+        aj=attendance()
+        aj.staff_id_id=id
+        from datetime import datetime
+        aj.month=datetime.now().strftime('%m')
+        aj.year=datetime.now().strftime('%Y')
+        aj.no_of_working_days=wd
+        aj.save()
+        messages.success(request, 'Attendance Added Succesfully!')
+        return redirect('/admin_view_attendance/')
+        # return HttpResponse('''<script>alert('Success');window.location="/admin_view_attendance/"</script>''')
 
 def admin_view_attendance(request):
-    aj=attendance.objects.all()
-    return render(request,"Admin/admin_view_attendance.html",{'data':aj})
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        aj=attendance.objects.all()
+        return render(request,"Admin/admin_view_attendance.html",{'data':aj})
 
 def admin_delete_attendance(request,s11):
-    aj=attendance.objects.get(id=s11)
-    aj.delete()
-    messages.error(request, 'Deleted Succesfully!')
-    return redirect('/admin_view_attendance/')
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        aj=attendance.objects.get(id=s11)
+        aj.delete()
+        messages.error(request, 'Deleted Succesfully!')
+        return redirect('/admin_view_attendance/')
    
 
 
 def admin_change_password(request):
-    aj=request.session.get('adm')
-    aj=login.objects.get(username=aj)
-    return render(request,"Admin/admin_change_password.html",{'data':aj})
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        aj=request.session.get('adm')
+        aj=login.objects.get(username=aj)
+        return render(request,"Admin/admin_change_password.html",{'data':aj})
 
 
 def admin_change_password_post(request):
-    oldpass=request.POST['password']
-    newpass=request.POST['password2']
-    confpass=request.POST['password3']
-    res=login.objects.filter(username=request.session['adm'],password=oldpass)
-    if res.exists():
-        if newpass == confpass:
-            ress = res.update(password=newpass)
-            messages.success(request, 'Password Updated Succesfully!')
-            return redirect('/admin2/')
-            # return HttpResponse('''<script>alert('Password Updated');window.location="/admin2/"</script>''')
-        else:
-            messages.error(request, 'Password Does Not Match!')
-            return redirect('/admin_change_password/')
-            # return HttpResponse('''<Script>alert("Password Does Not Match");window.location="/admin_change_password/";</Script>''')
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
     else:
-        messages.error(request, 'Old Password DoesNot Match New Password!')
-        return redirect('/admin_change_password/')
-        # return HttpResponse('''<Script>alert("Old Password DoesNot Match New Password");window.location="/admin_change_password/";</Script>''')
-    
+        oldpass=request.POST['password']
+        newpass=request.POST['password2']
+        confpass=request.POST['password3']
+        res=login.objects.filter(username=request.session['adm'],password=oldpass)
+        if res.exists():
+            if newpass == confpass:
+                ress = res.update(password=newpass)
+                messages.success(request, 'Password Updated Succesfully!')
+                return redirect('/admin2/')
+                # return HttpResponse('''<script>alert('Password Updated');window.location="/admin2/"</script>''')
+            else:
+                messages.error(request, 'Password Does Not Match!')
+                return redirect('/admin_change_password/')
+                # return HttpResponse('''<Script>alert("Password Does Not Match");window.location="/admin_change_password/";</Script>''')
+        else:
+            messages.error(request, 'Old Password DoesNot Match New Password!')
+            return redirect('/admin_change_password/')
+            # return HttpResponse('''<Script>alert("Old Password DoesNot Match New Password");window.location="/admin_change_password/";</Script>''')
+        
 
 def admin_view_section_for_salary(request):
-    data10 = job_master.objects.filter(job_role="manager")
-    selected_section = request.POST.get('select')
-    if selected_section:
-        data = staff.objects.exclude(job_id_id__in=[ct.id for ct in data10]).filter(section=selected_section)
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
     else:
-        data = staff.objects.exclude(job_id_id__in=[ct.id for ct in data10])
+        data10 = job_master.objects.filter(job_role="manager")
+        selected_section = request.POST.get('select')
+        if selected_section:
+            data = staff.objects.exclude(job_id_id__in=[ct.id for ct in data10]).filter(section=selected_section)
+        else:
+            data = staff.objects.exclude(job_id_id__in=[ct.id for ct in data10])
 
-    return render(request, 'Admin/admin_view_section_for_salary.html', {'data': data})
+        return render(request, 'Admin/admin_view_section_for_salary.html', {'data': data})
 
 def admin_view_staff_leave_for_salary(request,l1):
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
 
-    data10=leave_master.objects.filter(leave_type="CasualLeave")
-    obj=Leave3.objects.filter(staff_id_id=l1).filter(status="Approved").filter(leave_id_id__in=[ct.id for ct in data10]).aggregate(sum=Sum('no_of_days'))['sum'] 
-    print(obj)
-    data11=leave_master.objects.filter(leave_type="MedicalLeave")
-    obj1=Leave3.objects.filter(staff_id_id=l1).filter(status="Approved").filter(leave_id_id__in=[ct.id for ct in data11]).aggregate(sum=Sum('no_of_days'))['sum'] 
-   
-    print(obj1)
-    data12=leave_master.objects.filter(leave_type="SickLeave")
-    obj2=Leave3.objects.filter(staff_id_id=l1).filter(status="Approved").filter(leave_id_id__in=[ct.id for ct in data12]).aggregate(sum=Sum('no_of_days'))['sum'] 
-    print(obj2)
-    if obj==None:
-        obj=0
-    if obj1==None:
-        obj1=0
-    if obj2==None:
-        obj2=0        
-    total=obj+obj2+obj1
-    print(total)
-    finaltotal=total*500
-    d1=staff.objects.get(id=l1) 
-    d2=job_master.objects.get(id=d1.job_id_id)
+        data10=leave_master.objects.filter(leave_type="CasualLeave")
+        obj=Leave3.objects.filter(staff_id_id=l1).filter(status="Approved").filter(leave_id_id__in=[ct.id for ct in data10]).aggregate(sum=Sum('no_of_days'))['sum'] 
+        print(obj)
+        data11=leave_master.objects.filter(leave_type="MedicalLeave")
+        obj1=Leave3.objects.filter(staff_id_id=l1).filter(status="Approved").filter(leave_id_id__in=[ct.id for ct in data11]).aggregate(sum=Sum('no_of_days'))['sum'] 
     
-    data10=leave_master.objects.filter(leave_type="CasualLeave")
- 
-    obj=Leave3.objects.filter(staff_id_id=l1).filter(status="Approved").filter(leave_id_id__in=[ct.id for ct in data10]).aggregate(sum=Sum('no_of_days'))['sum'] 
+        print(obj1)
+        data12=leave_master.objects.filter(leave_type="SickLeave")
+        obj2=Leave3.objects.filter(staff_id_id=l1).filter(status="Approved").filter(leave_id_id__in=[ct.id for ct in data12]).aggregate(sum=Sum('no_of_days'))['sum'] 
+        print(obj2)
+        if obj==None:
+            obj=0
+        if obj1==None:
+            obj1=0
+        if obj2==None:
+            obj2=0        
+        total=obj+obj2+obj1
+        print(total)
+        finaltotal=total*500
+        d1=staff.objects.get(id=l1) 
+        d2=job_master.objects.get(id=d1.job_id_id)
+        
+        data10=leave_master.objects.filter(leave_type="CasualLeave")
     
-    return render(request,"Admin/admin_view_staff_leave_for_salary.html",{'c1':obj,'m1':obj1,'s1':obj2,'data':d1,'total':total,'ns':finaltotal,'bs':d2.basic_salary})
+        obj=Leave3.objects.filter(staff_id_id=l1).filter(status="Approved").filter(leave_id_id__in=[ct.id for ct in data10]).aggregate(sum=Sum('no_of_days'))['sum'] 
+        
+        return render(request,"Admin/admin_view_staff_leave_for_salary.html",{'c1':obj,'m1':obj1,'s1':obj2,'data':d1,'total':total,'ns':finaltotal,'bs':d2.basic_salary})
 
 def admin_view_staff_loan_for_salary(request,l2):
-    d1 = loan.objects.filter(staff_id_id=l2, status="Approved")
-    return render(request,"Admin/admin_view_staff_loan_for_salary.html",{'data':d1})
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        d1 = loan.objects.filter(staff_id_id=l2, status="Approved")
+        return render(request,"Admin/admin_view_staff_loan_for_salary.html",{'data':d1})
 
 def admin_view_staff_loanmaster_for_salary(request,l3):
-    d2 = loan_master.objects.get(id=l3)
-    return render(request,"Admin/admin_view_staff_loanmaster_for_salary.html",{'data':d2})
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        d2 = loan_master.objects.get(loan_id=l3)
+        return render(request,"Admin/admin_view_staff_loanmaster_for_salary.html",{'i':d2})
 
 def admin_view_staff_adttendance_for_salary(request,s2):
-    d6=attendance.objects.filter(staff_id_id=s2)
-    return render(request,"Admin/admin_view_staff_adttendance_for_salary.html",{'data':d6})
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        d6=attendance.objects.filter(staff_id_id=s2)
+        return render(request,"Admin/admin_view_staff_adttendance_for_salary.html",{'data':d6})
 
 def admin_view_staff_advance(request):
-    d1 = advance.objects.filter(status="Pending")
-    return render(request, "Admin/admin_view_staff_advance_for_salary copy.html", {'data2': d1})
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        d1 = advance.objects.filter(status="Pending")
+        return render(request, "Admin/admin_view_staff_advance_for_salary copy.html", {'data2': d1})
 
 def admin_approve_advance_request(request,a2):
-    aj=advance.objects.get(id=a2)
-    aj.status="Approved"
-    aj.save()
-    return HttpResponse('''<script>alert('Success');window.location="/admin_view_staff_advance/"</script>''')
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        aj=advance.objects.get(id=a2)
+        aj.status="Approved"
+        aj.save()
+        return HttpResponse('''<script>alert('Success');window.location="/admin_view_staff_advance/"</script>''')
 
 def admin_reject_advance_request(request,a3):
-    aj=advance.objects.get(id=a3)
-    aj.status="Rejected"
-    aj.save()
-    return HttpResponse('''<script>alert('Success');window.location="/admin_view_staff_advance/"</script>''')
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        aj=advance.objects.get(id=a3)
+        aj.status="Rejected"
+        aj.save()
+        return HttpResponse('''<script>alert('Success');window.location="/admin_view_staff_advance/"</script>''')
 
 
 def admin_view_staff_advance_for_salary(request, a1):
-    from datetime import datetime
-    current_month = datetime.now().strftime('%m')
-    d1 = advance.objects.filter(staff_id_id=a1, month=current_month)
-    return render(request, "Admin/admin_view_staff_advance_for_salary.html", {'data2': d1})
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        from datetime import datetime
+        current_month = datetime.now().strftime('%m')
+        d1 = advance.objects.filter(staff_id_id=a1, month=current_month)
+        return render(request, "Admin/admin_view_staff_advance_for_salary.html", {'data2': d1})
 
 
 def admin_prepare_salary_slip(request,p1):
-    data10=leave_master.objects.filter(leave_type="CasualLeave")
-    obj=Leave3.objects.filter(staff_id_id=p1).filter(status="Approved").filter(leave_id_id__in=[ct.id for ct in data10]).aggregate(sum=Sum('no_of_days'))['sum'] 
-    print(obj)
- 
-    data12=leave_master.objects.filter(leave_type="SickLeave")
-    obj2=Leave3.objects.filter(staff_id_id=p1).filter(status="Approved").filter(leave_id_id__in=[ct.id for ct in data12]).aggregate(sum=Sum('no_of_days'))['sum'] 
-    print(obj2)
-    if obj==None:
-        obj=0
-
-    if obj2==None:
-        obj2=0        
-    leave_total=obj+obj2
-    print(leave_total)
-    d3=staff.objects.get(id=p1)
-    d1=job_master.objects.get(id=d3.job_id_id)
-
-    bs=d1.basic_salary
-
-    print(bs)
-
-    # from datetime import datetime
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        data10=leave_master.objects.filter(leave_type="CasualLeave")
+        obj=Leave3.objects.filter(staff_id_id=p1).filter(status="Approved").filter(leave_id_id__in=[ct.id for ct in data10]).aggregate(sum=Sum('no_of_days'))['sum'] 
+        print(obj)
     
-    # current_month1 = datetime.now().strftime('%m')
-    # current_year = datetime.now().strftime('%Y')
+        data12=leave_master.objects.filter(leave_type="SickLeave")
+        obj2=Leave3.objects.filter(staff_id_id=p1).filter(status="Approved").filter(leave_id_id__in=[ct.id for ct in data12]).aggregate(sum=Sum('no_of_days'))['sum'] 
+        print(obj2)
+        if obj==None:
+            obj=0
 
+        if obj2==None:
+            obj2=0        
+        leave_total=obj+obj2
+        print(leave_total)
+        d3=staff.objects.get(id=p1)
+        d1=job_master.objects.get(id=d3.job_id_id)
 
+        bs=d1.basic_salary
 
-    # conditions1 = {'staff_id_id': d3.id}
-    # conditions2 = {'month': current_month1}
-    # conditions3 = {'year': current_year}
+        print(bs)
+
+        # from datetime import datetime
         
-    
-    # d6 = get_object_or_404(attendance, **conditions1, **conditions2, **conditions3)
+        # current_month1 = datetime.now().strftime('%m')
+        # current_year = datetime.now().strftime('%Y')
 
-    
 
-    # # d6=attendance.objects.get(staff_id_id=d3.id)
-    # print(d6.no_of_working_days)
-    # atdnce=int(d6.no_of_working_days) * int(d1.cut_salary)
-    # print(atdnce)
 
-    final1=int(leave_total)*float(d1.cut_salary)
+        # conditions1 = {'staff_id_id': d3.id}
+        # conditions2 = {'month': current_month1}
+        # conditions3 = {'year': current_year}
+            
+        
+        # d6 = get_object_or_404(attendance, **conditions1, **conditions2, **conditions3)
 
-    from datetime import datetime
-    
-    current_month = datetime.now().strftime('%m')
-    advance1=0
-    count1 = advance.objects.filter(staff_id_id=p1, month=current_month).count()
-    if count1==0:
+        
+
+        # # d6=attendance.objects.get(staff_id_id=d3.id)
+        # print(d6.no_of_working_days)
+        # atdnce=int(d6.no_of_working_days) * int(d1.cut_salary)
+        # print(atdnce)
+
+        final1=int(leave_total)*float(d1.cut_salary)
+
+        from datetime import datetime
+        
+        current_month = datetime.now().strftime('%m')
         advance1=0
-    else:    
-        condition1 = {'staff_id_id': d3.id}
-        condition2 = {'month': current_month}
+        count1 = advance.objects.filter(staff_id_id=p1, month=current_month).count()
+        if count1==0:
+            advance1=0
+        else:    
+            condition1 = {'staff_id_id': d3.id}
+            condition2 = {'month': current_month}
+            
         
-    
-        d2 = get_object_or_404(advance, **condition1, **condition2)
+            d2 = get_object_or_404(advance, **condition1, **condition2)
 
-        advance1=int(d2.amount)
-    c=loan_master.objects.filter(staff_id_id=p1).count()
-    loan=0
-    if c==0:
+            advance1=int(d2.amount)
+
+
+        c=loan_master.objects.filter(staff_id_id=p1).count()
         loan=0
-    else:    
-        d4=loan_master.objects.get(staff_id_id=p1)
-        loan=float(d4.loan_id.initial_amount)
-    net=int(bs)-(advance1+int(loan)+final1)
+        if c==0:
+            loan=0
+        else:   
+            
+            print("hhhhhhhhhhhhhhhhhh") 
+            d4 = loan_master.objects.get(staff_id_id=p1)
+            current_month = datetime.now().strftime('%m')
 
-    return render(request, "Admin/admin_prepare_salary_slip.html",{'month':current_month,'staff':d3.id,'job':d1,'value1':leave_total,'value2':final1,'value3':advance1,'value4':loan,'value5':net,'bsal':bs})
+            if d4.ins_status == current_month:
+                print("Increment")
+            else:
+                print("Decrement")
+                loan = float(d4.loan_id.initial_amount)
+                loan_instalment = int(d4.installment)
+                print(loan_instalment)
+                total_install = loan_instalment - 1
+                print(total_install)
+
+                if total_install == 0:
+                    d4.installment = total_install
+                    d4.status = "Loan Completed"
+                    d4.save()
+                else:
+                    d4.installment = total_install
+                    d4.ins_status = current_month
+                    d4.save()
+
+
+            
+        net=int(bs)-(advance1+int(loan)+final1)
+
+        return render(request, "Admin/admin_prepare_salary_slip.html",{'month':current_month,'staff':d3.id,'job':d1,'value1':leave_total,'value2':final1,'value3':advance1,'value4':loan,'value5':net,'bsal':bs})
 
 def admin_salary_post(request,id):
-    count1 = salary.objects.filter(staff_id_id=id, month=request.POST.get('month')).count()
-    from datetime import datetime
-    yr=datetime.now().strftime('%Y')
-    if count1==0:
-        data=salary()
-        data.staff_id_id=id
-        data.leave=request.POST.get('leave')
-        # data.days=request.POST.get('days')
-        data.leaveamount=request.POST.get('lamount')
-        data.advance=request.POST.get('advance')
-        data.loan=request.POST.get('loan')
-        data.net_salary=request.POST.get('net')
-        data.month=request.POST.get('month')
-        data.year=yr
-        data.save()
-        messages.success(request, 'Salary Slip Created!')
-        return redirect('/admin_view_section_for_salary/')
-        # return HttpResponse('''<script>alert('Salary Slip Created');window.location="/admin_view_section_for_salary/"</script>''')
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
     else:
-        messages.error(request, 'Salary Slip Already Created!')
-        return redirect('/admin_view_section_for_salary/')
-        # return HttpResponse('''<script>alert('Already Created');window.location="/admin_view_section_for_salary/"</script>''')
+        count1 = salary.objects.filter(staff_id_id=id, month=request.POST.get('month')).count()
+        from datetime import datetime
+        yr=datetime.now().strftime('%Y')
+    
 
-    # return render(request,'admin_master.html')
+        if count1==0:
+            data=salary()
+            data.staff_id_id=id
+            data.leave=request.POST.get('leave')
+            # data.days=request.POST.get('days')
+            data.leaveamount=request.POST.get('lamount')
+            data.advance=request.POST.get('advance')
+            data.loan=request.POST.get('loan')
+            data.net_salary=request.POST.get('net')
+            data.month=request.POST.get('month')
+            data.year=yr
+            data.save()
+            messages.success(request, 'Salary Slip Created!')
+            return redirect('/admin_view_section_for_salary/')
+            # return HttpResponse('''<script>alert('Salary Slip Created');window.location="/admin_view_section_for_salary/"</script>''')
+        else:
+            messages.error(request, 'Salary Slip Already Created!')
+            return redirect('/admin_view_section_for_salary/')
+            # return HttpResponse('''<script>alert('Already Created');window.location="/admin_view_section_for_salary/"</script>''')
+
+        # return render(request,'admin_master.html')
 
 
 def admin_salary_report(request):
-    data=salary.objects.all()
-    return render(request, "Admin/admin_salary_report.html", {'data': data})
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        data=salary.objects.all()
+        return render(request, "Admin/admin_salary_report.html", {'data': data})
 
 def admin_salary_report_post(request):
-    month=request.POST.get('select')
-    year=request.POST.get('select2')
-    data=salary.objects.filter(month=month,year=year)   
-    if data:
-        return render(request, "Admin/admin_salary_report_post.html", {'data': data})
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
     else:
-        return HttpResponse('''<script>alert('No results Found');window.location="/admin_salary_report/"</script>''')
+        month=request.POST.get('select')
+        year=request.POST.get('select2')
+        data=salary.objects.filter(month=month,year=year)   
+        if data:
+            return render(request, "Admin/admin_salary_report_post.html", {'data': data})
+        else:
+            return HttpResponse('''<script>alert('No results Found');window.location="/admin_salary_report/"</script>''')
 
 def admin_salary_report_post2(request):
-    name=request.POST.get('textfield')
-    data=salary.objects.filter(staff_id_id__Name=name)
-    if data:
-        return render(request, "Admin/admin_salary_report_post.html", {'data': data})
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
     else:
-        return HttpResponse('''<script>alert('No results Found');window.location="/admin_salary_report/"</script>''')
+        name=request.POST.get('textfield')
+        data=salary.objects.filter(staff_id_id__Name=name)
+        if data:
+            return render(request, "Admin/admin_salary_report_post.html", {'data': data})
+        else:
+            return HttpResponse('''<script>alert('No results Found');window.location="/admin_salary_report/"</script>''')
 
 def admin_leave_report(request):
-    data=salary.objects.all()
-    return render(request, "Admin/admin_leave_report.html", {'data': data})
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        data=salary.objects.all()
+        return render(request, "Admin/admin_leave_report.html", {'data': data})
 
 def admin_leave_report_post(request):
-    month=request.POST.get('select')
-    year=request.POST.get('select2')
-    data=salary.objects.filter(month=month,year=year)   
-    if data:
-        return render(request, "Admin/admin_leave_report_post.html", {'data': data})
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
     else:
-        return HttpResponse('''<script>alert('No results Found');window.location="/admin_leave_report/"</script>''')
+        month=request.POST.get('select')
+        year=request.POST.get('select2')
+        data=salary.objects.filter(month=month,year=year)   
+        if data:
+            return render(request, "Admin/admin_leave_report_post.html", {'data': data})
+        else:
+            return HttpResponse('''<script>alert('No results Found');window.location="/admin_leave_report/"</script>''')
 
 def admin_leave_report_post2(request):
-    name=request.POST.get('textfield')
-    data=salary.objects.filter(staff_id_id__Name=name)
-    if data:
-        return render(request, "Admin/admin_leave_report_post.html", {'data': data})
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
     else:
-        return HttpResponse('''<script>alert('No results Found');window.location="/admin_leave_report/"</script>''')
+        name=request.POST.get('textfield')
+        data=salary.objects.filter(staff_id_id__Name=name)
+        if data:
+            return render(request, "Admin/admin_leave_report_post.html", {'data': data})
+        else:
+            return HttpResponse('''<script>alert('No results Found');window.location="/admin_leave_report/"</script>''')
 
 def admin_loan_report(request):
-    data=salary.objects.all()
-    return render(request, "Admin/admin_loan_report.html", {'data': data})
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
+    else:
+        data=salary.objects.all()
+        return render(request, "Admin/admin_loan_report.html", {'data': data})
 
 def admin_loan_report_post(request):
-    month=request.POST.get('select')
-    year=request.POST.get('select2')
-    data=salary.objects.filter(month=month,year=year)   
-    if data:
-        return render(request, "Admin/admin_loan_report_post.html", {'data': data})
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
     else:
-        return HttpResponse('''<script>alert('No results Found');window.location="/admin_loan_report/"</script>''')
+        month=request.POST.get('select')
+        year=request.POST.get('select2')
+        data=salary.objects.filter(month=month,year=year)   
+        if data:
+            return render(request, "Admin/admin_loan_report_post.html", {'data': data})
+        else:
+            return HttpResponse('''<script>alert('No results Found');window.location="/admin_loan_report/"</script>''')
 
 def admin_loan_report_post2(request):
-    name=request.POST.get('textfield')
-    data=salary.objects.filter(staff_id_id__Name=name)
-    if data:
-        return render(request, "Admin/admin_loan_report_post.html", {'data': data})
+    if 'adm' not in request.session:
+        return redirect('/public_home2/')
     else:
-        return HttpResponse('''<script>alert('No results Found');window.location="/admin_loan_report/"</script>''')
+        name=request.POST.get('textfield')
+        data=salary.objects.filter(staff_id_id__Name=name)
+        if data:
+            return render(request, "Admin/admin_loan_report_post.html", {'data': data})
+        else:
+            return HttpResponse('''<script>alert('No results Found');window.location="/admin_loan_report/"</script>''')
 
 
 
@@ -1569,28 +1931,39 @@ def unit_view_moulds(request):
 def unit_view_moulds_post(request, s7):
     # aj=add_mould.objects.all()
     data2 = add_mould.objects.get(id=s7)
-    return render(request, 'Unit/unit_view_mould_detail.html', {'data2': data2})
+    data3 = product_review.objects.filter(order_id__mould_id=data2)
+    return render(request, 'Unit/unit_view_mould_detail.html', {'data2': data2,'data3':data3})
+
+
+
 
 
 def unit_mould_review(request, s28):
-    aj = add_mould.objects.get(id=s28)
+    aj = unit_order.objects.get(id=s28)
     return render(request, 'Unit/unit_mould_review.html', {'data': aj})
 
 def unit_mould_review_post(request):
-    review=request.POST['textarea']
-    mid=request.POST.get('id')
-    
-    aj=unit_review1()
-    aj.review=review
+    review = request.POST['textarea']
+    mid = request.POST.get('id')
+
     from datetime import datetime
-    aj.date=datetime.now().strftime('%Y-%m-%d')
-    data=uint_registration.objects.get(Email=request.session['unit'])
-    aj.unit_id_id=data.id
-    aj.mould_id1_id=mid
-    aj.save()
-    messages.success(request, 'Successfully Posted!')
+    data = uint_registration.objects.get(Email=request.session['unit'])
+    
+    # Check if the unit has already reviewed the product
+    if not product_review.objects.filter(order_id_id=mid, order_id__unit_id_id=data.id).exists():
+        aj = product_review()
+        aj.review = review
+        aj.date = datetime.now().strftime('%Y-%m-%d')
+        data = uint_registration.objects.get(Email=request.session['unit'])
+        aj.order_id_id__unit_id_id = data.id
+        aj.order_id_id = mid
+        aj.save()
+        messages.success(request, 'Successfully Posted!')
+    else:
+        messages.error(request, 'already reviewed!')
+    
     return redirect('/unit_view_moulds/')
-    # return HttpResponse('''<script>alert('Success');window.location="/unit_view_moulds/"</script>''')
+
 
 
 def unit_send_complaint(request):
@@ -1714,31 +2087,40 @@ def unit_make_payment_post(request):
 def unit_view_order_status(request):
     aj = request.session.get('unit')
     val2 = uint_registration.objects.get(Email=aj)
-    val3 = unit_order.objects.filter(unit_id_id=val2)
-    var=cancel.objects.all()
-    return render(request, 'Unit/unit_view_order_status.html',{'data':val3, 'var':var})
+    val3 = unit_order.objects.filter(unit_id_id=val2).order_by('-id')
+    aj=cancel.objects.all()
+    return render(request, 'Unit/unit_view_order_status.html',{'data':val3, 'aj':aj})
 
 def unit_view_delivery_status(request,s8):
     aj=unit_order.objects.get(id=s8)
-    var=cancel.objects.all()
-    return render(request, 'Unit/unit_view_delivery_status.html',{'data':aj,'data2':var})
+    return render(request, 'Unit/unit_view_delivery_status.html',{'data':aj})
+
+# def unit_recieve_product(request,s9):
+#     aj=unit_order.objects.get(id=s9)
+#     aj.status="Recieved"
+#     aj.save()
+#     return redirect('/unit_view_order_status/')
 
 def unit_cancel_order(request,s3):
     aj=unit_order.objects.get(id=s3)
     from datetime import datetime
-    var=cancel()
-    var.date=datetime.now().strftime('%Y-%m-%d')
-    var.order_id_id=aj.id
-    var.status="Requested"
-    var.save()
-    messages.success(request, 'Cancel Request Sent!')
-    return redirect('/unit_view_order_status/')
+    aj.c_date=datetime.now().strftime('%Y-%m-%d')
+    aj.order_id_id=aj.id
+    aj.status="Cancelled"
+    if aj.payment_method == "COD":
+        aj.cancel_status="Your Order is Cancelled"
+    else:
+        aj.cancel_status="Your Money will be refunded within 4 days"
+    aj.save()
+    messages.success(request, 'Cancelled!')
+    return redirect('/unit_view_cancel_status/')
     # return HttpResponse('''<script>alert('Cancel Request Sent!');window.location="/unit_view_order_status/"</script>''')
 
 def unit_view_cancel_status(request):
     aj = request.session.get('unit')
     val2 = uint_registration.objects.get(Email=aj)
-    val3 = cancel.objects.filter(order_id__unit_id=val2)
+    val3 = unit_order.objects.filter(unit_id=val2,status="Cancelled").order_by('-id')
+
     return render(request, 'Unit/unit_view_cancel_status.html',{'data':val3})
 
 def unit_change_password(request):
@@ -1759,13 +2141,16 @@ def unit_change_password_post(request):
             return redirect('/unit_view_profile/')
             # return HttpResponse('''<script>alert('Password Updated');window.location="/unit_view_profile/"</script>''')
         else:
-            messages.success(request, 'Password Does Not Match!')
-            return error('/unit_change_password/')
+            messages.error(request, 'Password Does Not Match!')
+            return redirect('/unit_change_password/')
             # return HttpResponse('''<Script>alert("Password Does Not Match");window.location="/unit_change_password/";</Script>''')
     else:
-        messages.success(request, 'Old Password DoesNot Match New Password!')
-        return error('/unit_change_password/')
+        messages.error(request, 'Old Password DoesNot Match New Password!')
+        return redirect('/unit_change_password/')
         # return HttpResponse('''<Script>alert("Old Password DoesNot Match New Password");window.location="/unit_change_password/";</Script>''')
+
+
+
 
 
 def public_view_predict_mould(request):
@@ -1862,7 +2247,11 @@ def public_apply_job_post(request):
     dob=request.POST['textfield2']
     email=request.POST['textfield4']
     phone=request.POST['textfield5']
-    address=request.POST['textarea2']
+    hn=request.POST['HouseName']
+    place=request.POST['Place']
+    city=request.POST['City']
+    state=request.POST['State']
+    pin=request.POST['pin']
     quali=request.POST['textfield7']
     exp=request.POST['textfield8']
     rem=request.POST['textarea']
@@ -1879,7 +2268,11 @@ def public_apply_job_post(request):
     aj.Date_of_birth=dob
     aj.Email=email
     aj.Phone_Number=phone
-    aj.Address=address
+    aj.Hname=hn
+    aj.Place=place
+    aj.City=city
+    aj.State=state
+    aj.Pin=pin
     aj.qualifications=quali
     aj.experiences=exp
     aj.remark=rem
@@ -1989,8 +2382,8 @@ def empinner(request):
 
 def employee_view_profile(request):
     aj=request.session.get('staff')
-    var=staff.objects.get(Email=aj)
-    return render(request, 'Employee/employee_view_profile.html',{'i':var})
+    aj=staff.objects.get(Email=aj)
+    return render(request, 'Employee/employee_view_profile.html',{'i':aj})
 
 def employee_edit_profile(request,s7):
     data=staff.objects.get(id=s7)
@@ -2035,15 +2428,15 @@ def employee_edit_profile_post(request):
 def employee_loan_request(request):
     aj=request.session['staff']
     data=staff.objects.get(Email=aj)
-    var=job_master.objects.get(id=data.job_id_id)
-    return render(request,'Employee/employee_loan_request.html',{'data':data,'data2':var})
+    aj=job_master.objects.get(id=data.job_id_id)
+    return render(request,'Employee/employee_loan_request.html',{'data':data,'data2':aj})
 
 def employee_loan_request_post(request):
     id = request.POST.get('id')
     la = int(request.POST['t2'])  
     intsa = int(request.POST['select'])
     p = request.POST['t4']
-    # var=staff.objects.get(id=id)
+    # aj=staff.objects.get(id=id)
     aj = loan()
     val2=request.session['staff']
     data5=staff.objects.get(Email=val2)
@@ -2128,17 +2521,17 @@ def employee_leave_request_post(request):
     print(ll)
     data=leave_master.objects.get(leave_type=lt)
     print(data)
-    var = staff.objects.get(Name=name)
+    aj = staff.objects.get(Name=name)
     
 
-    obj=Leave3.objects.filter(staff_id_id=var).filter(status="Approved").filter(leave_id_id=data.id).aggregate(sum=Sum('no_of_days'))['sum'] 
+    obj=Leave3.objects.filter(staff_id_id=aj).filter(status="Approved").filter(leave_id_id=data.id).aggregate(sum=Sum('no_of_days'))['sum'] 
     print("gggggggggggggggggggg")
     print(obj)
     if obj==None:
         print("hhhhhhhhhhhhhhhhhhhhh")
         aj=Leave3()
         aj.leave_id=data
-        aj.staff_id = var
+        aj.staff_id = aj
         from datetime import datetime
         aj.req_date=datetime.now().strftime('%Y-%m-%d')
 
@@ -2154,13 +2547,13 @@ def employee_leave_request_post(request):
     else:
 
         if int(obj)>=int(ll):
-            # messages.error(request, 'Your leave limit is over!')
-            # return redirect('/employee_leave_request/')
-            return HttpResponse('''<script>alert('Your leave limit is over');window.location="/employee_leave_request/"</script>''')  
+            messages.error(request, 'Your leave limit is over!')
+            return redirect('/employee_leave_request/')
+            # return HttpResponse('''<script>alert('Your leave limit is over');window.location="/employee_leave_request/"</script>''')  
         else:
             aj=Leave3()
             aj.leave_id=data
-            aj.staff_id = var
+            aj.staff_id = aj
             from datetime import datetime
             aj.req_date=datetime.now().strftime('%Y-%m-%d')
 
@@ -2389,8 +2782,8 @@ def manager_view_alloted_staff_post(request):
 
 
 def manager_view_alloted_staff_details(request, s11):
-    var = shift_allot.objects.filter(supervisor_id=s11)
-    return render(request, 'Manager/manager_view_alloted_staff_details.html', {'data': var})
+    aj = shift_allot.objects.filter(supervisor_id=s11)
+    return render(request, 'Manager/manager_view_alloted_staff_details.html', {'data': aj})
 
 
 
@@ -2458,7 +2851,11 @@ def manager_approve_order_post(request):
     dd=request.POST['textfield']
     dt=request.POST['appt']
     rem=request.POST['textfield2']
+    cn=request.POST['appt3']
+    vn=request.POST['appt2']
     aj=unit_order.objects.get(id=oid)
+    aj.vehicle_number=vn
+    aj.contact_number=cn
     aj.delivary_date=dd
     aj.delivary_time=dt
     aj.remarks=rem
@@ -2490,16 +2887,28 @@ def manager_view_approved_order(request):
     aj=unit_order.objects.filter(status="Approved")
     return render(request,'Manager/manager_view_approved_order.html',{'data':aj})
 
+def manager_update_delivery_status(request,a1):
+    aj=unit_order.objects.get(id=a1)
+    aj.status="Delivered"
+    aj.save()
+    messages.success(request, "Delivered Successfully!")
+    return redirect('/manager_view_approved_order/')
+
+
 
 def manager_view_cancel_request(request):
-    aj=cancel.objects.filter(status="Requested")
+    aj=unit_order.objects.filter(status="Cancelled")
     return render(request,'Manager/manager_view_cancel_request.html',{'data':aj})
 
+def manager_check_cancel_payament(request,s8):
+    aj=payment.objects.filter(unit_order_id_id=s8)
+    return render(request,'Manager/manager_check_cancel_payament.html',{'data':aj})
+
 def manager_approve_cancel_request(request,s9):
-    aj=cancel.objects.get(id=s9)
-    aj.status="Cancelled"
+    aj=unit_order.objects.get(id=s9)
+    aj.cancel_status="Refunded"
     aj.save()
-    messages.success(request, "Approved Successfully!")
+    messages.success(request, "Refunded Successfully!")
     return redirect('/manager_view_cancel_request/')
     # return HttpResponse('''<script>alert('Approved');window.location="/manager_view_cancel_request/"</script>''')
 
@@ -2559,63 +2968,63 @@ def manager_view_production_report_post(request):
     shift = request.POST.get('select')
     date = request.POST.get('date')
     if name and shift:
-        var=Production.objects.filter(product_id__mname__icontains=name,shift__icontains=shift)
-        if var:
-            return render(request,"Manager/manager_view_production_report.html",{'data':var})
+        aj=Production.objects.filter(product_id__mname__icontains=name,shift__icontains=shift)
+        if aj:
+            return render(request,"Manager/manager_view_production_report.html",{'data':aj})
         else:
             return HttpResponse('''<script>alert('Search Not Found!!!!!');window.location="/manager_view_production_report/"</script>''')
     elif name and date:
-        var=Production.objects.filter(product_id__mname__icontains=name,date=date)
-        if var:
-            return render(request,"Manager/manager_view_production_report.html",{'data':var})
+        aj=Production.objects.filter(product_id__mname__icontains=name,date=date)
+        if aj:
+            return render(request,"Manager/manager_view_production_report.html",{'data':aj})
         else:
             return HttpResponse('''<script>alert('Search Not Found!!!!!');window.location="/manager_view_production_report/"</script>''')
     elif shift and date:
-        var=Production.objects.filter(shift__icontains=shift,date=date)
-        if var:
-            return render(request,"Manager/manager_view_production_report.html",{'data':var})
+        aj=Production.objects.filter(shift__icontains=shift,date=date)
+        if aj:
+            return render(request,"Manager/manager_view_production_report.html",{'data':aj})
         else:
             return HttpResponse('''<script>alert('Search Not Found!!!!!');window.location="/manager_view_production_report/"</script>''')
     elif shift and name:
-        var=Production.objects.filter(shift__icontains=shift,product_id__mname__icontains=name)
-        if var:
-            return render(request,"Manager/manager_view_production_report.html",{'data':var})
+        aj=Production.objects.filter(shift__icontains=shift,product_id__mname__icontains=name)
+        if aj:
+            return render(request,"Manager/manager_view_production_report.html",{'data':aj})
         else:
             return HttpResponse('''<script>alert('Search Not Found!!!!!');window.location="/manager_view_production_report/"</script>''')
     elif date and shift:
-        var=Production.objects.filter(shift__icontains=shift,date=date)
-        if var:
-            return render(request,"Manager/manager_view_production_report.html",{'data':var})
+        aj=Production.objects.filter(shift__icontains=shift,date=date)
+        if aj:
+            return render(request,"Manager/manager_view_production_report.html",{'data':aj})
         else:
             return HttpResponse('''<script>alert('Search Not Found!!!!!');window.location="/manager_view_production_report/"</script>''')
     elif date and name:
-        var=Production.objects.filter(product_id__mname__icontains=name,date=date)
-        if var:
-            return render(request,"Manager/manager_view_production_report.html",{'data':var})
+        aj=Production.objects.filter(product_id__mname__icontains=name,date=date)
+        if aj:
+            return render(request,"Manager/manager_view_production_report.html",{'data':aj})
         else:
             return HttpResponse('''<script>alert('Search Not Found!!!!!');window.location="/manager_view_production_report/"</script>''')
     elif date:
-        var=Production.objects.filter(date=date)
-        if var:
-            return render(request,"Manager/manager_view_production_report.html",{'data':var})
+        aj=Production.objects.filter(date=date)
+        if aj:
+            return render(request,"Manager/manager_view_production_report.html",{'data':aj})
         else:
             return HttpResponse('''<script>alert('Search Not Found!!!!!');window.location="/manager_view_production_report/"</script>''')
     elif name:
-        var=Production.objects.filter(product_id__mname__icontains=name)
-        if var:
-            return render(request,"Manager/manager_view_production_report.html",{'data':var})
+        aj=Production.objects.filter(product_id__mname__icontains=name)
+        if aj:
+            return render(request,"Manager/manager_view_production_report.html",{'data':aj})
         else:
             return HttpResponse('''<script>alert('Search Not Found!!!!!');window.location="/manager_view_production_report/"</script>''')
     elif shift:
-        var=Production.objects.filter(shift__icontains=shift)
-        if var:
-            return render(request,"Manager/manager_view_production_report.html",{'data':var})
+        aj=Production.objects.filter(shift__icontains=shift)
+        if aj:
+            return render(request,"Manager/manager_view_production_report.html",{'data':aj})
         else:
             return HttpResponse('''<script>alert('Search Not Found!!!!!');window.location="/manager_view_production_report/"</script>''')
     else:
-        var=Production.objects.all()
-        if var:
-            return render(request,"Manager/manager_view_production_report.html",{'data':var})
+        aj=Production.objects.all()
+        if aj:
+            return render(request,"Manager/manager_view_production_report.html",{'data':aj})
         else:
             return HttpResponse('''<script>alert('Search Not Found!!!!!');window.location="/manager_view_production_report/"</script>''')
         
@@ -2624,9 +3033,9 @@ def manager_view_production_report_post2(request):
     shift = request.POST.get('select')
     date = request.POST.get('date')
     if shift and date: 
-        var=Production.objects.filter(shift__icontains=shift,date=date)
-        if var:
-            return render(request,"Manager/manager_view_production_report_post2.html",{'data':var})
+        aj=Production.objects.filter(shift__icontains=shift,date=date)
+        if aj:
+            return render(request,"Manager/manager_view_production_report_post2.html",{'data':aj})
         else:
             return HttpResponse('''<script>alert('Search Not Found!!!!!');window.location="/manager_view_production_report/"</script>''')
     
@@ -2641,8 +3050,8 @@ def manager_view_production_report_post2(request):
 
 def supervisor_view_profile(request):
     aj=request.session.get('sprvr')
-    var=staff.objects.get(Email=aj)
-    return render(request, 'Supervisor/supervisor_view_profile.html',{'i':var})
+    aj=staff.objects.get(Email=aj)
+    return render(request, 'Supervisor/supervisor_view_profile.html',{'i':aj})
 
 def supervisor_edit_profile(request,s7):
     data=staff.objects.get(id=s7)
@@ -2736,18 +3145,18 @@ def supervisor_view_staffs(request):
     # val1=staff.objects.get(Email=aj)
     # print("kkkkkkkkkkkkkkkkkkkkkkk")
     # print(val1.id)
-    # var = shift_allot.objects.filter(supervisor_id=val1.id)
+    # aj = shift_allot.objects.filter(supervisor_id=val1.id)
     # from datetime import datetime
     # cur_date=datetime.now().strftime('%Y-%m-%d')
     # data10=Leave3.objects.filter(date__range=(fromdate,todate)).filter(status="approved")
     # data=shift_allot.objects.exclude(staff_id_id__in=[ct.staff_id_id for ct in data10])
     # print(data)
-    # return render(request, "Supervisor/supervisor_view_staffs.html",{'data':var})
+    # return render(request, "Supervisor/supervisor_view_staffs.html",{'data':aj})
 
 def supervisor_allot_shift(request,s2):
     aj=shift_allot.objects.get(id=s2)
-    var=shift.objects.all()
-    return render(request,"Supervisor/supervisor_allot_shift.html",{'data':aj,'var':var})
+    aj=shift.objects.all()
+    return render(request,"Supervisor/supervisor_allot_shift.html",{'data':aj,'aj':aj})
 
 
 
@@ -2799,12 +3208,12 @@ def supervisor_allot_shift_post(request):
 def supervisor_loan_request(request):
     aj=request.session['sprvr']
     data=staff.objects.get(Email=aj)
-    var=job_master.objects.get(id=data.job_id_id)
-    return render(request,'Supervisor/supervisor_loan_request.html',{'data':data,'data2':var})
+    aj=job_master.objects.get(id=data.job_id_id)
+    return render(request,'Supervisor/supervisor_loan_request.html',{'data':data,'data2':aj})
 
 def supervisor_loan_request_post(request):
-    var = loan.objects.filter(staff_id__Email=request.session['sprvr'], status='Pending').exists()
-    if var:
+    aj = loan.objects.filter(staff_id__Email=request.session['sprvr'], status='Pending').exists()
+    if aj:
         messages.error(request, "You already have a pending loan request. Please wait until the current loan is completed.")
         return redirect('/supervisor_loan_request/')
         # return HttpResponse('''<script>alert('Loan Request Already Sent!');window.location="/supervisor_loan_request/"</script>''')
@@ -2813,7 +3222,7 @@ def supervisor_loan_request_post(request):
         la = int(request.POST['t2'])  
         intsa = int(request.POST['select'])
         p = request.POST['t4']
-        # var=staff.objects.get(id=id)
+        # aj=staff.objects.get(id=id)
         aj = loan()
         val2=request.session['sprvr']
         data5=staff.objects.get(Email=val2)
@@ -2841,6 +3250,11 @@ def supervisor_view_loan_status(request):
     staff_data = staff.objects.get(Email=staff_un)
     aj = loan.objects.filter(staff_id_id=staff_data)
     return render(request, "Supervisor/supervisor_view_loan_status.html", {'data': aj})
+
+def supervisor_view_existing_loan(request,s5):
+    d2 = loan_master.objects.get(loan_id=s5)
+    return render(request,'Supervisor/supervisor_view_existing_loan.html',{'i':d2})  
+
 
 
 def supervisor_apply_advance(request):
@@ -2894,17 +3308,17 @@ def supervisor_leave_request_post(request):
     print(ll)
     data=leave_master.objects.get(leave_type=lt)
     print(data)
-    var = staff.objects.get(Name=name)
+    aj = staff.objects.get(Name=name)
     
 
-    obj=Leave3.objects.filter(staff_id_id=var).filter(status="Approved").filter(leave_id_id=data.id).aggregate(sum=Sum('no_of_days'))['sum'] 
+    obj=Leave3.objects.filter(staff_id_id=aj).filter(status="Approved").filter(leave_id_id=data.id).aggregate(sum=Sum('no_of_days'))['sum'] 
     print("gggggggggggggggggggg")
     print(obj)
     if obj==None:
         print("hhhhhhhhhhhhhhhhhhhhh")
         aj=Leave3()
         aj.leave_id=data
-        aj.staff_id = var
+        aj.staff_id = aj
         from datetime import datetime
         aj.req_date=datetime.now().strftime('%Y-%m-%d')
 
@@ -2926,7 +3340,7 @@ def supervisor_leave_request_post(request):
         else:
             aj=Leave3()
             aj.leave_id=data
-            aj.staff_id = var
+            aj.staff_id = aj
             from datetime import datetime
             aj.req_date=datetime.now().strftime('%Y-%m-%d')
 
