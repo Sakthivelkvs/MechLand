@@ -9,12 +9,12 @@
 <head>
   <script>
     function valid() {
-      var bs = parseInt(document.getElementById('textfield2').value);
-      // var a = parseInt(document.getElementById('textfield5').value);
-      var Salary = bs / 30;
-      document.getElementById('textfield3').value = Salary;
+        var bs = parseInt(document.getElementById('textfield2').value);
+        var Salary = bs / 28;
+        Salary = Math.round(Salary); 
+        document.getElementById('textfield3').value = Salary;
     }
-    </script>
+</script>
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">

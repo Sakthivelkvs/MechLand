@@ -49,13 +49,24 @@ class staff(models.Model):
     Date_of_birth = models.CharField(max_length=100)
     Email = models.CharField(max_length=100)
     Phone_Number = models.CharField(max_length=100)
-    Address=models.CharField(max_length=150,default="")
+    house_name=models.CharField(max_length=150,default="")
+    place=models.CharField(max_length=150,default="")
+    city=models.CharField(max_length=150,default="")
+    state=models.CharField(max_length=150,default="")
+    pin=models.CharField(max_length=150,default="")
     join_date=models.CharField(max_length=50,default="")
     remark=models.CharField(max_length=100,default="")
     section=models.CharField(max_length=50,default="")
     Photo=models.CharField(max_length=200)
     job_id=models.ForeignKey(job_master,on_delete=models.CASCADE)
     status=models.CharField(max_length=200)
+    father_name=models.CharField(max_length=50,default="")
+    aadhar=models.CharField(max_length=50,default="")
+    nation=models.CharField(max_length=50,default="")
+    bank_name=models.CharField(max_length=50,default="")
+    bank_account_no=models.CharField(max_length=50,default="")
+    bank_ifsc=models.CharField(max_length=50,default="")
+    branch=models.CharField(max_length=50,default="")
     class Meta:
         db_table="staff"
 
@@ -200,7 +211,7 @@ class Leave(models.Model):
     staff_id=models.ForeignKey(staff,on_delete=models.CASCADE)
     req_date=models.CharField(max_length=50)
     laeve_date=models.CharField(max_length=50)
-    
+   
     no_of_days=models.IntegerField()
     reason=models.CharField(max_length=200)
     status=models.CharField(max_length=50)  
@@ -219,6 +230,7 @@ class Leave3(models.Model):
     no_of_days=models.IntegerField()
     reason=models.CharField(max_length=200)
     status=models.CharField(max_length=50)  
+    certificate=models.CharField(max_length=250,default="")
     class Meta:
         db_table="Leave3"
 

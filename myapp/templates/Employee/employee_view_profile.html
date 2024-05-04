@@ -84,6 +84,9 @@
                       </div>
                       <div class="change-password">
                         <a href="/employee_change_password" class="change-password-link">Change Password</a>
+                      </div><br>
+                      <div class="profile">
+                        <a href="/employee_complete_profile" class="change-password-link">Personal Details</a>
                       </div>
                     </div>
                   </div><!-- End Info Item --> 
@@ -112,7 +115,7 @@
                 </tr>
                 <tr>
                   <th><label for="message">Address:</label></th>
-                  <td><input type="text" class="form-control" name="message" id="message" placeholder="Message" value="{{ i.Address }}" readonly></td>
+                  <td><input type="text" class="form-control" name="message" id="message" placeholder="Message" value="{{ i.place }},{{ i.city }},{{ i.state }},{{ i.pin }}" readonly></td>
                 </tr>
               </table>
               

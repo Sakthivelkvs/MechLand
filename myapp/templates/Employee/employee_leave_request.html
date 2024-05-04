@@ -20,7 +20,7 @@ function valid() {
         <h2>Leave Application</h2>
         <ol>
           <li><a href="/staff_login">Home</a></li>
-          <li>Leave Application</li>
+          <li></li>
         </ol>
       </div>
 
@@ -32,12 +32,13 @@ function valid() {
 <div class="container" data-aos="fade-up">
 
   <div class="section-header">
-    <h2>Leave</h2>
+    <h2>Leave Application</h2>
     <p>Submit Your Form</p>
   </div>
 <form action="/employee_leave_request_post/" method="post" enctype="multipart/form-data" name="form1" id="form1">
     {% csrf_token %}
-  <table class="table table-bordered">
+  <table class="table table-borderless">
+    <input type="hidden" name="leavelimit" id="leavelimit" value="{{data2.leave_limit}}" class="form-control" />
     <tr>
         <th>Staff Name</th>
         <td>
@@ -46,37 +47,38 @@ function valid() {
       <tr>
         <th>Leave Type</th>
         <td>
-          <select name="select" class="form-control"  id="select" required>
-             <option value="">Select Leave</option>
-                {% for ct in data2 %}
-                    <option value="{{ ct.leave_type }}">{{ ct.leave_type }} (MAX  {{ ct.leave_limit }} days)</option>
-                {% endfor %}
-
-        </select></td>
+          <select name="select" class="form-control" id="select" required>
+            <option value="">Select Leave</option>
+            {% for ct in data2 %}
+                <option value="{{ ct.leave_type }}" data-leave-limit="{{ ct.leave_limit }}">{{ ct.leave_type }}</option>
+            {% endfor %}
+        </select>
+        <td>
       </tr>
       <!-- HTML -->
-      <input type="hidden" name="leavelimit" id="leavelimit" value="{{data2.leave_limit}}" class="form-control" />
+     
 
       
 <!-- JavaScript -->
 <script>
-function updateLeaveLimit() {
-    var leaveType = document.getElementById("select").value;
-    var leaveLimitField = document.getElementById("leavelimit");
-
-    // Loop through the options to find the selected leave type and its corresponding leave limit
-    var options = document.getElementById("select").options;
-    for (var i = 0; i < options.length; i++) {
-        if (options[i].value === leaveType) {
-            var leaveLimit = options[i].textContent.match(/\(MAX  (\d+) days\)/)[1];
-            leaveLimitField.value = leaveLimit;
-            break;
-        }
-    }
-}
-
-document.getElementById("select").addEventListener("change", updateLeaveLimit);
-</script>
+  function updateLeaveLimit() {
+      var leaveType = document.getElementById("select").value;
+      var leaveLimitField = document.getElementById("leavelimit");
+  
+      // Loop through the options to find the selected leave type and its corresponding leave limit
+      var options = document.getElementById("select").options;
+      for (var i = 0; i < options.length; i++) {
+          if (options[i].value === leaveType) {
+              var leaveLimit = options[i].getAttribute("data-leave-limit");
+              leaveLimitField.value = leaveLimit;
+              break;
+          }
+      }
+  }
+  
+  document.getElementById("select").addEventListener("change", updateLeaveLimit);
+  </script>
+  
 
   
 
@@ -119,9 +121,26 @@ document.getElementById("select").addEventListener("change", updateLeaveLimit);
 document.getElementById("from_date").addEventListener("change", calculateDays);
 document.getElementById("to_date").addEventListener("change", calculateDays);
 document.getElementById("select").addEventListener("change", calculateDays);
-
-
 </script>
+
+<tr id="cerificate">
+  <th>Cerificate</th>
+  <td><input type="file"  name="photo" class="form-control"></td>
+</tr>
+
+<script>
+  document.getElementById('select').onchange = function() {
+      var leaveType = this.value;
+      var certificateField = document.getElementById('cerificate');
+      if (leaveType === 'CasualLeave' || leaveType === 'SickLeave') {
+          certificateField.style.display = 'none';
+      } else {
+          certificateField.style.display = 'table-row';
+      } 
+  };
+</script>
+
+
 
     <tr>
     <th>Reason</th>

@@ -28,7 +28,7 @@
       <th>Name</th>
       <th>Company Name</th>
       <th> Mould </th>
-      <th> Photo </th>
+      <!-- <th> Photo </th> -->
       <th> Quantity </th>
       <th> Date </th>
       <th> Status </th>
@@ -38,8 +38,8 @@
       <td>{{ forloop.counter }}</td>
       <td>{{ i.unit_id.Name }}</td>
       <td>{{ i.unit_id.Company_Name }}</td>
-      <td>&nbsp;{{ i.mould_id.mname }}</td>
-      <td><img src="{{ i.mould_id.photo }}" height="100px" width="100px" ></td>
+      <td>&nbsp;{{ i.mould_id.mname }}<br><img src="{{ i.mould_id.photo }}" height="40px" width="40px" style="border-radius: 50%;"></td>
+      <!-- <td><img src="{{ i.mould_id.photo }}" height="100px" width="100px" ></td> -->
       <td>&nbsp;{{ i.quantity }}</td>
       <td>{{ i.date }}</td>
       <td><label class="badge badge-success">{{ i.status }}</label><td>

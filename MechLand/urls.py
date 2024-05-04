@@ -247,6 +247,8 @@ urlpatterns = [
 
     path('employee_view_attendance/',views.employee_view_attendance),
 
+    path('employee_complete_profile/',views.employee_complete_profile),
+    path('employee_complete_profile_post/',views.employee_complete_profile_post),
 
 
     path('employee_leave_request/',views.employee_leave_request),

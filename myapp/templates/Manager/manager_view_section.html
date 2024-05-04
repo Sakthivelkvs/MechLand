@@ -43,7 +43,7 @@
         {% for i in data %}
         <tr>
             <td>{{ forloop.counter }}</td>
-            <td>{{ i.Name }} <br> <img src="{{ i.Photo }}" height="100px" width="100px"> </td>
+            <td>{{ i.Name }} <br> <img src="{{ i.Photo }}" height="40px" width="40px" style="border-radius: 50%;"> </td>
             <!-- <td>{{ i.Gender }}</td> -->
             <td>&nbsp;{{ i.Email }}</td>
             <td>{{i.job_id.job_role}}</td>

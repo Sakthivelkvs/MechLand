@@ -10,7 +10,7 @@
       <div class="d-flex justify-content-between align-items-center">
         <h2>Shift</h2>
         <ol>
-          <li><a href="/staff_login">Home</a></li>
+          <li><a href="/supervisor_login">Home</a></li>
           <li>Allot Shift</li>
         </ol>
     </div>
@@ -42,7 +42,7 @@
             <th>Shift</th>
             <td>
               <select name="select" class="form-control"required id="select">
-                {% for i in var %}
+                {% for i in aj %}
                 <option value={{i.id}}>{{i.shift_nbr}}</option>
                 {% endfor %}
             </select></td>
@@ -51,7 +51,7 @@
             <th>Time</th>
             <td>
               <select name="select2" class="form-control" required id="select2">
-                {% for i in var %}
+                {% for i in aj %}
                 <option value={{i.id}}>{{i.shift_time}}</option>
                 {% endfor %}
             </select></td>

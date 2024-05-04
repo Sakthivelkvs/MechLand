@@ -24,7 +24,12 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
+  <div class="container">
+    <h3>Salary Slip</h3> <!-- Adding the topic name -->
 
+    <!-- Button for "Add Mould" -->
+    <!-- <a href="/admin_add_job" class="add-mould-button">Add</a> -->
+  </div>
 <form action="/admin_salary_post/{{staff}}" method="post" enctype="multipart/form-data" name="form1" id="form1">
     {% csrf_token %}
   <table class="table table-bordered">

@@ -1,4 +1,4 @@
-{% extends "Employee/emp_inner-page.html" %}
+{% extends "Supervisor/emp_inner-page.html" %}
 {% block body %}
 {% load static %}
 <html lang="en">
@@ -52,7 +52,7 @@
             <div class="d-flex justify-content-between align-items-center">
               <h2>Edit Profile</h2>
               <ol>
-                <li><a href="/unit_login">Home</a></li>
+                <li><a href="/supervisor_login">Home</a></li>
                 <li>Edit Profile</li>
               </ol>
           </div>
@@ -137,10 +137,30 @@
                               <input type="text" name="textfield5" placeholder="" pattren="[6789][1-9] {9}" max="10" id="textfield5" class="form-control" value="{{data.Phone_Number}}"/>
                           </div>
                           <div class="col-md-6 form-group mt-3 mt-md-0">
-                              <label for="address"><b>Address:</b></label>
-                              <input type="text" name="textfield7" id="textfield6" class="form-control" value="{{data.Address}}"/>
+                              <label for="address"><b>House Name:</b></label>
+                              <input type="text" name="textfield7" id="textfield6" class="form-control" value="{{data.house_name}}"/>
                           </div>
-                      </div><br>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-6 form-group">
+                            <label for="phone"><b>Place:</b></label>
+                            <input type="text" name="textfield8" placeholder="" pattren="[6789][1-9] {9}" max="10" id="textfield5" class="form-control" value="{{data.place}}"/>
+                        </div>
+                        <div class="col-md-6 form-group mt-3 mt-md-0">
+                            <label for="address"><b>City:</b></label>
+                            <input type="text" name="textfield9" id="textfield6" class="form-control" value="{{data.city}}"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6 form-group">
+                          <label for="phone"><b>State:</b></label>
+                          <input type="text" name="textfield0" placeholder="" pattren="[6789][1-9] {9}" max="10" id="textfield5" class="form-control" value="{{data.state}}"/>
+                      </div>
+                      <div class="col-md-6 form-group mt-3 mt-md-0">
+                          <label for="address"><b>PinCode:</b></label>
+                          <input type="text" name="textfield11" id="textfield6" class="form-control" value="{{data.pin}}"/>
+                      </div>
+                  </div><br><br>
                       <div class="row justify-content-center">
                         <div class="col-6 text-center">
                             <input type="submit" name="button" id="button" value="Submit" class="btn btn-success"/>

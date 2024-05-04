@@ -47,7 +47,7 @@
       <div class="d-flex justify-content-between align-items-center">
         <h2>Profile</h2>
         <ol>
-          <li><a href="/staff_login">Home</a></li>
+          <li><a href="/supervisor_login">Home</a></li>
           <li>View Profile</li>
         </ol>
     </div>
@@ -111,7 +111,7 @@
                 </tr>
                 <tr>
                   <th><label for="message">Address:</label></th>
-                  <td><input type="text" class="form-control" name="message" id="message" placeholder="Message" value="{{ i.Address }}" readonly></td>
+                  <td><input type="text" class="form-control" name="message" id="message" placeholder="Message" value="{{ i.place }},{{ i.city }},{{ i.state }},{{ i.pin }}" readonly></td>
                 </tr>
               </table>
               

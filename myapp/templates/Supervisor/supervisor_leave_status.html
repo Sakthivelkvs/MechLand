@@ -26,6 +26,7 @@
     <h2>Leave Status</h2>
 
   </div>
+  <form id="form1" name="form1" method="post" enctype="multipart/form-data" action=""></form>
     <table class="table table-bordered">
         <tr>
             <th>Staff Name</th>
@@ -34,6 +35,7 @@
             <th>Leave Date</th>
             <th>Number of Days</th>
             <th>Reason</th>
+            <th>Certificate</th>
             <th>Status</th>
         </tr>
         {% for i in data %}
@@ -44,9 +46,12 @@
                 <td>{{ i.fromdate }} to {{i.todate}}</td>
                 <td>{{ i.no_of_days }}</td>
                 <td>{{ i.reason }}</td>
+                <td><img src="{{i.certificate}}" height="50px" width="50px"></td>
 
                 
                 {% if i.status == "Pending" %}
+                  <td><label class="badge bg-warning text-white">{{ i.status }}</label></td>
+                {% elif i.status == "Rejected" %}
                   <td><label class="badge bg-danger text-white">{{ i.status }}</label></td>
                 {% else %}
                   <td><label class="badge bg-success text-white">{{ i.status }}</label></td>
@@ -56,6 +61,7 @@
             </tr>
         {% endfor %}
     </table>
+  </form>
 </div>
 </section>
 </body>

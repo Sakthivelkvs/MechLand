@@ -6,12 +6,13 @@
 <html lang="en">
   <script>
     function valid() {
-      var bs = parseInt(document.getElementById('textfield2').value);
-      // var a = parseInt(document.getElementById('textfield5').value);
-      var Salary = bs / 30;
-      document.getElementById('textfield3').value = Salary;
+        var bs = parseInt(document.getElementById('textfield2').value);
+        var Salary = bs / 28;
+        Salary = Math.round(Salary); 
+        document.getElementById('textfield3').value = Salary;
     }
-    </script>
+</script>
+
 
 <head>
   <!-- Required meta tags -->
@@ -45,10 +46,10 @@
           <label for="textfield2">Basic Salary</label>
           <input type="text" name="textfield2" id="textfield2" class="form-control" onChange="valid();" required/>
         </div>
-        <div class="form-group">
-          <label for="textfield3">Salary /day</label>
-          <input type="text" name="textfield3" id="textfield3" class="form-control" required/>
-        </div>
+        <!-- <div class="form-group">
+          <label for="textfield3">Salary /day</label> -->
+          <input type="hidden" name="textfield3" id="textfield3" class="form-control" required/>
+        <!-- </div> -->
         <div class="form-group">
           <label for="textfield4">Loan Allowance</label>
           <input type="text" name="textfield4" id="textfield4" class="form-control" required/>

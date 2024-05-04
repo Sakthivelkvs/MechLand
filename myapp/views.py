@@ -446,8 +446,8 @@ def admin_add_job_post(request):
         job_role=request.POST['textfield']
         basic_salary=request.POST['textfield2']
         # allowance=request.POST['textfield3']
-        loan_allowance=request.POST['textfield3']
-        salary=request.POST['textfield4']
+        loan_allowance=request.POST['textfield4']
+        salary=request.POST['textfield3']
         r=request.POST['textfield5']
         v=request.POST['textfield6']
         q=request.POST['textfield7']
@@ -571,7 +571,11 @@ def  admin_add_staff_post(request,id):
         aj.Date_of_birth=data.Date_of_birth
         aj.Email=data.Email
         aj.Phone_Number=data.Phone_Number
-        aj.Address=data.Address
+        aj.house_name=data.Hname
+        aj.place=data.Place
+        aj.city=data.City
+        aj.state=data.State
+        aj.pin=data.Pin
         aj.Photo=data.Photo
         aj.join_date=joindate
         aj.remark=remark
@@ -2382,8 +2386,8 @@ def empinner(request):
 
 def employee_view_profile(request):
     aj=request.session.get('staff')
-    aj=staff.objects.get(Email=aj)
-    return render(request, 'Employee/employee_view_profile.html',{'i':aj})
+    data=staff.objects.get(Email=aj)
+    return render(request, 'Employee/employee_view_profile.html',{'i':data})
 
 def employee_edit_profile(request,s7):
     data=staff.objects.get(id=s7)
@@ -2395,7 +2399,11 @@ def employee_edit_profile_post(request):
     dob=request.POST['textfield2']
     email=request.POST['textfield4']
     phone=request.POST['textfield5']
-    address=request.POST['textfield7']
+    hnmae=request.POST['textfield7']
+    place=request.POST['textfield8']
+    city=request.POST['textfield9']
+    state=request.POST['textfield0']
+    pin=request.POST['textfield11']
     if 'Photo' in request.FILES:
         Photo = request.FILES['Photo']  
         fs = FileSystemStorage()
@@ -2408,7 +2416,11 @@ def employee_edit_profile_post(request):
         aj.Date_of_birth=dob
         aj.Email=email
         aj.Phone_Number=phone
-        aj.Address=address
+        aj.Phone_Number=phone
+        aj.house_name=hnmae
+        aj.place=place
+        aj.city=city
+        aj.state=state
         aj.Photo=uploaded_file_url
         aj.save()
         messages.success(request, 'Sucessfully Updated !')
@@ -2420,10 +2432,44 @@ def employee_edit_profile_post(request):
         aj.Date_of_birth=dob
         aj.Email=email
         aj.Phone_Number=phone
-        aj.Address=address
+        aj.Phone_Number=phone
+        aj.house_name=hnmae
+        aj.place=place
+        aj.city=city
+        aj.state=state
         aj.save()
         messages.success(request, 'Sucessfully Updated !')
         return redirect('/employee_view_profile/')
+
+def employee_complete_profile(request):
+    staff_un = request.session.get('staff')
+    staff_data = staff.objects.get(Email=staff_un)
+    return render(request, 'Employee/employee_complete_profile.html',{'i':staff_data})
+
+def employee_complete_profile_post(request):
+    id=request.POST.get('id')
+    fn=request.POST.get('textfield')
+    national=request.POST.get('t2')
+    aadhar=request.POST.get('t4')
+    bank=request.POST.get('t6')
+    acc=request.POST.get('t7')
+    ifsc=request.POST.get('t8')
+    branch=request.POST.get('t10')
+
+    staff_un = request.session.get('staff')
+    var = staff.objects.get(Email=staff_un)
+    var.father_name=fn
+    var.nation=national
+    var.aadhar=aadhar
+    var.bank_name=bank
+    var.bank_account_no=acc
+    var.bank_ifsc=ifsc
+    var.branch=branch
+    var.save()
+    messages.success(request, 'Sucessfully Updated !')
+    return redirect('/employee_view_profile/')
+
+
 
 def employee_loan_request(request):
     aj=request.session['staff']
@@ -2457,6 +2503,8 @@ def employee_loan_request_post(request):
     messages.success(request, 'Loan Request Sent!')
     return redirect('/employee_loan_request/')
     # return HttpResponse('''<script>alert('Success');window.location="/employee_loan_request/"</script>''')
+
+
 
 
 def employee_view_loan_status(request):
@@ -2517,27 +2565,28 @@ def employee_leave_request_post(request):
     td=request.POST['textfield9']
     nod=request.POST['textfield5']
     reason=request.POST['textarea2']
+
     print(lt)
     print(ll)
     data=leave_master.objects.get(leave_type=lt)
     print(data)
-    aj = staff.objects.get(Name=name)
-    
+    aj2 = staff.objects.get(Name=name)
 
-    obj=Leave3.objects.filter(staff_id_id=aj).filter(status="Approved").filter(leave_id_id=data.id).aggregate(sum=Sum('no_of_days'))['sum'] 
+    obj=Leave3.objects.filter(staff_id_id=aj2).filter(status="Approved").filter(leave_id_id=data.id).aggregate(sum=Sum('no_of_days'))['sum'] 
     print("gggggggggggggggggggg")
     print(obj)
     if obj==None:
         print("hhhhhhhhhhhhhhhhhhhhh")
         aj=Leave3()
         aj.leave_id=data
-        aj.staff_id = aj
+        aj.staff_id = aj2
         from datetime import datetime
         aj.req_date=datetime.now().strftime('%Y-%m-%d')
 
         aj.fromdate=fd
         aj.todate=td
         aj.no_of_days=nod
+        
         aj.reason=reason
         aj.status='Pending'
         aj.save()
@@ -2551,18 +2600,39 @@ def employee_leave_request_post(request):
             return redirect('/employee_leave_request/')
             # return HttpResponse('''<script>alert('Your leave limit is over');window.location="/employee_leave_request/"</script>''')  
         else:
-            aj=Leave3()
-            aj.leave_id=data
-            aj.staff_id = aj
-            from datetime import datetime
-            aj.req_date=datetime.now().strftime('%Y-%m-%d')
+            if request.POST.get('photo')=="":
 
-            aj.fromdate=fd
-            aj.todate=td
-            aj.no_of_days=nod
-            aj.reason=reason
-            aj.status='Pending'
-            aj.save()
+                aj=Leave3()
+                aj.leave_id=data
+                aj.staff_id = aj2
+                from datetime import datetime
+                aj.req_date=datetime.now().strftime('%Y-%m-%d')
+
+                aj.fromdate=fd
+                aj.todate=td
+                aj.no_of_days=nod
+                aj.reason=reason
+                aj.status='Pending'
+                aj.save()
+            else:
+                aj=Leave3()
+                aj.leave_id=data
+                aj.staff_id = aj2
+                from datetime import datetime
+                aj.req_date=datetime.now().strftime('%Y-%m-%d')
+
+                aj.fromdate=fd
+                aj.todate=td
+                aj.no_of_days=nod
+                photo = request.FILES['photo']
+                fs = FileSystemStorage()
+                filename = fs.save(photo.name, photo)
+                uploaded_file_url = fs.url(filename)
+                aj.certificate = uploaded_file_url
+                aj.reason=reason
+                aj.status='Pending'
+                aj.save()
+
             messages.success(request, 'Leave Request Sent!')
             return redirect('/employee_leave_request/')
             # return HttpResponse('''<script>alert('Success');window.location="/employee_leave_request/"</script>''')
@@ -3050,8 +3120,8 @@ def manager_view_production_report_post2(request):
 
 def supervisor_view_profile(request):
     aj=request.session.get('sprvr')
-    aj=staff.objects.get(Email=aj)
-    return render(request, 'Supervisor/supervisor_view_profile.html',{'i':aj})
+    aj3=staff.objects.get(Email=aj)
+    return render(request, 'Supervisor/supervisor_view_profile.html',{'i':aj3})
 
 def supervisor_edit_profile(request,s7):
     data=staff.objects.get(id=s7)
@@ -3063,7 +3133,11 @@ def supervisor_edit_profile_post(request):
     dob=request.POST['textfield2']
     email=request.POST['textfield4']
     phone=request.POST['textfield5']
-    address=request.POST['textfield7']
+    hnmae=request.POST['textfield7']
+    place=request.POST['textfield8']
+    city=request.POST['textfield9']
+    state=request.POST['textfield0']
+    pin=request.POST['textfield11']
     if 'Photo' in request.FILES:
         Photo = request.FILES['Photo']  
         fs = FileSystemStorage()
@@ -3076,7 +3150,11 @@ def supervisor_edit_profile_post(request):
         aj.Date_of_birth=dob
         aj.Email=email
         aj.Phone_Number=phone
-        aj.Address=address
+        aj.house_name=hnmae
+        aj.place=place
+        aj.city=city
+        aj.state=state
+        aj.pin=pin
         aj.Photo=uploaded_file_url
         aj.save()
         messages.success(request, "Updated!")
@@ -3088,7 +3166,11 @@ def supervisor_edit_profile_post(request):
         aj.Date_of_birth=dob
         aj.Email=email
         aj.Phone_Number=phone
-        aj.Address=address
+        aj.house_name=hnmae
+        aj.place=place
+        aj.city=city
+        aj.state=state
+        aj.pin=pin
         aj.save()
         messages.success(request, "Updated!")
         return redirect('/supervisor_view_profile/')
@@ -3096,8 +3178,8 @@ def supervisor_edit_profile_post(request):
 
 def supervisor_change_password(request):
     aj=request.session.get('sprvr')
-    aj=login.objects.get(username=aj)
-    return render(request,"Supervisor/supervisor_change_password.html",{'data':aj})
+    aj2=login.objects.get(username=aj)
+    return render(request,"Supervisor/supervisor_change_password.html",{'data':aj2})
 
 
 def supervisor_change_password_post(request):
@@ -3155,8 +3237,8 @@ def supervisor_view_staffs(request):
 
 def supervisor_allot_shift(request,s2):
     aj=shift_allot.objects.get(id=s2)
-    aj=shift.objects.all()
-    return render(request,"Supervisor/supervisor_allot_shift.html",{'data':aj,'aj':aj})
+    aj4=shift.objects.all()
+    return render(request,"Supervisor/supervisor_allot_shift.html",{'data':aj,'aj':aj4})
 
 
 
@@ -3208,12 +3290,12 @@ def supervisor_allot_shift_post(request):
 def supervisor_loan_request(request):
     aj=request.session['sprvr']
     data=staff.objects.get(Email=aj)
-    aj=job_master.objects.get(id=data.job_id_id)
-    return render(request,'Supervisor/supervisor_loan_request.html',{'data':data,'data2':aj})
+    aj5=job_master.objects.get(id=data.job_id_id)
+    return render(request,'Supervisor/supervisor_loan_request.html',{'data':data,'data2':aj5})
 
 def supervisor_loan_request_post(request):
-    aj = loan.objects.filter(staff_id__Email=request.session['sprvr'], status='Pending').exists()
-    if aj:
+    aj2 = loan.objects.filter(staff_id__Email=request.session['sprvr'], status='Pending').exists()
+    if aj2:
         messages.error(request, "You already have a pending loan request. Please wait until the current loan is completed.")
         return redirect('/supervisor_loan_request/')
         # return HttpResponse('''<script>alert('Loan Request Already Sent!');window.location="/supervisor_loan_request/"</script>''')
@@ -3292,11 +3374,10 @@ def supervisor_view_advance_status(request):
 def supervisor_leave_request(request):
     aj=request.session['sprvr']
     data=staff.objects.get(Email=aj)
-    aj=leave_master.objects.all()
-    return render(request,'Supervisor/supervisor_leave_request.html',{'data': data,'data2': aj})
+    aj6=leave_master.objects.all()
+    return render(request,'Supervisor/supervisor_leave_request.html',{'data': data,'data2': aj6})
 
 def supervisor_leave_request_post(request):
-    name=request.POST.get('textfield1')
     name=request.POST.get('textfield1')
     lt=request.POST['select']
     ll=request.POST['leavelimit']
@@ -3304,55 +3385,108 @@ def supervisor_leave_request_post(request):
     td=request.POST['textfield9']
     nod=request.POST['textfield5']
     reason=request.POST['textarea2']
+
+
+    # Check if there's already a pending request for the user
+    pending_requests = Leave3.objects.filter(staff_id__Name=name, status='Pending').count()
+    if pending_requests > 0:
+        messages.error(request, 'You already have a pending leave request!')
+        return redirect('/supervisor_leave_request/')
+
     print(lt)
     print(ll)
     data=leave_master.objects.get(leave_type=lt)
     print(data)
-    aj = staff.objects.get(Name=name)
-    
+    aj2 = staff.objects.get(Name=name)
 
-    obj=Leave3.objects.filter(staff_id_id=aj).filter(status="Approved").filter(leave_id_id=data.id).aggregate(sum=Sum('no_of_days'))['sum'] 
-    print("gggggggggggggggggggg")
+    obj=Leave3.objects.filter(staff_id_id=aj2).filter(status="Approved").filter(leave_id_id=data.id).aggregate(sum=Sum('no_of_days'))['sum'] 
+    
     print(obj)
     if obj==None:
-        print("hhhhhhhhhhhhhhhhhhhhh")
-        aj=Leave3()
-        aj.leave_id=data
-        aj.staff_id = aj
-        from datetime import datetime
-        aj.req_date=datetime.now().strftime('%Y-%m-%d')
+        if request.POST.get('photo')=="":
+                print("rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr")
+                aj=Leave3()
+                aj.leave_id=data
+                aj.staff_id = aj2
+                from datetime import datetime
+                aj.req_date=datetime.now().strftime('%Y-%m-%d')
 
-        aj.fromdate=fd
-        aj.todate=td
-        aj.no_of_days=nod
-        aj.reason=reason
-        aj.status='Pending'
-        aj.save()
-        messages.success(request, 'Leave Request Sent!')
-        return redirect('/supervisor_leave_request/')
-        # return HttpResponse('''<script>alert('Success');window.location="/employee_leave_request/"</script>''')
+                aj.fromdate=fd
+                aj.todate=td
+                aj.no_of_days=nod
+                aj.reason=reason
+                aj.status='Pending'
+                aj.save()
+                messages.success(request, 'Leave Request Sent!')
+                return redirect('/supervisor_leave_request/')
+        else:
+                print("rrffffffffffffffffffffffffffffffffffffffffffrrrr")
+                aj=Leave3()
+                aj.leave_id=data
+                aj.staff_id = aj2
+                from datetime import datetime
+                aj.req_date=datetime.now().strftime('%Y-%m-%d')
+
+                aj.fromdate=fd
+                aj.todate=td
+                aj.no_of_days=nod
+                print("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh")
+                photo = request.FILES['photo']
+                fs = FileSystemStorage()
+                filename = fs.save(photo.name, photo)
+                uploaded_file_url = fs.url(filename)
+                aj.certificate = uploaded_file_url
+                print("gggggggggggggggggggggggggggggggggggggggggg")
+                aj.reason=reason
+                aj.status='Pending'
+                aj.save()
+                messages.success(request, 'Leave Request Sent!')
+                return redirect('/supervisor_leave_request/')
     else:
 
         if int(obj)>=int(ll):
             messages.error(request, 'Your leave limit is over!')
             return redirect('/supervisor_leave_request/')
-            # return HttpResponse('''<script>alert('Your leave limit is over');window.location="/supervisor_leave_request/"</script>''')  
         else:
-            aj=Leave3()
-            aj.leave_id=data
-            aj.staff_id = aj
-            from datetime import datetime
-            aj.req_date=datetime.now().strftime('%Y-%m-%d')
+            if request.POST.get('photo')=="":
+                print("rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr")
+                aj=Leave3()
+                aj.leave_id=data
+                aj.staff_id = aj2
+                from datetime import datetime
+                aj.req_date=datetime.now().strftime('%Y-%m-%d')
 
-            aj.fromdate=fd
-            aj.todate=td
-            aj.no_of_days=nod
-            aj.reason=reason
-            aj.status='Pending'
-            aj.save()
-            messages.success(request, 'Leave Request Sent!')
-            return redirect('/supervisor_leave_request/')
-            # return HttpResponse('''<script>alert('Success');window.location="/employee_leave_request/"</script>''')
+                aj.fromdate=fd
+                aj.todate=td
+                aj.no_of_days=nod
+                aj.reason=reason
+                aj.status='Pending'
+                aj.save()
+                messages.success(request, 'Leave Request Sent!')
+                return redirect('/supervisor_leave_request/')
+            else:
+                print("rrffffffffffffffffffffffffffffffffffffffffffrrrr")
+                aj=Leave3()
+                aj.leave_id=data
+                aj.staff_id = aj2
+                from datetime import datetime
+                aj.req_date=datetime.now().strftime('%Y-%m-%d')
+
+                aj.fromdate=fd
+                aj.todate=td
+                aj.no_of_days=nod
+                print("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh")
+                photo = request.FILES['photo']
+                fs = FileSystemStorage()
+                filename = fs.save(photo.name, photo)
+                uploaded_file_url = fs.url(filename)
+                aj.certificate = uploaded_file_url
+                print("gggggggggggggggggggggggggggggggggggggggggg")
+                aj.reason=reason
+                aj.status='Pending'
+                aj.save()
+                messages.success(request, 'Leave Request Sent!')
+                return redirect('/supervisor_leave_request/')
 
 
 def supervisor_view_leave_status(request):

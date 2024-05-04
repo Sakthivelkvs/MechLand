@@ -26,33 +26,40 @@
     <h2>Leave Status</h2>
 
   </div>
-    <table class="table table-bordered">
+  <table class="table table-bordered">
+    <tr>
+        <th>Staff Name</th>
+        <th>Leave Type</th>
+        <th>Request Date</th>
+        <th>Leave Date</th>
+        <th>Number of Days</th>
+        <th>Reason</th>
+        <th>Certificate</th>
+        <th>Status</th>
+    </tr>
+    {% for i in data %}
         <tr>
-            <th>Staff Name</th>
-            <th>Leave Type</th>
-            <th>Request Date</th>
-            <th>Leave Date</th>
-            <th>Number of Days</th>
-            <th>Reason</th>
-            <th>Status</th>
-        </tr>
-        {% for i in data %}
-            <tr>
-                <td>{{ i.staff_id.Name }}</td>
-                <td>{{ i.leave_id.leave_type }}.....{{i.leave_id.leave_limit}}</td>
-                <td>{{ i.req_date }}</td>
-                <td>{{ i.fromdate }} to {{i.todate}}</td>
-                <td>{{ i.no_of_days }}</td>
-                <td>{{ i.reason }}</td>
+            <td>{{ i.staff_id.Name }}</td>
+            <td>{{ i.leave_id.leave_type }}.....{{i.leave_id.leave_limit}}</td>
+            <td>{{ i.req_date }}</td>
+            <td>{{ i.fromdate }} to {{i.todate}}</td>
+            <td>{{ i.no_of_days }}</td>
+            <td>{{ i.reason }}</td>
+            <td><img src="{{i.certificate}}" height="50px" width="50px"></td>
 
-                {% if i.status == "Pending" %}
-                  <td><label class="badge bg-danger text-white">{{ i.status }}</label></td>
-                {% else %}
-                  <td><label class="badge bg-success text-white">{{ i.status }}</label></td>
-                {% endif %}
-            </tr>
-        {% endfor %}
-    </table>
+            
+            {% if i.status == "Pending" %}
+              <td><label class="badge bg-warning text-white">{{ i.status }}</label></td>
+            {% elif i.status == "Rejected" %}
+              <td><label class="badge bg-danger text-white">{{ i.status }}</label></td>
+            {% else %}
+              <td><label class="badge bg-success text-white">{{ i.status }}</label></td>
+            {% endif %}
+              
+
+        </tr>
+    {% endfor %}
+</table>
 </div>
 </section>
 </body>
