@@ -38,6 +38,12 @@ urlpatterns = [
     path('admin_hm/',views.admin),
     path('admin2/',views.admin2),
     path('admin3/',views.admin3),
+
+
+
+    path('admin_add_staff_manual/',views.admin_add_staff_manual),
+    path('admin_add_staff_manual_post/',views.admin_add_staff_manual_post),
+
    
 
     path('admin_add_mould/',views.admin_add_mould),
@@ -226,6 +232,9 @@ urlpatterns = [
     
     path('unit_change_password/',views.unit_change_password),
     path('unit_change_password_post/',views.unit_change_password_post),
+
+    path('unit_view_order_status_post/',views.unit_view_order_status_post),
+    path('unit_view_cancel_status_post/',views.unit_view_cancel_status_post),
     
     #   
 
@@ -250,6 +259,8 @@ urlpatterns = [
     path('employee_complete_profile/',views.employee_complete_profile),
     path('employee_complete_profile_post/',views.employee_complete_profile_post),
 
+    path('employee_view_personal_details/',views.employee_view_personal_details),
+
 
     path('employee_leave_request/',views.employee_leave_request),
     path('employee_leave_request_post/',views.employee_leave_request_post),
@@ -261,6 +272,13 @@ urlpatterns = [
 
     path('employee_change_password/',views.employee_change_password),
     path('employee_change_password_post/',views.employee_change_password_post),
+
+
+    path('employee_view_leave_status_post/',views.employee_view_leave_status_post),
+    path('employee_view_salary_slip_post/',views.employee_view_salary_slip_post),
+    path('employee_view_attendance_post/',views.employee_view_attendance_post),
+
+
 
 
      ########################PUBLIC####################################
@@ -327,9 +345,14 @@ urlpatterns = [
     path('manager_import_excel_post/',views.manager_import_excel_post),
     path('manager_view_production_report/',views.manager_view_production_report),
     path('manager_view_production_report_post/',views.manager_view_production_report_post),
-    path('manager_view_production_report_post2/',views.manager_view_production_report_post2),
+    # path('manager_view_production_report_post2/',views.manager_view_production_report_post2),
 
     path('manager_update_delivery_status/<int:a1>',views.manager_update_delivery_status),
+
+    path('manager_view_moulds_post/',views.manager_view_moulds_post),
+    path('manager_view_order_post/',views.manager_view_order_post),
+    path('manager_view_approved_order_post/',views.manager_view_approved_order_post),
+    path('manager_view_cancel_request_post/',views.manager_view_cancel_request_post),
 
 
 
@@ -354,6 +377,14 @@ urlpatterns = [
     path('supervisor_view_salary_slip/',views.supervisor_view_salary_slip),
     path('supervisor_view_attendance/',views.supervisor_view_attendance),
     path('supervisor_view_existing_loan/<int:s5>',views.supervisor_view_existing_loan),
+
+    path('supervisor_complete_profile/',views.supervisor_complete_profile),
+    path('supervisor_complete_profile_post/',views.supervisor_complete_profile_post),
+    path('supervisor_view_personal_details/',views.supervisor_view_personal_details),
+    path('supervisor_view_loan_status_post/',views.supervisor_view_loan_status_post),
+    path('supervisor_view_leave_status_post/',views.supervisor_view_leave_status_post),
+    path('supervisor_view_attendance_post/',views.supervisor_view_attendance_post),
+    path('supervisor_view_salary_slip_post/',views.supervisor_view_salary_slip_post),
     path('mnr_idx/',views.mnr_idx),
     
 ]

@@ -12,20 +12,20 @@
       </ol>
     </div>
 <div class="col-xl-12 col-lg-9">
-<form id="form1" name="form1" method="post" action="/manager_view_alloted_shift_post/">
+<form id="form1" name="form1" method="post" action="/manager_view_moulds_post/">
     {% csrf_token %}
-  {% comment %} <table class="table table-bordered">
+ <table class="table table-hover">
     <tr>
       <td>
-      <input type="date" name="textfield4" id="textfield4" class="form-control " required/></td>
+      <input type="text" name="textfield4" id="textfield4" class="form-control " placeholder="Search by Product Name"/></td>
       <td width="80px"><input type="submit" name="button" id="button" value="Search" class="btn btn-success"/></td>
     </tr>
-  </table> {% endcomment %}
+  </table> 
   <table class="table table-hover">
     <tr>
       <th>SL.NO</th>
-      <th>Mould Name</th>
-      <th>Mould Type</th>
+      <th>Product Name</th>
+      <th>Product Type</th>
       <th>Description</th>
       <th>Price</th>
       <th>Stock</th> 

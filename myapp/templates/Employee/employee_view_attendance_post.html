@@ -1,0 +1,48 @@
+{% extends "Employee/emp_inner-page.html" %}
+{% block body %}
+{% load static %}
+
+<!-- ======= Blog Section ======= -->
+<section class="inner-page">
+  <div class="container" data-aos="fade-up">
+
+    <div class="breadcrumbs">
+      <div class="container">
+        <div class="d-flex justify-content-between align-items-center">
+          <h2>Attendance</h2>
+          <ol>
+            <li><a href="/staff_login">Home</a></li>
+            <li>Attendance</li>
+          </ol>
+        </div>
+      </div>
+    </div><!-- End Breadcrumbs -->
+
+    <section id="contact" class="contact">
+      <div class="container">
+        <table class="table table-bordered table-hover">
+          <tr>
+              <th>SL.NO</th>
+              <th>Staff Name</th>
+              <th>Month</th>
+              <th> Year </th>
+              <th> No.of Working Days </th>
+              <!-- <th>Actions</th> -->
+          </tr>
+            {% for i in data %}
+          <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ i.staff_id.Name }}</td>
+            <td>{{ i.month }}</td>
+            <td>{{ i.year }}</td>
+            <td>{{ i.no_of_working_days }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section><!-- End Contact Section -->
+  </div>
+</section>
+
+{% endblock %}

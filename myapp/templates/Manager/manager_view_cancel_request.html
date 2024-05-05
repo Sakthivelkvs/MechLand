@@ -17,8 +17,15 @@
       </ol>
     </div>
 <div class="col-xl-12 col-lg-9">
- <form action="//" method="post" enctype="multipart/form-data" name="form1" id="form1">
+ <form action="/manager_view_cancel_request_post/" method="post" enctype="multipart/form-data" name="form1" id="form1">
     {% csrf_token %}
+    <table class="table table-bordered">
+      <tr>
+        <td>
+        <input type="text" name="textfield" id="textfield" placeholder="Search by Name" class="form-control " /></td>
+        <td width="80px"><input type="submit" name="button" id="button" value="Search" class="btn btn-info"/></td>
+      </tr>
+    </table>
     <table class="table table-bordered">
         <tr>
           <th>SL.NO</th>

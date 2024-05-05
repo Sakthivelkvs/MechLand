@@ -35,7 +35,7 @@
     <table class="table table-bordered">
       <tr>
         <td>
-        <input type="date" name="date" id="date" placeholder="Search by Date" class="form-control " required/></td>
+        <input type="date" name="date" id="date" placeholder="Search by Date" class="form-control "/></td>
         <td width="50px">
           <button type="submit" name="button" id="button" value="search" class="btn btn-success btn-sm fas fa-search">
           </button>
@@ -50,7 +50,9 @@
           <th>Leave Date</th>
           <th>Number of Days</th>
           <th>Reason</th>
+          <th>Certificate</th>
           <th>Status</th>
+          
           <th>Actions</th>
 
       </tr>
@@ -62,6 +64,22 @@
               <td>{{ i.fromdate }} to {{i.todate}}</td>
               <td>{{ i.no_of_days }}</td>
               <td>{{ i.reason }}</td>
+              
+              {% if i.leave_id.leave_type == "MedicalLeave" %}
+              <td>
+                 <a href="{{ i.certificate }}" target="_blank">
+   <button type="button" class="btn btn-success">
+    <i class="fas fa-file-image"></i>  
+</button>
+
+</a>
+
+
+              </td>
+              {% else %}
+                <td>Not Needed</td>
+              {% endif %}
+                
               <td><label class="badge badge-danger">{{ i.status }}</label></td>
               <td><a href="/admin_approve_leave_request/{{i.id}}" class="fas fa-check"></a>
               <a href="/admin_reject_leave_request/{{i.id}}" class="fas fa-times"></a></td>

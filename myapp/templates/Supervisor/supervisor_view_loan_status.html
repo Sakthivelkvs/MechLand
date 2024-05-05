@@ -29,6 +29,21 @@
     <h2>Loan Status</h2>
 
   </div>
+<form id="form1" name="form1" method="post" enctype="multipart/form-data" action="/supervisor_view_loan_status_post/">
+  {% csrf_token %}
+  <table class="table table-bordered">
+    <tr>
+      <td>
+        <input type="date" name="from_date" id="from_date" class="form-control"/>
+      </td>
+      <td>
+        <input type="date" name="to_date" id="to_date" class="form-control"/>
+      </td>
+      <td width="80px">
+        <input type="submit" value="Search" class="btn btn-success"/>
+      </td>
+    </tr>
+  </table>
   
   <table class="table table-bordered">
     <tr>
@@ -66,6 +81,7 @@
         </tr>
     {% endfor %}
 </table>
+</form>
 </div>
 </section>
 </body>

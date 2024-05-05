@@ -1,0 +1,114 @@
+<!-- <!DOCTYPE html> -->
+{% extends "admin_master.html" %}
+{% block body %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>RoyalUI Admin</title>
+  <!-- plugins:css -->
+  <link rel="stylesheet" href="{% static 'Admin-Master/vendors/ti-icons/css/themify-icons.css' %}">
+  <link rel="stylesheet" href="{% static 'Admin-Master/vendors/base/vendor.bundle.base.css' %}">
+  <!-- endinject -->
+  <!-- plugin css for this page -->
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <link rel="stylesheet" href="{% static 'Admin-Master/css/style.css' %}">
+  <!-- endinject -->
+  <link rel="shortcut icon" href="{% static 'Admin-Master/images/favicon.png' %}" />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+
+  <form class="form-sample" action="/admin_add_staff_manual_post/" method="post" enctype="multipart/form-data" name="form1" id="form1">
+    {% csrf_token %}
+    <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="textfield">Job Role</label>
+            <select name="select" class="form-control"  id="select">
+                {% for ct in data %}
+                <option value={{ct.id}}>{{ct.job_role}}</option>
+                {% endfor %}
+            </select>
+          </div>
+            <div class="form-group">
+            <label for="textfield">Name</label>
+            <input type="text" name="textfield" id="textfield" class="form-control" required/>
+            </div>
+        <div class="form-group">
+          <label for="RadioGroup1">Gender</label>
+          <select name="RadioGroup1" class="form-control">
+            <option value="Male" {% if val.Gender == 'Male' %}selected{% endif %}>Male</option>
+            <option value="Female" {% if val.Gender == 'Female' %}selected{% endif %}>Female</option>
+            <option value="Others" {% if val.Gender == 'Others' %}selected{% endif %}>Others</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="textfield2">Email</label>
+          <input type="text" name="textfield2" id="textfield2" class="form-control" required/>
+        </div>
+        <div class="form-group">
+          <label for="textfield4">DOB</label>
+          <input type="date" name="textfield4" id="textfield4" class="form-control" required/>
+        </div>
+        <div class="form-group">
+          <label for="textfield6">Phone</label>
+          <input type="text" name="textfield6" id="textfield6" class="form-control" required/>
+        </div>
+        <div class="form-group">
+            <label for="textfield6">Joining Date</label>
+            <input type="date" name="joindate" id="joindate" class="form-control" required/>
+          </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="textfield7">House Name</label>
+          <input type="text" name="textfield7" id="textfield5" class="form-control" required/>
+        </div>
+        <div class="form-group">
+          <label for="textfield8">Place</label>
+          <input type="text" name="textfield8" id="textfield6" class="form-control" required/>
+        </div>
+        <div class="form-group">
+          <label for="textfield10">City</label>
+          <input type="text" name="textfield10" id="textfield8" class="form-control" required/>
+        </div>
+        <div class="form-group">
+          <label for="textfield9">State</label>
+          <input type="text" name="textfield9" id="textfield7" class="form-control" required/>
+        </div>
+        <div class="form-group">
+          <label for="textfield11">Pincode</label>
+          <input type="text" name="textfield11" id="textfield9" class="form-control" required/>
+        </div> 
+        <div class="form-group">
+            <label for="file">Photo</label>
+            <input type="file" name="photo" id="photo" class="form-control" required/></td>
+          </div>  
+          <div class="form-group">
+            <label for="select2">Section</label>
+            <select name="select2" class="form-control" id="select2">
+                <option disabled selected>Select Section</option>
+                <option>Production</option>
+                <option>Packing</option>
+                <option>Sales</option>
+              </select>
+          </div>          
+      </div> 
+  </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12"><center>
+        <button type="submit" name="button" id="button" class="btn btn-success">Submit</button></center>
+      </div>
+    </div>
+  </form>
+  
+</body>
+{%endblock%}

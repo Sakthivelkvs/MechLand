@@ -28,8 +28,18 @@
     <h2>Order Status</h2>
     {% comment %} <p>Order Your Moulds</p> {% endcomment %}
   </div>
-<form id="form1" name="form1" method="post" enctype="multipart/form-data" action="">
+<form id="form1" name="form1" method="post" enctype="multipart/form-data" action="/unit_view_cancel_status_post/">
     {% csrf_token %}
+    <table class="table table-bordered">
+      <tr>
+          <td>
+              <input type="text" name="textfield" id="textfield" placeholder="Search by Name" class="form-control " required/>
+          </td>
+          <td width="80px">
+              <input type="submit" name="button" id="button" value="Search" class="btn btn-success"/>
+          </td>
+      </tr>
+  </table>
     <table class="table table-bordered">
         <tr>
           <th>SL.NO</th>

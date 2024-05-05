@@ -14,7 +14,14 @@
       text-align: center; /* Fallback for older browsers */
       height: 15vh; /* Adjust height as needed */
     }
-  </style>
+
+    .button-container {
+        position: absolute;
+        top: -40px;
+        right: 10px;
+    }
+</style>
+
   </head>
 <body>
   <div class="container-fluid" id="container-wrapper">
@@ -30,9 +37,13 @@
         {% csrf_token %}
         <table class="table table-bordered">
           <tr>
+            <th>Product</th>
             <td>
               <input type="text" name="textfield" id="textfield" placeholder="Search by Product" class="form-control " />
             </td>
+          </tr>
+          <tr>
+            <th>Shift</th>
             <td>
               <select name="select" id="textfield" class="form-control" >
                 <option value="">Select Name</option>
@@ -41,21 +52,37 @@
                 <!-- Add more options as needed -->
               </select>
             </td>
+          </tr>
+          <tr>
+            <th>Date</th>
             <td>
               <input type="date" name="date" class="form-control" >
             </td>
-            <td width="80px">
-              <input type="submit" name="button" id="button" value="Search" class="btn btn-success"/>
-            </td>
+          </tr>
+          <tr>
+            <th>&nbsp;</th>
             <td>
+              
+              <input type="submit" name="button" id="button" value="submit" class="btn btn-success btn-sm"/>
+            </td>
+          </tr>
+          
+            
+          
+            
+          <tr>
+            <!-- <td>
               <a href="" class="btn btn-danger" onclick="printContent()">
                 <i class="fa fa-print"></i> Print
               </a>
-            </td>
+            </td> -->
           </tr>
         </table>
+        <div class="button-container">
+          <input type="submit" name="button" id="button" value="All" class="btn btn-info btn-sm"/>
+      </div>
 
-        <div class="company" id="printContent">
+        <!-- <div class="company" id="printContent">
           <div class="logo">
             <img src="{% static 'manager/img/logo/mech_logo.png' %}" height="80px" width="100px">
           </div>
@@ -78,7 +105,7 @@
             <td>&nbsp;{{ i.unit }}</td>
           </tr>
           {% endfor %}
-        </table> 
+        </table>  -->
       </form>
       <script>
         function printContent() {
